@@ -1,0 +1,551 @@
+<?xml version="1.0" encoding="utf-8"?>
+<NavNode key="Home" 
+         controller="Home" 
+          action="Index" 
+          text="Home" 
+         treeBuilderName="cloudscribe.SimpleContent.Services.PagesNavigationTreeBuilder"
+         >
+  <Children>
+      <NavNode key="PrivacyPolicy"
+              controller="Privacy"
+              action="Index"
+              text="Privacy Policy"
+              componentVisibility="breadcrumbs,sitemap"
+              >
+      <Children />
+    </NavNode>
+      <NavNode key="Manage" 
+                 controller="Manage" 
+                 action="Index" 
+                 text="My Account" 
+                 preservedRouteParameters="siteId" 
+                 componentVisibility="breadcrumbs" 
+                 excludeFromSearchSiteMap="true"
+                 hideFromAnonymous="true">
+          <Children>
+            <NavNode key="UserProfile"
+                     controller="Manage"
+                     action="UserInfo"
+                     text="User Info"
+                     componentVisibility="child-dropdown,breadcrumbs"
+                     excludeFromSearchSiteMap="true"
+                     hideFromAnonymous="true">
+              <Children />
+            </NavNode>
+            <NavNode key="SetPassword"
+              controller="Manage"
+              action="SetPassword"
+              text="Set Password"
+              componentVisibility="breadcrumbs"
+              excludeFromSearchSiteMap="true"
+              hideFromAnonymous="true">
+              <Children />
+            </NavNode>
+            <NavNode key="ChangePassword"
+                controller="Manage"
+                action="ChangePassword"
+                text="Change Password"
+                componentVisibility="child-dropdown,breadcrumbs"
+                excludeFromSearchSiteMap="true"
+                hideFromAnonymous="true">
+                <Children />
+            </NavNode>
+            <NavNode key="ManageLogins"
+              controller="Manage"
+              action="ManageLogins"
+              text="Manage Logins"
+              componentVisibility="breadcrumbs"
+              excludeFromSearchSiteMap="true"
+              hideFromAnonymous="true">
+              <Children />
+            </NavNode>
+            <NavNode key="TwoFactorAuthentication"
+              controller="Manage"
+              action="TwoFactorAuthentication"
+              text="Two Factor Authentication"
+              componentVisibility="child-dropdown,breadcrumbs"
+              excludeFromSearchSiteMap="true"
+              hideFromAnonymous="true">
+              <Children>
+                <NavNode key="EnableAuthenticator"
+                  controller="Manage"
+                  action="EnableAuthenticator"
+                  text="Enable Authenticator"
+                  componentVisibility="breadcrumbs"
+                  excludeFromSearchSiteMap="true"
+                  hideFromAnonymous="true">
+                  <Children />
+                </NavNode>
+                <NavNode key="GenerateRecoveryCodes"
+                  controller="Manage"
+                  action="GenerateRecoveryCodes"
+                  text="Generate Recovery Codes"
+                  componentVisibility="breadcrumbs"
+                  excludeFromSearchSiteMap="true"
+                  hideFromAnonymous="true">
+                  <Children />
+                </NavNode>
+                <NavNode key="ResetAuthenticatorWarning"
+                  controller="Manage"
+                  action="ResetAuthenticatorWarning"
+                  text="Reset Authenticator"
+                  componentVisibility="breadcrumbs"
+                  excludeFromSearchSiteMap="true"
+                  hideFromAnonymous="true">
+                  <Children />
+                </NavNode>
+                <NavNode key="Disable2faWarning"
+                  controller="Manage"
+                  action="Disable2faWarning"
+                  text="Disable 2 Factor Authentication"
+                  componentVisibility="breadcrumbs"
+                  excludeFromSearchSiteMap="true"
+                  hideFromAnonymous="true">
+                  <Children />
+                </NavNode>
+                
+              </Children>
+            </NavNode>
+            <NavNode key="UserTimeZone"
+              controller="Manage"
+              action="TimeZone"
+              text="Time Zone"
+              componentVisibility="breadcrumbs"
+              excludeFromSearchSiteMap="true"
+              hideFromAnonymous="true">
+              <Children />
+            </NavNode>
+            <NavNode key="PersonalData"
+                controller="Manage"
+                action="PersonalData"
+                text="Personal Data"
+                componentVisibility="child-dropdown,breadcrumbs"
+                excludeFromSearchSiteMap="true"
+                hideFromAnonymous="true">
+              <Children>
+              <NavNode key="DeletePersonalData"
+                controller="Manage"
+                action="DeletePersonalData"
+                text="Delete Data"
+                componentVisibility="breadcrumbs"
+                excludeFromSearchSiteMap="true"
+                hideFromAnonymous="true">
+                <Children />
+                </NavNode>
+              </Children>
+            </NavNode>
+
+
+
+          </Children>
+        </NavNode>
+
+      <NavNode key="SiteAdmin" 
+               controller="SiteAdmin" 
+               action="Index" 
+               text="Administration" 
+               authorizationPolicy="AdminPolicy"
+               excludeFromSearchSiteMap="true"
+               >
+          <Children>
+              <NavNode key="SiteList"
+                       controller="SiteAdmin"
+                       action="SiteList"
+                       text="Site List"
+                       iconCssClass="fas fa-list-ul fa-fw"
+                       componentVisibility="breadcrumbs,childtree,parenttree"
+                       authorizationPolicy="ServerAdminPolicy"
+                       excludeFromSearchSiteMap="true">
+                  <Children>
+                      <NavNode key="NewSite"
+                               controller="SiteAdmin"
+                               action="NewSite"
+                               text="New Site"
+                               iconCssClass="fas fa-bolt fa-fw"
+                               componentVisibility="breadcrumbs"
+                               authorizationPolicy="ServerAdminPolicy"
+                               excludeFromSearchSiteMap="true">
+                          <Children />
+                      </NavNode>
+                  </Children>
+              </NavNode>
+              <NavNode
+                key="BasicSettings"
+                controller="SiteAdmin"
+                action="SiteInfo"
+                text="Site Settings"
+                iconCssClass="fas fa-cogs fa-fw"
+                preservedRouteParameters="siteId"
+                componentVisibility="breadcrumbs,childtree,parenttree"
+                authorizationPolicy="AdminPolicy"
+                excludeFromSearchSiteMap="true">
+                  <Children>
+                      <NavNode key="SiteHostMappings"
+                               controller="SiteAdmin"
+                               action="SiteHostMappings"
+                               text="Domain Mappings"
+                               preservedRouteParameters="siteId"
+                               componentVisibility="breadcrumbs"
+                               authorizationPolicy="ServerAdminPolicy"
+                               excludeFromSearchSiteMap="true">
+                          <Children />
+                      </NavNode>
+                  </Children>
+              </NavNode>
+              <NavNode key="CompanyInfo"
+                       controller="SiteAdmin"
+                       action="CompanyInfo"
+                       text="Company Info"
+                       iconCssClass="fas fa-address-card fa-fw"
+                       preservedRouteParameters="siteId"
+                       componentVisibility="breadcrumbs,childtree,parenttree"
+                       authorizationPolicy="AdminPolicy"
+                       excludeFromSearchSiteMap="true">
+                  <Children>
+                  </Children>
+              </NavNode>
+              <NavNode key="MailSettings"
+                       controller="SiteAdmin"
+                       action="MailSettings"
+                       text="Email Settings"
+                       iconCssClass="fas fa-envelope fa-fw"
+                       preservedRouteParameters="siteId"
+                       componentVisibility="breadcrumbs,childtree,parenttree"
+                       authorizationPolicy="AdminPolicy"
+                       excludeFromSearchSiteMap="true">
+                  <Children>
+                  </Children>
+              </NavNode>
+             
+              <NavNode key="SecuritySettings"
+                       controller="SiteAdmin"
+                       action="SecuritySettings"
+                       text="Security Settings"
+                       iconCssClass="fas fa-lock fa-fw"
+                       preservedRouteParameters="siteId"
+                       componentVisibility="breadcrumbs,childtree,parenttree"
+                       authorizationPolicy="AdminPolicy"
+                       excludeFromSearchSiteMap="true">
+                  <Children></Children>
+              </NavNode>
+
+
+               <NavNode key="RoleAdmin"
+                       controller="RoleAdmin"
+                       action="Index"
+                       preservedRouteParameters="siteId"
+                       text="Role Management"
+                       iconCssClass="fas fa-key fa-fw"
+                       componentVisibility="breadcrumbs,childtree,parenttree"
+                       authorizationPolicy="RoleAdminPolicy"
+                       excludeFromSearchSiteMap="true">
+                  <Children>
+                      <NavNode key="RoleMembers"
+                               controller="RoleAdmin"
+                               action="RoleMembers"
+                               text="Role Members"
+                               preservedRouteParameters="siteId,roleId,pageNumber,pageSize"
+                               componentVisibility="breadcrumbs"
+                               authorizationPolicy="RoleAdminPolicy"
+                               excludeFromSearchSiteMap="true">
+                          <Children />
+                      </NavNode>
+                      <NavNode key="RoleEdit"
+                               controller="RoleAdmin"
+                               action="RoleEdit" text="New Role"
+                               preservedRouteParameters="siteId,roleId"
+                               componentVisibility="breadcrumbs"
+                               authorizationPolicy="RoleAdminPolicy"
+                               excludeFromSearchSiteMap="true">
+                          <Children />
+                      </NavNode>
+                  </Children>
+              </NavNode>
+
+
+               <NavNode key="UserAdmin"
+                       controller="UserAdmin"
+                       action="Index"
+                       preservedRouteParameters="siteId"
+                       text="User Management"
+                       iconCssClass="fas fa-user fa-fw"
+                       componentVisibility="breadcrumbs,childtree,parenttree"
+                       authorizationPolicy="UserManagementPolicy"
+                       excludeFromSearchSiteMap="true">
+                  <Children>
+                      <NavNode key="UserEdit"
+                               controller="UserAdmin"
+                               action="UserEdit"
+                               preservedRouteParameters="siteId"
+                               text="New User"
+                               componentVisibility="breadcrumbs"
+                               authorizationPolicy="UserManagementPolicy"
+                               excludeFromSearchSiteMap="true">
+                          <Children>
+                            <NavNode key="ChangeUserPassword"
+                                controller="UserAdmin"
+                                action="ChangeUserPassword"
+                                preservedRouteParameters="siteId"
+                                text="Change User Password"
+                                componentVisibility="breadcrumbs,childtree"
+                                authorizationPolicy="UserManagementPolicy"
+                                excludeFromSearchSiteMap="true">
+                            <Children />
+                            </NavNode>
+                          </Children>
+                      </NavNode>
+                      <NavNode key="NewUser"
+                             controller="UserAdmin"
+                             action="NewUser"
+                             preservedRouteParameters="siteId"
+                             text="New User"
+                             iconCssClass="fas fa-user-plus fa-fw"
+                             componentVisibility="breadcrumbs"
+                             authorizationPolicy="UserManagementPolicy"
+                             excludeFromSearchSiteMap="true">
+                          <Children />
+                      </NavNode>
+                      <NavNode key="UserActivity"
+                                controller="UserAdmin"
+                                action="UserActivity"
+                                preservedRouteParameters="siteId,userId"
+                                text="Activity"
+                                componentVisibility="breadcrumbs"
+                                authorizationPolicy="UserManagementPolicy"
+                                excludeFromSearchSiteMap="true">
+                            <Children />
+                        </NavNode>
+                      
+                      
+                      <NavNode key="UserSearch"
+                               controller="UserAdmin"
+                               action="Search"
+                               preservedRouteParameters="siteId"
+                               text="User Search"
+                               componentVisibility="breadcrumbs"
+                               authorizationPolicy="UserManagementPolicy"
+                               excludeFromSearchSiteMap="true">
+                          <Children />
+                      </NavNode>
+                      <NavNode key="IpSearch"
+                               controller="UserAdmin"
+                               action="IpSearch"
+                               preservedRouteParameters="siteId"
+                               text="IpSearch"
+                               componentVisibility="breadcrumbs"
+                               authorizationPolicy="UserManagementPolicy"
+                               excludeFromSearchSiteMap="true">
+                          <Children />
+                      </NavNode>
+                  </Children>
+              </NavNode>
+              <NavNode key="UnApprovedUsers"
+                    controller="UserAdmin"
+                    action="UnApprovedUsers"
+                    preservedRouteParameters="siteId"
+                    text="Un-Approved Users"
+                    iconCssClass="fas fa-user-plus fa-fw"
+                    componentVisibility="breadcrumbs,childtree,parenttree"
+                    authorizationPolicy="UserManagementPolicy"
+                    excludeFromSearchSiteMap="true">
+                <Children />
+              </NavNode>
+              <NavNode key="LockedUsers"
+                    controller="UserAdmin"
+                    action="LockedUsers"
+                    preservedRouteParameters="siteId"
+                    text="Locked Users"
+                    iconCssClass="fas fa-ban fa-fw"
+                    componentVisibility="breadcrumbs,childtree,parenttree"
+                    authorizationPolicy="UserManagementPolicy"
+                    excludeFromSearchSiteMap="true">
+                <Children />
+            </NavNode>
+
+              <NavNode key="CaptchaSettings"
+                    controller="SiteAdmin"
+                    action="Captcha"
+                    text="Captcha Settings"
+                    iconCssClass="fas fa-puzzle-piece fa-fw"
+                    preservedRouteParameters="siteId"
+                    componentVisibility="breadcrumbs,childtree,parenttree"
+                    authorizationPolicy="AdminPolicy"
+                    excludeFromSearchSiteMap="true">
+                <Children />
+            </NavNode>
+            <NavNode key="SocialLogins"
+                    controller="SiteAdmin"
+                    action="SocialLogins"
+                    text="Social Logins"
+                    iconCssClass="fab fa-facebook-square fa-fw"
+                    preservedRouteParameters="siteId"
+                    componentVisibility="breadcrumbs,childtree,parenttree"
+                    authorizationPolicy="AdminPolicy"
+                    excludeFromSearchSiteMap="true">
+                <Children />
+            </NavNode>
+            
+
+            <NavNode key="PrivacySettings" 
+                 controller="SiteAdmin" 
+                 action="PrivacySettings" 
+                 text="Privacy Settings" 
+                 iconCssClass="fas fa-user-secret fa-fw"
+                 preservedRouteParameters="siteId" 
+                 componentVisibility="breadcrumbs,childtree,parenttree"
+                 authorizationPolicy="AdminPolicy"
+                 excludeFromSearchSiteMap="true">
+              <Children />
+            </NavNode>
+
+
+              <NavNode key="ContentSettings"
+                       controller="ContentSettings"
+                       action="Index"
+                       text="Content Settings"
+                       iconCssClass="fas fa-book fa-fw"
+                       componentVisibility="breadcrumbs,childtree,parenttree"
+                       authorizationPolicy="AdminPolicy"
+                       excludeFromSearchSiteMap="true">
+                  <Children>
+                 
+                  </Children>
+              </NavNode>
+                <NavNode key="PageTree"
+                    controller="Page"
+                    action="Tree"
+                    text="Page Management"
+                    iconCssClass="fas fa-tree fa-fw"
+                    preservedRouteParameters=""
+                    componentVisibility="breadcrumbs,childtree,parenttree"
+                    authorizationPolicy="AdminPolicy"
+                    excludeFromSearchSiteMap="true">
+                    <Children>
+                    </Children>
+                </NavNode>
+                <NavNode key="ContentHistory"
+                    controller="ContentHistory"
+                    action="Index"
+                    text="Content History"
+                    iconCssClass="fas fa-history fa-fw"
+                    preservedRouteParameters=""
+                    componentVisibility="breadcrumbs,childtree,parenttree"
+                    authorizationPolicy="ViewContentHistoryPolicy"
+                    excludeFromSearchSiteMap="true">
+                    <Children>
+                    </Children>
+                </NavNode>
+
+
+
+             
+
+
+             
+            
+
+              <NavNode key="LoginPageInfo"
+                       controller="SiteAdmin"
+                       action="LoginPageInfo"
+                       text="Login Page Info"
+                       iconCssClass="fas fa-info-circle fa-fw"
+                       preservedRouteParameters="siteId"
+                       componentVisibility="breadcrumbs,childtree,parenttree"
+                       authorizationPolicy="AdminPolicy"
+                       excludeFromSearchSiteMap="true">
+                  <Children>
+                  </Children>
+              </NavNode>
+              <NavNode key="RegisterPageInfo"
+                       controller="SiteAdmin"
+                       action="RegisterPageInfo"
+                       text="Register Page Info"
+                       iconCssClass="fas fa-info-circle fa-fw"
+                       preservedRouteParameters="siteId"
+                       componentVisibility="breadcrumbs,childtree,parenttree"
+                       authorizationPolicy="AdminPolicy"
+                       excludeFromSearchSiteMap="true">
+                  <Children>
+                  </Children>
+              </NavNode>
+
+              <NavNode key="FileManager"
+                 controller="FileManager"
+                 action="Index"
+                 text="File Manager"
+                 iconCssClass="far fa-file-image fa-fw"
+                 componentVisibility="breadcrumbs,childtree,parenttree"
+                 authorizationPolicy="FileManagerPolicy"
+                 excludeFromSearchSiteMap="true">
+                    <Children> </Children>
+                </NavNode>
+
+              <NavNode key="CountryListPage"
+                    controller="CoreData"
+                    action="CountryListPage"
+                    text="Country State Administration"
+                    iconCssClass="fas fa-globe fa-fw"
+                    componentVisibility="breadcrumbs,childtree,parenttree"
+                    authorizationPolicy="CoreDataPolicy"
+                    excludeFromSearchSiteMap="true">
+                <Children>
+                    <NavNode key="CountryEdit"
+                            controller="CoreData"
+                            action="CountryEdit"
+                            text="New Country"
+                            iconCssClass="fas fa-plus-circle fa-fw"
+                            preservedRouteParameters="id"
+                            componentVisibility="breadcrumbs"
+                            authorizationPolicy="CoreDataPolicy"
+                            excludeFromSearchSiteMap="true">
+                        <Children />
+                    </NavNode>
+                    <NavNode key="StateListPage"
+                            controller="CoreData"
+                            action="StateListPage"
+                            text="States"
+                            preservedRouteParameters="countryId"
+                            componentVisibility="breadcrumbs"
+                            authorizationPolicy="CoreDataPolicy"
+                            excludeFromSearchSiteMap="true">
+                        <Children>
+                            <NavNode key="StateEdit"
+                                    controller="CoreData"
+                                    action="StateEdit" text="New State"
+                                    preservedRouteParameters="countryId"
+                                    componentVisibility="breadcrumbs"
+                                    authorizationPolicy="CoreDataPolicy"
+                                    excludeFromSearchSiteMap="true">
+                                <Children />
+                            </NavNode>
+                        </Children>
+                    </NavNode>
+                </Children>
+            </NavNode>
+
+              <NavNode key="SystemInfo"
+                       controller="SystemInfo"
+                       action="Index"
+                       text="System Information"
+                       iconCssClass="fas fa-bolt fa-fw"
+                       componentVisibility="breadcrumbs,childtree,parenttree"
+                       authorizationPolicy="AdminPolicy"
+                       excludeFromSearchSiteMap="true">
+                  <Children>
+                  
+                  </Children>
+              </NavNode>
+            <NavNode key="SystemLog"
+                    controller="SystemLog"
+                    action="Index"
+                    text="System Log"
+                    iconCssClass="fas fa-bug fa-fw"
+                    componentVisibility="breadcrumbs,childtree,parenttree"
+                    authorizationPolicy="SystemLogPolicy"
+                    excludeFromSearchSiteMap="true" />
+
+          </Children>
+      </NavNode>
+
+  </Children>
+</NavNode>

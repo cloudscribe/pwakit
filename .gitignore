@@ -328,3 +328,7 @@ ASALocalRun/
 
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
+
+**/dp_keys/**
+**/nodb_storage/projects/default/logitem/**
+**/nodb_storage/projects/**/userlocation/**

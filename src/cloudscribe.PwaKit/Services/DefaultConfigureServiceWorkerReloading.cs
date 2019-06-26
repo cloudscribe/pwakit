@@ -1,13 +1,48 @@
 ﻿using cloudscribe.PwaKit.Interfaces;
 using Microsoft.AspNetCore.Http;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace cloudscribe.PwaKit.Services
 {
     public class DefaultConfigureServiceWorkerReloading : IConfigureServiceWorkerReloading
     {
-        public void AppendToServiceWorkerScript(StringBuilder sw, PwaOptions options, HttpContext context)
+        public DefaultConfigureServiceWorkerReloading(
+            IWorkboxCacheSuffixProvider workboxCacheSuffixProvider
+            )
         {
+            _workboxCacheSuffixProvider = workboxCacheSuffixProvider;
+        }
+
+        private readonly IWorkboxCacheSuffixProvider _workboxCacheSuffixProvider;
+
+
+        public async Task AppendToServiceWorkerScript(StringBuilder sw, PwaOptions options, HttpContext context)
+        {
+            var cacheSuffix = await _workboxCacheSuffixProvider.GetWorkboxCacheSuffix();
+
+            if (context.User.Identity.IsAuthenticated)
+            {
+                sw.Append("workbox.core.setCacheNameDetails({");
+                sw.Append("prefix: 'web-app-auth',");
+                sw.Append("suffix: '" + cacheSuffix + "',");
+                sw.Append("precache: 'auth-user-precache',");
+                sw.Append("runtime: 'auth-user-runtime-cache'");
+                sw.Append("});");
+
+
+            }
+            else
+            {
+                sw.Append("workbox.core.setCacheNameDetails({");
+                sw.Append("prefix: 'web-app-anon',");
+                sw.Append("suffix: '" + cacheSuffix + "',");
+                sw.Append("precache: 'unauth-user-precache',");
+                sw.Append("runtime: 'unauth-user-runtime-cache'");
+                sw.Append("});");
+            }
+
+
             //https://developers.google.com/web/tools/workbox/reference-docs/latest/workbox.core
 
             //Force a service worker to become active, instead of waiting. This is normally used in conjunction with clientsClaim()

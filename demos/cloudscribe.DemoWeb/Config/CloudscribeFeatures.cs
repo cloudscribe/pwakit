@@ -50,10 +50,15 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddSimpleContentRssSyndiction();
 
 
-            services.AddPwaKit(config);
-            services.AddPwaKitCloudscribeCoreIntegration(config);
-            services.AddPwaKitNavigationIntegration(config);
-            services.AddPwaKitSimpleContentIntegration(config);
+            var pwaBuilder = services.AddPwaKit(config);
+            pwaBuilder.AddCloudscribeCoreIntegration();
+            pwaBuilder.MakeCloudscribeAdminPagesNetworkOnly();
+            pwaBuilder.PreCacheAllFileManagerImageUrls();
+            pwaBuilder.PreCacheNavigationMenuUrls();
+            pwaBuilder.PreCacheAllBlogPostUrls();
+
+
+            
 
 
 

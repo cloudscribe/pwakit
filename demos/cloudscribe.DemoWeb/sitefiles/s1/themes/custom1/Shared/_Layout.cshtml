@@ -26,11 +26,11 @@
     <title>@ViewData["Title"] - @(Tenant?.SiteName ?? "Sample")</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="manifest" href="/manifest.json">
-    @RenderSection("Meta", required: false)
     <link rel="icon" type="image/png" href="/manifest/favicon-16x16.png" sizes="16x16">
     <link rel="icon" type="image/png" href="/manifest/favicon-32x32.png" sizes="32x32">
     <link rel="icon" type="image/png" href="/manifest/pwa-192x192.png" sizes="192x192">
     <link rel="apple-touch-icon" href="/manifest/apple-touch-icon-180x180.png" sizes="180x180">
+    @RenderSection("Meta", required: false)
     <environment names="Development">
         <link rel="stylesheet" href="~/css/style.css" cs-resolve-theme-resource="true" cs-tenant="@Tenant" asp-append-version="true" />
     </environment>
@@ -89,7 +89,7 @@
         @await Component.InvokeAsync("Navigation", new { viewName = "Bootstrap4Breadcrumbs", filterName = NamedNavigationFilters.Breadcrumbs, startingNodeKey = "" })
         <div class="row">
             <main id="content" class="col order-3">
-                <partial name="AlertsPartial" />
+                @*<partial name="AlertsPartial" />*@
                 <partial name="PwaInstallPrompt" />
                 <partial name="_CookieConsentPartial" />
                 @RenderBody()

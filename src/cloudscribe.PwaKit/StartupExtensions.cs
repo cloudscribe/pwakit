@@ -14,11 +14,12 @@ namespace Microsoft.Extensions.DependencyInjection
     public static class StartupExtensions
     {
 
-        public static IServiceCollection AddPwaKit(
+        public static PwaBuilder AddPwaKit(
             this IServiceCollection services,
             IConfiguration config 
             )
         {
+            var builder = new PwaBuilder(services, config);
 
             services.Configure<PwaOptions>(config.GetSection("PwaOptions"));
             services.Configure<PwaPreCacheItems>(config.GetSection("PwaPreCacheItems"));
@@ -45,7 +46,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddTransient<ITagHelperComponent, ServiceWorkerTagHelperComponent>();
 
 
-            return services;
+            return builder;
         }
 
     }

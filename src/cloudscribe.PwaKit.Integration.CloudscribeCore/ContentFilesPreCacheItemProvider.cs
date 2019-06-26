@@ -1,11 +1,11 @@
 ﻿using cloudscribe.FileManager.Web.Models;
 using cloudscribe.PwaKit.Interfaces;
 using cloudscribe.PwaKit.Models;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace cloudscribe.PwaKit.Integration.CloudscribeCore
@@ -13,13 +13,16 @@ namespace cloudscribe.PwaKit.Integration.CloudscribeCore
     public class ContentFilesPreCacheItemProvider : IPreCacheItemProvider
     {
         public ContentFilesPreCacheItemProvider(
-            IMediaPathResolver mediaPathResolver
+            IMediaPathResolver mediaPathResolver,
+            IOptions<PwaContentFilesPreCacheOptions> optionsAccessor
             )
         {
             _mediaPathResolver = mediaPathResolver;
+            _options = optionsAccessor.Value;
         }
 
         private readonly IMediaPathResolver _mediaPathResolver;
+        private readonly PwaContentFilesPreCacheOptions _options;
         private MediaRootPathInfo _rootPath = null;
 
         private async Task EnsureProjectSettings()
@@ -40,12 +43,10 @@ namespace cloudscribe.PwaKit.Integration.CloudscribeCore
             {
                 return result;
             }
+            
+            var allFiles = GetFileList("*", _rootPath.RootFileSystemPath);
 
-            string supportedExtensions = "*.jpg,*.gif,*.png,*.jpe,*.jpeg";
-
-            var tmp = GetFileList("*", _rootPath.RootFileSystemPath);
-
-            var imgs = tmp.Where(x => supportedExtensions.Contains(Path.GetExtension(x).ToLower()))
+            var filesToCache = allFiles.Where(x => _options.FileExtensionsToCache.Contains(Path.GetExtension(x).ToLower()))
                 .Select(x =>
                     new PreCacheItem()
                     {
@@ -53,7 +54,7 @@ namespace cloudscribe.PwaKit.Integration.CloudscribeCore
                     }
                 );
 
-            result.AddRange(imgs);
+            result.AddRange(filesToCache);
                
             return result;
         }

@@ -28,6 +28,8 @@ namespace cloudscribe.PwaKit
         /// </summary>
         public bool AutoRegisterServiceWorker { get; set; } = true;
 
+        public bool RequireCookieConsentBeforeRegisteringServiceWorker { get; set; } = true;
+
         /// <summary>
         /// a flag that can be used to include or exclude consile.log statement in the generated script
         /// </summary>

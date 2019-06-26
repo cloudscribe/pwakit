@@ -5,7 +5,7 @@
     var consentFeature = Context.Features.Get<ITrackingConsentFeature>();
     var showBanner = !consentFeature?.CanTrack ?? false;
 
-    if(Context.Request.Path.StartsWithSegments("/offline")) { showBanner = false; }
+    if(Context.Request.Path.ToString().Contains("/offline")) { showBanner = false; }
 
     var cookieString = consentFeature?.CreateConsentCookie();
 

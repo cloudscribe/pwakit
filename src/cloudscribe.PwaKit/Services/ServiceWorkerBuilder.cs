@@ -1,5 +1,6 @@
 ﻿using cloudscribe.PwaKit.Interfaces;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Extensions.Options;
 using System.Collections.Generic;
 using System.Text;
@@ -11,7 +12,6 @@ namespace cloudscribe.PwaKit.Services
     {
         public ServiceWorkerBuilder(
             IOptions<PwaOptions> pwaOptionsAccessor,
-            IWorkboxCacheSuffixProvider workboxCacheSuffixProvider,
             IConfigureServiceWorkerReloading configureServiceWorkerReloading,
             IConfigureWorkboxPreCache configureWorkboxPreCache,
             IConfigureWorkboxNetworkOnlyRoutes configureWorkboxNetworkOnlyRoutes,
@@ -23,7 +23,6 @@ namespace cloudscribe.PwaKit.Services
             )
         {
             _options = pwaOptionsAccessor.Value;
-            _workboxCacheSuffixProvider = workboxCacheSuffixProvider;
             _configureServiceWorkerReloading = configureServiceWorkerReloading;
             _configureWorkboxPreCache = configureWorkboxPreCache;
             _configureWorkboxNetworkOnlyRoutes = configureWorkboxNetworkOnlyRoutes;
@@ -35,7 +34,6 @@ namespace cloudscribe.PwaKit.Services
         }
 
         private readonly PwaOptions _options;
-        private readonly IWorkboxCacheSuffixProvider _workboxCacheSuffixProvider;
         private readonly IConfigureServiceWorkerReloading _configureServiceWorkerReloading;
         private readonly IConfigureWorkboxPreCache _configureWorkboxPreCache;
         private readonly IConfigureWorkboxNetworkOnlyRoutes _configureWorkboxNetworkOnlyRoutes;
@@ -51,6 +49,57 @@ namespace cloudscribe.PwaKit.Services
         {
             var sw = new StringBuilder();
 
+            if (_options.RequireCookieConsentBeforeRegisteringServiceWorker)
+            {
+                var consentFeature = context.Features.Get<ITrackingConsentFeature>();
+                if(consentFeature != null)
+                {
+                    if(!consentFeature.CanTrack)
+                    {
+
+                        sw.Append("importScripts('" + _options.WorkBoxUrl + "');");
+
+                        sw.Append("if (workbox) {");
+
+                        if (_options.EnableServiceWorkerConsoleLog)
+                        {
+                            sw.Append("console.log(`Workbox is loaded with empty service worker because no cookie consent`);");
+                            sw.Append("workbox.setConfig({ debug: true });");
+                            //sw.Append("workbox.core.setLogLevel(workbox.core.LOG_LEVELS.debug);");
+
+                        }
+
+                        //force reload of sw and clear cache
+
+                        sw.Append("workbox.core.setCacheNameDetails({");
+                        sw.Append("prefix: 'web-app-no-sw',");
+                        sw.Append("suffix: 'no-cookieconsent',");
+                        sw.Append("precache: 'no-precache',");
+                        sw.Append("runtime: 'not-used-runtime-cache'");
+                        sw.Append("});");
+
+
+                        //Force a service worker to become active, instead of waiting. This is normally used in conjunction with clientsClaim()
+                        sw.Append("workbox.core.skipWaiting();");
+                        sw.Append("workbox.core.clientsClaim();");
+
+                        sw.Append("} else {");
+
+                        if (_options.EnableServiceWorkerConsoleLog)
+                        {
+                            sw.Append("console.log(`Workbox didn't load`);");
+                        }
+
+                        sw.Append("}");
+
+
+                        return sw.ToString();
+                    }
+                }
+            }
+
+
+
             sw.Append("importScripts('" + _options.WorkBoxUrl + "');");
 
             sw.Append("if (workbox) {");
@@ -63,31 +112,7 @@ namespace cloudscribe.PwaKit.Services
 
             }
             
-
-            var cacheSuffix = await _workboxCacheSuffixProvider.GetWorkboxCacheSuffix();
-
-            if (context.User.Identity.IsAuthenticated)
-            {
-                sw.Append("workbox.core.setCacheNameDetails({");
-                sw.Append("prefix: 'web-app-auth',");
-                sw.Append("suffix: '" + cacheSuffix + "',");
-                sw.Append("precache: 'auth-user-precache',");
-                sw.Append("runtime: 'auth-user-runtime-cache'");
-                sw.Append("});");
-
-
-            }
-            else
-            {
-                sw.Append("workbox.core.setCacheNameDetails({");
-                sw.Append("prefix: 'web-app-anon',");
-                sw.Append("suffix: '" + cacheSuffix + "',");
-                sw.Append("precache: 'unauth-user-precache',");
-                sw.Append("runtime: 'unauth-user-runtime-cache'");
-                sw.Append("});");
-            }
-
-            _configureServiceWorkerReloading.AppendToServiceWorkerScript(sw, _options, context);
+            await _configureServiceWorkerReloading.AppendToServiceWorkerScript(sw, _options, context);
 
             await _configureWorkboxPreCache.AppendToServiceWorkerScript(sw, _options, context);
 

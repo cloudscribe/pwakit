@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Routing;
@@ -55,6 +56,16 @@ namespace cloudscribe.PwaKit
             {
                 return;
             }
+
+            //if(_options.RequireCookieConsentBeforeRegisteringServiceWorker)
+            //{
+            //    var consentFeature = _contextAccessor.HttpContext.Features.Get<ITrackingConsentFeature>();
+            //    var shouldRender = !consentFeature?.CanTrack ?? false;
+            //    if(!shouldRender)
+            //    {
+            //        return;
+            //    }
+            //}
 
             if (!string.IsNullOrWhiteSpace(_options.ExcludedAutoRegistrationPathsCsv))
             {

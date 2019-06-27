@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 
 namespace cloudscribe.PwaKit.Interfaces
 {
-    public interface IGenerateServiceWorkerInitScript
+    public interface IGeneratePwaInitScript
     {
-        Task<string> BuildSwInitScript(HttpContext context, IUrlHelper urlHelper);
+        Task<string> BuildPwaInitScript(HttpContext context, IUrlHelper urlHelper);
     }
 }

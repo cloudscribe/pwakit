@@ -9,7 +9,7 @@ namespace cloudscribe.PwaKit.Controllers
     {
         public PwaController(
             IServiceWorkerBuilder serviceWorkerBuilder,
-            IGenerateServiceWorkerInitScript serviceWorkerInitScriptGenerator,
+            IGeneratePwaInitScript serviceWorkerInitScriptGenerator,
             IOptions<PwaOptions> pwaOptionsAccessor
             )
         {
@@ -19,7 +19,7 @@ namespace cloudscribe.PwaKit.Controllers
         }
 
         private readonly IServiceWorkerBuilder _serviceWorkerBuilder;
-        private readonly IGenerateServiceWorkerInitScript _serviceWorkerInitScriptGenerator;
+        private readonly IGeneratePwaInitScript _serviceWorkerInitScriptGenerator;
         private readonly PwaOptions _options;
 
 
@@ -38,9 +38,9 @@ namespace cloudscribe.PwaKit.Controllers
 
         }
 
-        public async Task<IActionResult> ServiceWorkerInit()
+        public async Task<IActionResult> Init()
         {
-            var script = await _serviceWorkerInitScriptGenerator.BuildSwInitScript(HttpContext, Url);
+            var script = await _serviceWorkerInitScriptGenerator.BuildPwaInitScript(HttpContext, Url);
             if(string.IsNullOrWhiteSpace(script))
             {
                 return NotFound();

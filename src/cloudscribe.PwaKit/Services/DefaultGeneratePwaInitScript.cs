@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace cloudscribe.PwaKit.Services
 {
-    public class DefaultGenerateServiceWorkerInitScript : IGenerateServiceWorkerInitScript
+    public class DefaultGeneratePwaInitScript : IGeneratePwaInitScript
     {
-        public DefaultGenerateServiceWorkerInitScript(
+        public DefaultGeneratePwaInitScript(
             IOptions<PwaOptions> pwaOptionsAccessor,
             IPwaRouteNameProvider pwaRouteNameProvider
             )
@@ -21,7 +21,7 @@ namespace cloudscribe.PwaKit.Services
         private readonly PwaOptions _options;
         private readonly IPwaRouteNameProvider _pwaRouteNameProvider;
 
-        public Task<string> BuildSwInitScript(HttpContext context, IUrlHelper urlHelper)
+        public Task<string> BuildPwaInitScript(HttpContext context, IUrlHelper urlHelper)
         {
 
             var url = urlHelper.RouteUrl(_pwaRouteNameProvider.GetServiceWorkerRouteName());

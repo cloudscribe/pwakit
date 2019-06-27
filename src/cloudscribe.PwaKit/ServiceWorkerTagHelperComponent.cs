@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Routing;
@@ -42,7 +41,7 @@ namespace cloudscribe.PwaKit
         private string BuildScript()
         {
             var urlHelper = _urlHelperFactory.GetUrlHelper(_actionContextAccesor.ActionContext);
-            var url = urlHelper.Action("ServiceWorkerInit", "Pwa");
+            var url = urlHelper.Action("Init", "Pwa");
 
             var script = "\r\n\t<script" + (_options.EnableCspNonce ? PwaConstants.CspNonce : string.Empty) + " src='" + url + "'></script>";
 
@@ -56,17 +55,7 @@ namespace cloudscribe.PwaKit
             {
                 return;
             }
-
-            //if(_options.RequireCookieConsentBeforeRegisteringServiceWorker)
-            //{
-            //    var consentFeature = _contextAccessor.HttpContext.Features.Get<ITrackingConsentFeature>();
-            //    var shouldRender = !consentFeature?.CanTrack ?? false;
-            //    if(!shouldRender)
-            //    {
-            //        return;
-            //    }
-            //}
-
+            
             if (!string.IsNullOrWhiteSpace(_options.ExcludedAutoRegistrationPathsCsv))
             {
                 var currentPath = _contextAccessor.HttpContext.Request.Path.ToString();

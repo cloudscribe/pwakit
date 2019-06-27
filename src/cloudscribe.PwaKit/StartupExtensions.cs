@@ -39,7 +39,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.TryAddScoped<IConfigureWorkboxCacheFirstRoutes, DefaultConfigureWorkboxCacheFirstRoutes>();
             services.TryAddScoped<IConfigureWorkboxNetworkFirstRoutes, DefaultConfigureWorkboxNetworkFirstRoutes>();
             services.TryAddScoped<IConfigureWorkboxCatchHandler, DefaultConfigureWorkboxCatchHandler>();
-            services.TryAddScoped<IGenerateServiceWorkerInitScript, DefaultGenerateServiceWorkerInitScript>();
+            services.TryAddScoped<IGeneratePwaInitScript, DefaultGeneratePwaInitScript>();
             services.TryAddScoped<IConfigureWorkboxOfflineGoogleAnalytics, DefaultConfigureWorkboxOfflineGoogleAnalytics>();
 
 

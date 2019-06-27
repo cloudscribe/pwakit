@@ -5,6 +5,7 @@ using cloudscribe.PwaKit.Services;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Lib.Net.Http.WebPush;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -44,6 +45,20 @@ namespace Microsoft.Extensions.DependencyInjection
 
 
             services.AddTransient<ITagHelperComponent, ServiceWorkerTagHelperComponent>();
+
+
+
+            services.AddMemoryCache();
+            services.AddMemoryVapidTokenCache();
+            services.AddPushServiceClient(options =>
+            {
+                IConfigurationSection pushNotificationServiceConfigurationSection = config.GetSection(nameof(PushServiceClient));
+
+                options.Subject = pushNotificationServiceConfigurationSection.GetValue<string>(nameof(options.Subject));
+                options.PublicKey = pushNotificationServiceConfigurationSection.GetValue<string>(nameof(options.PublicKey));
+                options.PrivateKey = pushNotificationServiceConfigurationSection.GetValue<string>(nameof(options.PrivateKey));
+            });
+            services.AddTransient<IPushNotificationService, PushServicePushNotificationService>();
 
 
             return builder;

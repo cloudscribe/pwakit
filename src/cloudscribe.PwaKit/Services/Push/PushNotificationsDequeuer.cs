@@ -8,7 +8,7 @@ namespace cloudscribe.PwaKit.Services
 {
     internal class PushNotificationsDequeuer : IHostedService
     {
-        //private readonly IPushSubscriptionStoreAccessorProvider _subscriptionStoreAccessorProvider;
+        
         private readonly IPushSubscriptionStore _pushSubscriptionStore;
         private readonly IPushNotificationsQueue _messagesQueue;
         private readonly IPushNotificationService _notificationService;
@@ -56,14 +56,7 @@ namespace cloudscribe.PwaKit.Services
                         _notificationService.SendNotificationAsync(subscription, message, _stopTokenSource.Token);
                     }, _stopTokenSource.Token);
 
-                    //using (IPushSubscriptionStoreAccessor subscriptionStoreAccessor = _subscriptionStoreAccessorProvider.GetPushSubscriptionStoreAccessor())
-                    //{
-                    //    await subscriptionStoreAccessor.PushSubscriptionStore.ForEachSubscriptionAsync((PushSubscription subscription) =>
-                    //    {
-                    //        // Fire-and-forget 
-                    //        _notificationService.SendNotificationAsync(subscription, message, _stopTokenSource.Token);
-                    //    }, _stopTokenSource.Token);
-                    //}
+                   
 
                 }
             }

@@ -24,20 +24,7 @@
 
         consoleOutput.appendChild(paragraph);
     }
-
-    //function registerPushServiceWorker() {
-    //    navigator.serviceWorker.register('/scripts/service-workers/push-service-worker.js', { scope: '/scripts/service-workers/push-service-worker/' })
-    //        .then(function (serviceWorkerRegistration) {
-    //            pushServiceWorkerRegistration = serviceWorkerRegistration;
-
-    //            initializeUIState();
-
-    //            writeToConsole('Push Service Worker has been registered successfully');
-    //        }).catch(function (error) {
-    //            writeToConsole('Push Service Worker registration has failed: ' + error);
-    //        });
-    //}
-
+    
     function initializeUIState() {
         subscribeButton = document.getElementById('subscribe');
         subscribeButton.addEventListener('click', subscribeForPushNotifications);
@@ -164,26 +151,10 @@
                 console.log('registration not found');
             }
 
-            //if (!('serviceWorker' in navigator)) {
-            //    writeToConsole('Service Workers are not supported');
-            //    return;
-            //}
-
-            //if (!('PushManager' in window)) {
-            //    writeToConsole('Push API not supported');
-            //    return;
-            //}
-
-            //registerPushServiceWorker();
+            
         }
     };
 })();
 
 window.swRegisteredHandler = PushNotifications.initialize;
 
-
-//if (window.serviceWorkerRegistration) {
-//    PushNotifications.initialize(window.serviceWorkerRegistration);
-//} else {
-//    console.log('no window.serviceWorkerRegistration');
-//}

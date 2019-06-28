@@ -54,8 +54,6 @@ namespace cloudscribe.PwaKit.Storage.NoDb
 
         public async Task StoreSubscriptionAsync(cloudscribe.PwaKit.Models.PushSubscription subscription)
         {
-            //var newSub = new cloudscribe.PwaKit.Models.PushSubscription(subscription);
-
             await _commands.CreateAsync(
                 _NoDbProjectId,
                 subscription.Key.ToString(),

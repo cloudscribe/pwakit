@@ -1,0 +1,27 @@
+﻿@inject IStringLocalizer<cloudscribe.PwaKit.PwaResources> sr
+@using WebPush
+@{
+    ViewData["Title"] = sr["Push Service Client Key Generator"];
+    var keys = VapidHelper.GenerateVapidKeys();
+    ViewBag.PublicKey = keys.PublicKey;
+    ViewBag.PrivateKey = keys.PrivateKey;
+
+}
+
+<h2>@sr["Configure Keys"]</h2>
+<div class="alert alert-warning">
+    <strong>@sr["Developer Notes:"]</strong>
+    <ul>
+        <li>@sr["Web Push notification require a public and private key to send a payload."]</li>
+        <li>@sr["Newly generated keys for you to use are below."]</li>
+    </ul>
+</div>
+
+<p>@sr["You need to configure PushServiceClient in appsettings.json or other configuration source. Keys should not change once established so keep them safe. This page generates new keys on every refresh."]</p>
+<pre>
+  "PushServiceClient" : {
+    "Subject": "mailto:admin@yourdomain.com"
+    "PublicKey": "@ViewBag.PublicKey",
+    "PrivateKey":  "@ViewBag.PrivateKey" 
+  } 
+</pre>

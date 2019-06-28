@@ -72,6 +72,8 @@ namespace cloudscribe.PwaKit.Services
 
 
             }
+
+            //script.Append("let serviceWorkerRegistration;");
             
             script.Append("if ('serviceWorker' in navigator) {");
             script.Append("window.addEventListener('load', () => {");
@@ -105,6 +107,13 @@ namespace cloudscribe.PwaKit.Services
 
             script.Append("navigator.serviceWorker.register('" + url + "',{scope: '" + scope + "'})");
             script.Append(".then(registration => {");
+
+            script.Append("if(window.swRegisteredHandler) {");
+            script.Append("window.swRegisteredHandler(registration);");
+            script.Append("}");
+
+            script.Append("window.serviceWorkerRegistration = registration;");
+            //script.Append("if(PushNotifications) { PushNotifications(registration); }");
 
             if (_options.EnableServiceWorkerConsoleLog)
             {

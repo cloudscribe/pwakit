@@ -7,7 +7,7 @@ namespace cloudscribe.PwaKit.Interfaces
 {
     public interface IPushSubscriptionStore
     {
-        Task StoreSubscriptionAsync(PushSubscription subscription);
+        Task StoreSubscriptionAsync(cloudscribe.PwaKit.Models.PushSubscription subscription);
 
         Task DiscardSubscriptionAsync(string endpoint);
 

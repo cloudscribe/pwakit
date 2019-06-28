@@ -2,6 +2,7 @@
 using Lib.Net.Http.WebPush;
 using NoDb;
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -25,7 +26,13 @@ namespace cloudscribe.PwaKit.Storage.NoDb
 
         public async Task DiscardSubscriptionAsync(string endpoint)
         {
-            await _commands.DeleteAsync(_NoDbProjectId, endpoint).ConfigureAwait(false);
+            var all = await _queries.GetAllAsync(_NoDbProjectId).ConfigureAwait(false);
+            var found = all.Where(x => x.Endpoint == endpoint).SingleOrDefault();
+            if(found != null)
+            {
+                await _commands.DeleteAsync(_NoDbProjectId, found.Key.ToString()).ConfigureAwait(false);
+            }
+            
         }
 
         public async Task ForEachSubscriptionAsync(Action<PushSubscription> action)
@@ -45,14 +52,14 @@ namespace cloudscribe.PwaKit.Storage.NoDb
             
         }
 
-        public async Task StoreSubscriptionAsync(PushSubscription subscription)
+        public async Task StoreSubscriptionAsync(cloudscribe.PwaKit.Models.PushSubscription subscription)
         {
-            var newSub = new cloudscribe.PwaKit.Models.PushSubscription(subscription);
+            //var newSub = new cloudscribe.PwaKit.Models.PushSubscription(subscription);
 
             await _commands.CreateAsync(
                 _NoDbProjectId,
-                newSub.Endpoint,
-                newSub
+                subscription.Key.ToString(),
+                subscription
                 ).ConfigureAwait(false);
         }
     }

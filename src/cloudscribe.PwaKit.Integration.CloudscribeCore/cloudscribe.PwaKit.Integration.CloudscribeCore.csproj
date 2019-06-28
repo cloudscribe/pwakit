@@ -21,6 +21,7 @@
   <ItemGroup>
     
     <PackageReference Include="cloudscribe.Core.Models" Version="3.0.23" />
+    <PackageReference Include="cloudscribe.Core.Identity" Version="3.0.23" />
     <PackageReference Include="cloudscribe.Web.Navigation" Version="2.1.21" />
     <PackageReference Include="cloudscribe.FileManager.CoreIntegration" Version="3.0.28" />
     

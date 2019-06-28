@@ -9,6 +9,7 @@ using Lib.Net.Http.WebPush;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Microsoft.Extensions.Hosting;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -42,6 +43,9 @@ namespace Microsoft.Extensions.DependencyInjection
             services.TryAddScoped<IConfigureWorkboxCatchHandler, DefaultConfigureWorkboxCatchHandler>();
             services.TryAddScoped<IGeneratePwaInitScript, DefaultGeneratePwaInitScript>();
             services.TryAddScoped<IConfigureWorkboxOfflineGoogleAnalytics, DefaultConfigureWorkboxOfflineGoogleAnalytics>();
+            services.TryAddScoped<IConfigureServiceWorkerPushNotification, DefaultConfigureServiceWorkerPushNotification>();
+
+            services.TryAddScoped<IUserIdResolver, DefaultUserIdResolver>();
 
 
             services.AddTransient<ITagHelperComponent, ServiceWorkerTagHelperComponent>();
@@ -60,9 +64,14 @@ namespace Microsoft.Extensions.DependencyInjection
             });
             services.AddTransient<IPushNotificationService, PushServicePushNotificationService>();
 
+            services.AddSingleton<IPushNotificationsQueue, PushNotificationsQueue>();
+            services.AddSingleton<IHostedService, PushNotificationsDequeuer>();
+
 
             return builder;
         }
+
+        
 
     }
 }

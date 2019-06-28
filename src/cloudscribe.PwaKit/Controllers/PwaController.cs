@@ -1,6 +1,7 @@
 ﻿using cloudscribe.PwaKit.Interfaces;
 using cloudscribe.PwaKit.Models;
 using Lib.Net.Http.WebPush;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System.Threading.Tasks;
@@ -15,7 +16,8 @@ namespace cloudscribe.PwaKit.Controllers
             IOptions<PwaOptions> pwaOptionsAccessor,
             IPushSubscriptionStore subscriptionStore, 
             IPushNotificationService notificationService, 
-            IPushNotificationsQueue pushNotificationsQueue
+            IPushNotificationsQueue pushNotificationsQueue,
+            IUserIdResolver userIdResolver
             )
         {
             _serviceWorkerBuilder = serviceWorkerBuilder;
@@ -25,6 +27,7 @@ namespace cloudscribe.PwaKit.Controllers
             _subscriptionStore = subscriptionStore;
             _notificationService = notificationService;
             _pushNotificationsQueue = pushNotificationsQueue;
+            _userIdResolver = userIdResolver;
         }
 
         private readonly IServiceWorkerBuilder _serviceWorkerBuilder;
@@ -34,6 +37,7 @@ namespace cloudscribe.PwaKit.Controllers
         private readonly IPushSubscriptionStore _subscriptionStore;
         private readonly IPushNotificationService _notificationService;
         private readonly IPushNotificationsQueue _pushNotificationsQueue;
+        private readonly IUserIdResolver _userIdResolver;
 
         [HttpGet]
         [HttpHead]
@@ -78,6 +82,21 @@ namespace cloudscribe.PwaKit.Controllers
 
         #region Push Notifications
 
+        [Authorize(Policy ="PushNotificationAdminPolicy")]
+        [HttpGet]
+        public IActionResult TestPush()
+        {
+            return View();
+        }
+
+        [Authorize(Policy = "PushNotificationAdminPolicy")]
+        [HttpGet]
+        public IActionResult GeneratePushKeys()
+        {
+            return View();
+        }
+
+
 
         [HttpGet]
         public ContentResult GetPublicKey()
@@ -89,8 +108,14 @@ namespace cloudscribe.PwaKit.Controllers
         [HttpPost]
         public async Task<IActionResult> Subscription([FromBody]Lib.Net.Http.WebPush.PushSubscription subscription)
         {
-            await _subscriptionStore.StoreSubscriptionAsync(subscription);
+            if(subscription != null && !string.IsNullOrEmpty(subscription.Endpoint))
+            {
+                var newSub = new cloudscribe.PwaKit.Models.PushSubscription(subscription);
+                newSub.UserId = _userIdResolver.GetUserId(User);
 
+                await _subscriptionStore.StoreSubscriptionAsync(newSub);
+            }
+            
             return NoContent();
         }
 

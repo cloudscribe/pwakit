@@ -11,10 +11,11 @@ namespace Microsoft.Extensions.DependencyInjection
             bool useHangfire
             )
         {
-            services.AddCloudscribeCoreNoDbStorage();
-            services.AddCloudscribeLoggingNoDbStorage(config);
+            var useSingletons = true;
+            services.AddCloudscribeCoreNoDbStorage(useSingletons);
+            services.AddCloudscribeLoggingNoDbStorage(config, useSingletons);
 
-            services.AddNoDbStorageForSimpleContent();
+            services.AddNoDbStorageForSimpleContent(useSingletons);
 
 
 
@@ -56,9 +57,11 @@ namespace Microsoft.Extensions.DependencyInjection
             pwaBuilder.PreCacheAllFileManagerImageUrls();
             pwaBuilder.PreCacheNavigationMenuUrls();
             pwaBuilder.PreCacheAllBlogPostUrls();
+            pwaBuilder.AddNoDbStorage();
 
 
-            
+
+
 
 
 

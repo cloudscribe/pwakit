@@ -12,7 +12,7 @@ Push notifications - work in progress
 The work on push notifications was very informed by the work of Tomasz Pęczek in his [demo app here](https://github.com/tpeczek/Demo.AspNetCore.PushNotifications), and we are using his library [Lib.Net.Http.WebPush](https://github.com/tpeczek/Lib.Net.Http.WebPush)
 
 
-### Sponsors
+## Sponsors
 
 ![esdm logo](https://www.cloudscribe.com/media/images/esdm-banner.png)
 
@@ -22,6 +22,6 @@ If you are interested in sponsoring additional open source features for the clou
 
 See the [complete list of cloudscribe libraries](https://www.cloudscribe.com/docs/complete-list-of-cloudscribe-libraries) on [cloudscribe.com](https://www.cloudscribe.com/)
 
-### Questions or Comments?
+## Questions or Comments?
 
 [![Join the chat at https://gitter.im/joeaudette/cloudscribe](https://badges.gitter.im/joeaudette/cloudscribe.svg)](https://gitter.im/joeaudette/cloudscribe?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)

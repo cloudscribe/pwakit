@@ -68,6 +68,9 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddSingleton<IPushNotificationsQueue, PushNotificationQueue>();
             services.AddSingleton<IHostedService, PushNotificationBackgroundTask>();
 
+            services.AddSingleton<IPushNotificationRecipientProvider, AllSubscribersPushNotificationRecipientProvider>();
+            services.AddSingleton<IPushNotificationRecipientProvider, SingleUserPushNotificationRecipientProvider>();
+
 
             return builder;
         }

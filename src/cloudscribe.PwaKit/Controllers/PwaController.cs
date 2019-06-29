@@ -1,5 +1,6 @@
 ﻿using cloudscribe.PwaKit.Interfaces;
 using cloudscribe.PwaKit.Models;
+using cloudscribe.PwaKit.Services;
 using Lib.Net.Http.WebPush;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -107,7 +108,7 @@ namespace cloudscribe.PwaKit.Controllers
             return Content(_notificationService.PublicKey, "text/plain");
         }
 
-        // POST push-notifications-api/subscriptions
+        
         [HttpPost]
         public async Task<IActionResult> Subscription([FromBody]Lib.Net.Http.WebPush.PushSubscription subscription)
         {
@@ -119,30 +120,35 @@ namespace cloudscribe.PwaKit.Controllers
                 newSub.UserAgent = Request.Headers["User-Agent"].ToString();
                 newSub.CreatedFromIpAddress = HttpContext.Connection.RemoteIpAddress.ToString();
 
-                await _subscriptionStore.StoreSubscriptionAsync(newSub);
+                await _subscriptionStore.SaveSubscription(newSub);
             }
             
             return NoContent();
         }
 
-        // DELETE push-notifications-api/subscriptions?endpoint={endpoint}
+        
         [HttpDelete]
         public async Task<IActionResult> Subscription(string endpoint)
         {
-            await _subscriptionStore.DiscardSubscriptionAsync(endpoint);
+            await _subscriptionStore.DeleteSubscription(endpoint);
 
             return NoContent();
         }
 
-        // POST push-notifications-api/notifications
+        [Authorize(Policy = "PushNotificationAdminPolicy")]
         [HttpPost]
         public IActionResult SendNotification([FromBody]PushMessageModel message)
         {
-            _pushNotificationsQueue.Enqueue(new PushMessage(message.Notification)
+            var pushMessage = new PushMessage(message.Notification)
             {
                 Topic = message.Topic,
                 Urgency = message.Urgency
-            });
+            };
+
+            var queueItem = new PushQueueItem(pushMessage, BuiltInRecipientProviderNames.AllSubscribersPushNotificationRecipientProvider);
+            queueItem.TenantId = _tenantIdResolver.GetTenantId();
+
+            _pushNotificationsQueue.Enqueue(queueItem);
 
             return NoContent();
         }

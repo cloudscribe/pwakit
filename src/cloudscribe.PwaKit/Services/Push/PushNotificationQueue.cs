@@ -1,5 +1,5 @@
 ﻿using cloudscribe.PwaKit.Interfaces;
-using Lib.Net.Http.WebPush;
+using cloudscribe.PwaKit.Models;
 using System;
 using System.Collections.Concurrent;
 using System.Threading;
@@ -9,26 +9,26 @@ namespace cloudscribe.PwaKit.Services
 {
     internal class PushNotificationQueue : IPushNotificationsQueue
     {
-        private readonly ConcurrentQueue<PushMessage> _messages = new ConcurrentQueue<PushMessage>();
+        private readonly ConcurrentQueue<PushQueueItem> _queue = new ConcurrentQueue<PushQueueItem>();
         private readonly SemaphoreSlim _messageEnqueuedSignal = new SemaphoreSlim(0);
 
-        public void Enqueue(PushMessage message)
+        public void Enqueue(PushQueueItem item)
         {
-            if (message == null)
+            if (item == null)
             {
-                throw new ArgumentNullException(nameof(message));
+                throw new ArgumentNullException(nameof(item));
             }
 
-            _messages.Enqueue(message);
+            _queue.Enqueue(item);
 
             _messageEnqueuedSignal.Release();
         }
 
-        public async Task<PushMessage> DequeueAsync(CancellationToken cancellationToken)
+        public async Task<PushQueueItem> DequeueAsync(CancellationToken cancellationToken)
         {
             await _messageEnqueuedSignal.WaitAsync(cancellationToken);
 
-            _messages.TryDequeue(out PushMessage message);
+            _queue.TryDequeue(out PushQueueItem message);
 
             return message;
         }

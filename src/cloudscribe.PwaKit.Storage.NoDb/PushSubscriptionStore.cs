@@ -1,8 +1,7 @@
 ﻿using cloudscribe.PwaKit.Interfaces;
 using cloudscribe.PwaKit.Models;
-using Lib.Net.Http.WebPush;
 using NoDb;
-using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,20 +11,42 @@ namespace cloudscribe.PwaKit.Storage.NoDb
     public class PushSubscriptionStore : IPushSubscriptionStore
     {
         public PushSubscriptionStore(
-            IBasicCommands<cloudscribe.PwaKit.Models.PushDeviceSubscription> commands,
-            IBasicQueries<cloudscribe.PwaKit.Models.PushDeviceSubscription> queries
+            IBasicCommands<PushDeviceSubscription> commands,
+            IBasicQueries<PushDeviceSubscription> queries
             )
         {
             _commands = commands;
             _queries = queries;
         }
 
-        private readonly IBasicCommands<cloudscribe.PwaKit.Models.PushDeviceSubscription> _commands;
-        private readonly IBasicQueries<cloudscribe.PwaKit.Models.PushDeviceSubscription> _queries;
+        private readonly IBasicCommands<PushDeviceSubscription> _commands;
+        private readonly IBasicQueries<PushDeviceSubscription> _queries;
 
+        //for NoDb we are storing all in default project as we don't have per tenant queues
         private const string _NoDbProjectId = "default";
 
-        public async Task DiscardSubscriptionAsync(string endpoint)
+        public async Task<IEnumerable<PushDeviceSubscription>> GetAllSubscriptions(
+            string tenantId,
+            CancellationToken cancellationToken = default(CancellationToken)
+            )
+        {
+            var all = await _queries.GetAllAsync(_NoDbProjectId).ConfigureAwait(false);
+
+            return all.Where(x => x.TenantId == tenantId);
+        }
+
+        public async Task<IEnumerable<PushDeviceSubscription>> GetSubscriptionsForUser(
+            string tenantId,
+            string userId,
+            CancellationToken cancellationToken = default(CancellationToken)
+            )
+        {
+            var all = await _queries.GetAllAsync(_NoDbProjectId).ConfigureAwait(false);
+
+            return all.Where(x => x.TenantId == tenantId && x.UserId == userId);
+        }
+
+        public async Task DeleteSubscription(string endpoint)
         {
             var all = await _queries.GetAllAsync(_NoDbProjectId).ConfigureAwait(false);
             var found = all.Where(x => x.Endpoint == endpoint).SingleOrDefault();
@@ -35,25 +56,8 @@ namespace cloudscribe.PwaKit.Storage.NoDb
             }
             
         }
-
-        public async Task ForEachSubscriptionAsync(Action<PushSubscription> action)
-        {
-           await ForEachSubscriptionAsync(action, CancellationToken.None);
-        }
-
-        public async Task ForEachSubscriptionAsync(Action<PushSubscription> action, CancellationToken cancellationToken)
-        {
-            cancellationToken.ThrowIfCancellationRequested();
-
-            var all = await _queries.GetAllAsync(_NoDbProjectId, cancellationToken).ConfigureAwait(false);
-            foreach(var item in all)
-            {
-                action(item);
-            }
-            
-        }
-
-        public async Task StoreSubscriptionAsync(PushDeviceSubscription subscription)
+        
+        public async Task SaveSubscription(PushDeviceSubscription subscription)
         {
             await _commands.CreateAsync(
                 _NoDbProjectId,

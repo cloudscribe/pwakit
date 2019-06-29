@@ -57,7 +57,7 @@ namespace cloudscribe.PwaKit.Services
                 if ((pushServiceClientException.StatusCode == HttpStatusCode.NotFound) || (pushServiceClientException.StatusCode == HttpStatusCode.Gone))
                 {
 
-                    await _pushSubscriptionStore.DiscardSubscriptionAsync(subscription.Endpoint);
+                    await _pushSubscriptionStore.DeleteSubscription(subscription.Endpoint);
                     
                     _logger?.LogInformation("Subscription has expired or is no longer valid and has been removed.");
                 }

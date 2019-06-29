@@ -1,4 +1,4 @@
-﻿using Lib.Net.Http.WebPush;
+﻿using cloudscribe.PwaKit.Models;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -6,9 +6,9 @@ namespace cloudscribe.PwaKit.Interfaces
 {
     public interface IPushNotificationsQueue
     {
-        void Enqueue(PushMessage message);
+        void Enqueue(PushQueueItem item);
 
-        Task<PushMessage> DequeueAsync(CancellationToken cancellationToken);
+        Task<PushQueueItem> DequeueAsync(CancellationToken cancellationToken);
 
     }
 }

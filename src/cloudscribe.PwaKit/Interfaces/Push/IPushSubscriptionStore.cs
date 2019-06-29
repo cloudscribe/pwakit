@@ -1,5 +1,5 @@
-﻿using Lib.Net.Http.WebPush;
-using System;
+﻿using cloudscribe.PwaKit.Models;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -7,13 +7,23 @@ namespace cloudscribe.PwaKit.Interfaces
 {
     public interface IPushSubscriptionStore
     {
-        Task StoreSubscriptionAsync(cloudscribe.PwaKit.Models.PushDeviceSubscription subscription);
 
-        Task DiscardSubscriptionAsync(string endpoint);
+        Task<IEnumerable<PushDeviceSubscription>> GetAllSubscriptions(
+            string tenantId,
+            CancellationToken cancellationToken = default(CancellationToken)
+            );
 
-        Task ForEachSubscriptionAsync(Action<PushSubscription> action);
+        Task<IEnumerable<PushDeviceSubscription>> GetSubscriptionsForUser(
+            string tenantId,
+            string userId,
+            CancellationToken cancellationToken = default(CancellationToken)
+            );
 
-        Task ForEachSubscriptionAsync(Action<PushSubscription> action, CancellationToken cancellationToken);
+        Task SaveSubscription(PushDeviceSubscription subscription);
+
+        Task DeleteSubscription(string endpoint);
+
+        
 
     }
 }

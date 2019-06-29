@@ -51,14 +51,17 @@ namespace cloudscribe.PwaKit.Controllers
         [HttpHead]
         public async Task<IActionResult> ServiceWorker()
         {
-            Response.ContentType = "application/javascript; charset=utf-8";
+            var sw = await _serviceWorkerBuilder.Build(HttpContext);
+
+            if(string.IsNullOrWhiteSpace(sw))
+            {
+                return NotFound();
+            }
 
             //TODO ?: do we need to cache this,suppose to load at least every 24 hours
             // I think the browser makes head requests to see if any changes
             //Response.Headers[HeaderNames.CacheControl] = $"max-age={_options.ServiceWorkerCacheControlMaxAge}";
-
-            var sw = await _serviceWorkerBuilder.Build(HttpContext);
-
+            Response.ContentType = "application/javascript; charset=utf-8";
 
             return Content(sw);
 
@@ -143,7 +146,24 @@ namespace cloudscribe.PwaKit.Controllers
         [HttpPost]
         public IActionResult BroadcastNotification([FromBody]SubmitPushMessageModel message)
         {
-            var pushMessage = new PushMessage(message.Notification)
+            var messageModel = new PushMessageModel()
+            {
+                Body = message.Notification
+            };
+
+            var contractResolver = new DefaultContractResolver
+            {
+                NamingStrategy = new CamelCaseNamingStrategy()
+            };
+            var serializationSettings = new JsonSerializerSettings()
+            {
+                ContractResolver = contractResolver
+            };
+
+            var serialized = JsonConvert.SerializeObject(messageModel, serializationSettings);
+            var content = new StringContent(serialized, Encoding.UTF8, "application/json");
+
+            var pushMessage = new PushMessage(content)
             {
                 Topic = message.Topic,
                 Urgency = message.Urgency
@@ -172,8 +192,7 @@ namespace cloudscribe.PwaKit.Controllers
             };
             var serializationSettings = new JsonSerializerSettings()
             {
-                ContractResolver = contractResolver,
-                Formatting = Formatting.Indented
+                ContractResolver = contractResolver
             };
 
             var serialized = JsonConvert.SerializeObject(messageModel, serializationSettings);

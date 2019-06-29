@@ -1,7 +1,5 @@
 ﻿using Lib.Net.Http.WebPush;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace cloudscribe.PwaKit.Models
 {

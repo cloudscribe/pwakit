@@ -5,6 +5,10 @@ using Lib.Net.Http.WebPush;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace cloudscribe.PwaKit.Controllers
@@ -137,7 +141,7 @@ namespace cloudscribe.PwaKit.Controllers
 
         [Authorize(Policy = "PushNotificationAdminPolicy")]
         [HttpPost]
-        public IActionResult SendNotification([FromBody]PushMessageModel message)
+        public IActionResult BroadcastNotification([FromBody]SubmitPushMessageModel message)
         {
             var pushMessage = new PushMessage(message.Notification)
             {
@@ -147,6 +151,43 @@ namespace cloudscribe.PwaKit.Controllers
 
             var queueItem = new PushQueueItem(pushMessage, BuiltInRecipientProviderNames.AllSubscribersPushNotificationRecipientProvider);
             queueItem.TenantId = _tenantIdResolver.GetTenantId();
+
+            _pushNotificationsQueue.Enqueue(queueItem);
+
+            return NoContent();
+        }
+
+        [Authorize(Policy = "PushNotificationAdminPolicy")]
+        [HttpPost]
+        public IActionResult SendNotificationToSelf([FromBody]SubmitPushMessageModel message)
+        {
+            var messageModel = new PushMessageModel()
+            {
+                Body = message.Notification
+            };
+
+            var contractResolver = new DefaultContractResolver
+            {
+                NamingStrategy = new CamelCaseNamingStrategy()
+            };
+            var serializationSettings = new JsonSerializerSettings()
+            {
+                ContractResolver = contractResolver,
+                Formatting = Formatting.Indented
+            };
+
+            var serialized = JsonConvert.SerializeObject(messageModel, serializationSettings);
+            var content = new StringContent(serialized, Encoding.UTF8, "application/json");
+
+            var pushMessage = new PushMessage(content)
+            {
+                Topic = message.Topic,
+                Urgency = message.Urgency
+            };
+
+            var queueItem = new PushQueueItem(pushMessage, BuiltInRecipientProviderNames.SingleUserPushNotificationRecipientProvider);
+            queueItem.TenantId = _tenantIdResolver.GetTenantId();
+            queueItem.RecipientProviderCustom1 = _userIdResolver.GetUserId(User);
 
             _pushNotificationsQueue.Enqueue(queueItem);
 

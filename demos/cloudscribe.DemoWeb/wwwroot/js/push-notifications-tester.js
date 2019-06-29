@@ -35,7 +35,9 @@
         topicInput = document.getElementById('topic');
         notificationInput = document.getElementById('notification');
         urgencySelect = document.getElementById('urgency');
-        document.getElementById('send').addEventListener('click', sendPushNotification);
+        document.getElementById('send').addEventListener('click', broadcastNotification);
+
+        document.getElementById('sendSelf').addEventListener('click', sendNotificationToSelf);
 
         serviceWorkerRegistration.pushManager.getSubscription()
             .then(function (subscription) {
@@ -120,10 +122,29 @@
             });
     }
 
-    function sendPushNotification() {
+    function broadcastNotification() {
         let payload = { topic: topicInput.value, notification: notificationInput.value, urgency: urgencySelect.value };
 
-        fetch('/pwa/sendnotification', {
+        fetch('/pwa/broadcastnotification', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        })
+            .then(function (response) {
+                if (response.ok) {
+                    writeToConsole('Successfully sent Push Notification');
+                } else {
+                    writeToConsole('Failed to send Push Notification');
+                }
+            }).catch(function (error) {
+                writeToConsole('Failed to send Push Notification: ' + error);
+            });
+    }
+
+    function sendNotificationToSelf() {
+        let payload = { topic: topicInput.value, notification: notificationInput.value, urgency: urgencySelect.value };
+
+        fetch('/pwa/sendnotificationtoself', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)

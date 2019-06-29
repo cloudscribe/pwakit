@@ -16,14 +16,24 @@ namespace cloudscribe.PwaKit.Services
             sw.Append("const pushNotificationTitle = 'PwaKit Demo';");
 
             sw.Append("self.addEventListener('push', function (event) {");
+
             sw.Append("console.log(event);");
-            sw.Append("event.waitUntil(self.registration.showNotification(pushNotificationTitle, {");
-            sw.Append("body: event.data.text(),");
-            sw.Append("icon: '/media/images/push-notification-icon.png'");
-            sw.Append("}));");
+            //sw.Append("var json = JSON.parse(event.data.text());");
+            sw.Append("var json = event.data.json();");
+            sw.Append("console.log(json);");
+
+            //sw.Append("event.waitUntil(self.registration.showNotification(json.title, {");
+            //sw.Append("body: json.body,");
+            //sw.Append("icon: json.icon");
+            //sw.Append("}));");
+            //sw.Append("});");
+
+            sw.Append("event.waitUntil(self.registration.showNotification(json.title, json");
+            sw.Append("));");
+
             sw.Append("});");
 
-            
+
 
 
             sw.Append("self.addEventListener('pushsubscriptionchange', function (event) {");

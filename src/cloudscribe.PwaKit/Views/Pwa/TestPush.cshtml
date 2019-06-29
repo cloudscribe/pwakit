@@ -1,0 +1,63 @@
+﻿@inject IStringLocalizer<cloudscribe.PwaKit.PwaResources> sr
+@{
+    ViewData["Title"] = sr["Test Push Notification"];
+}
+
+<h2>@ViewData["Title"]</h2>
+@section Styles  {
+    <style>
+        #output {
+            border: solid 1px #999999;
+            border-top-color: #CCCCCC;
+            border-left-color: #CCCCCC;
+            padding: 5px;
+            width: 100%;
+            height: 172px;
+            overflow-y: scroll;
+        }
+
+            #output p {
+                font-size: 11px;
+            }
+    </style>
+}
+
+<div>
+    <div id="dashboard-controls">
+        <button class="btn btn-success" type="button" disabled="disabled" id="subscribe">@sr["Subscribe for Push Notifications"]</button>
+        <button class="btn btn-warning" type="button" disabled="disabled" id="unsubscribe">@sr["Unsubscribe from Push Notifications"]</button>
+        <br /><hr />
+
+        <div class="form-group">
+            <label for="urgency">@sr["Urgency"]</label>
+            <select id="urgency" class="form-control">
+                <option value="VeryLow">@sr["Very Low"]</option>
+                <option value="Low">@sr["Low"]</option>
+                <option value="Normal" selected="selected">@sr["Normal"]</option>
+                <option value="High">@sr["High"]</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="topic">@sr["Topic"]</label>
+            <input type="text" id="topic" size="32" maxlength="32" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label for="notification">@sr["Message"]</label>
+            <input id="notification" class="form-control" />
+        </div>
+
+        <button class="btn btn-primary" type="button" id="send">@sr["Broadcast Push Notification"]</button>
+        <button class="btn btn-primary" type="button" id="sendSelf">@sr["Send Notification to Self"]</button>
+    </div>
+    <hr />
+    <div id="dashboard-console">
+        <label>@sr["Log"]</label>
+        <div id="output"></div>
+        <button class="btn btn-secondary mt-2" type="button" id="clear">@sr["Clear"]</button>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="/js/push-notifications-controller.js" asp-append-version="true"></script>
+    <script src="/js/push-notifications-tester.js" asp-append-version="true"></script>
+}

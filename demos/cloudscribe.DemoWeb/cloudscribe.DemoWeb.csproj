@@ -46,7 +46,7 @@
     <PackageReference Include="cloudscribe.SimpleContent.Storage.NoDb" Version="4.0.13" />
 
     <PackageReference Include="cloudscribe.Logging.Web" Version="3.0.10" />
-    <PackageReference Include="cloudscribe.Logging.NoDb" Version="3.0.6" />
+    <PackageReference Include="cloudscribe.Logging.NoDb" Version="3.0.7" />
 
 
 
@@ -72,6 +72,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\cloudscribe.PwaKit.Integration.CloudscribeCore\cloudscribe.PwaKit.Integration.CloudscribeCore.csproj" />
     <ProjectReference Include="..\..\src\cloudscribe.PwaKit.Integration.SimpleContent\cloudscribe.PwaKit.Integration.SimpleContent.csproj" />
+    <ProjectReference Include="..\..\src\cloudscribe.PwaKit.Storage.NoDb\cloudscribe.PwaKit.Storage.NoDb.csproj" />
   </ItemGroup>
 
 

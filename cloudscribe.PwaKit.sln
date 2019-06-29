@@ -7,7 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{B773B550-618
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "demos", "demos", "{A36C639E-1D91-40FC-B443-188CA8ACC74E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cloudscribe.DemoWeb", "demos\cloudscribe.DemoWeb\cloudscribe.DemoWeb.csproj", "{17DEA380-2524-45F2-BB59-3E35B5FFB162}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "cloudscribe.DemoWeb", "demos\cloudscribe.DemoWeb\cloudscribe.DemoWeb.csproj", "{17DEA380-2524-45F2-BB59-3E35B5FFB162}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "cloudscribe.PwaKit", "src\cloudscribe.PwaKit\cloudscribe.PwaKit.csproj", "{64FC671A-96AF-4F8E-9D42-AC366C2FA819}"
 EndProject
@@ -16,6 +16,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "cloudscribe.PwaKit.Integration.CloudscribeCore", "src\cloudscribe.PwaKit.Integration.CloudscribeCore\cloudscribe.PwaKit.Integration.CloudscribeCore.csproj", "{CD9AF390-6B60-48BF-B15C-90C5D1221248}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "cloudscribe.PwaKit.Integration.SimpleContent", "src\cloudscribe.PwaKit.Integration.SimpleContent\cloudscribe.PwaKit.Integration.SimpleContent.csproj", "{B4CA8B17-37B8-486E-9601-E2B8C9D3F0D8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cloudscribe.PwaKit.Storage.NoDb", "src\cloudscribe.PwaKit.Storage.NoDb\cloudscribe.PwaKit.Storage.NoDb.csproj", "{2968898C-2839-4E12-B19E-1B658C1579FB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,6 +45,10 @@ Global
 		{B4CA8B17-37B8-486E-9601-E2B8C9D3F0D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B4CA8B17-37B8-486E-9601-E2B8C9D3F0D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B4CA8B17-37B8-486E-9601-E2B8C9D3F0D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2968898C-2839-4E12-B19E-1B658C1579FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2968898C-2839-4E12-B19E-1B658C1579FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2968898C-2839-4E12-B19E-1B658C1579FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2968898C-2839-4E12-B19E-1B658C1579FB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -53,6 +59,7 @@ Global
 		{80AAAE6B-20DA-4978-B041-A3C9718C061F} = {B773B550-618A-4034-B53A-782D55410339}
 		{CD9AF390-6B60-48BF-B15C-90C5D1221248} = {B773B550-618A-4034-B53A-782D55410339}
 		{B4CA8B17-37B8-486E-9601-E2B8C9D3F0D8} = {B773B550-618A-4034-B53A-782D55410339}
+		{2968898C-2839-4E12-B19E-1B658C1579FB} = {B773B550-618A-4034-B53A-782D55410339}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {280AC57D-654B-40C4-A6D2-23022A7E631A}

@@ -37,7 +37,15 @@ namespace Microsoft.Extensions.DependencyInjection
                     authBuilder.RequireRole("Administrators", "Content Administrators");
                 });
 
+            options.AddPolicy(
+               "PushNotificationAdminPolicy",
+               authBuilder =>
+               {
+                   authBuilder.RequireRole("Administrators", "Content Administrators");
+               });
 
+
+            
 
 
 

@@ -19,6 +19,7 @@ namespace cloudscribe.PwaKit.Services
             IConfigureWorkboxNetworkFirstRoutes configureWorkboxNetworkFirstRoutes,
             IConfigureWorkboxOfflineGoogleAnalytics configureGoogleAnalytics,
             IConfigureWorkboxCatchHandler configureWorkboxCatchHandler,
+            IConfigureServiceWorkerPushNotification configureServiceWorkerPushNotification,
             IEnumerable<IAddCodeToServiceWorker> addCodeToServiceWorkers
             )
         {
@@ -30,6 +31,7 @@ namespace cloudscribe.PwaKit.Services
             _configureWorkboxNetworkFirstRoutes = configureWorkboxNetworkFirstRoutes;
             _configureGoogleAnalytics = configureGoogleAnalytics;
             _configureWorkboxCatchHandler = configureWorkboxCatchHandler;
+            _configureServiceWorkerPushNotification = configureServiceWorkerPushNotification;
             _addCodeToServiceWorkers = addCodeToServiceWorkers;
         }
 
@@ -41,6 +43,7 @@ namespace cloudscribe.PwaKit.Services
         private readonly IConfigureWorkboxNetworkFirstRoutes _configureWorkboxNetworkFirstRoutes;
         private readonly IConfigureWorkboxOfflineGoogleAnalytics _configureGoogleAnalytics;
         private readonly IConfigureWorkboxCatchHandler _configureWorkboxCatchHandler;
+        private readonly IConfigureServiceWorkerPushNotification _configureServiceWorkerPushNotification;
         private readonly IEnumerable<IAddCodeToServiceWorker> _addCodeToServiceWorkers;
 
 
@@ -114,6 +117,8 @@ namespace cloudscribe.PwaKit.Services
             
             await _configureServiceWorkerReloading.AppendToServiceWorkerScript(sw, _options, context);
 
+            await _configureServiceWorkerPushNotification.AppendToServiceWorkerScript(sw, _options, context);
+
             await _configureWorkboxPreCache.AppendToServiceWorkerScript(sw, _options, context);
 
             await _configureWorkboxNetworkOnlyRoutes.AppendToServiceWorkerScript(sw, _options, context);
@@ -123,6 +128,7 @@ namespace cloudscribe.PwaKit.Services
             await _configureWorkboxNetworkFirstRoutes.AppendToServiceWorkerScript(sw, _options, context);
 
             await _configureGoogleAnalytics.AppendToServiceWorkerScript(sw, _options, context);
+
 
 
             foreach (var p in _addCodeToServiceWorkers)

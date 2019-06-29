@@ -71,7 +71,7 @@ namespace cloudscribe.PwaKit.Services
             sw.Append("self.addEventListener('notificationclick', function (event) {");
 
             sw.Append("console.log(event);");
-            sw.Append("event.notification.close();");
+            //sw.Append("event.notification.close();");
             sw.Append("});");
 
 

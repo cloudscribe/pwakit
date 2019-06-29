@@ -11,7 +11,7 @@ namespace Microsoft.Extensions.DependencyInjection
         public static PwaBuilder AddNoDbStorage(this PwaBuilder builder)
         {
 
-            builder.Services.AddNoDbSingleton<cloudscribe.PwaKit.Models.PushSubscription>();
+            builder.Services.AddNoDbSingleton<cloudscribe.PwaKit.Models.PushDeviceSubscription>();
             builder.Services.AddSingleton<IPushSubscriptionStore, PushSubscriptionStore>();
 
 

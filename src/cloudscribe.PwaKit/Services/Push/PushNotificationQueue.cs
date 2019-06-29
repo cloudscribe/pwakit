@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace cloudscribe.PwaKit.Services
 {
-    internal class PushNotificationsQueue : IPushNotificationsQueue
+    internal class PushNotificationQueue : IPushNotificationsQueue
     {
         private readonly ConcurrentQueue<PushMessage> _messages = new ConcurrentQueue<PushMessage>();
         private readonly SemaphoreSlim _messageEnqueuedSignal = new SemaphoreSlim(0);

@@ -46,6 +46,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.TryAddScoped<IConfigureServiceWorkerPushNotification, DefaultConfigureServiceWorkerPushNotification>();
 
             services.TryAddScoped<IUserIdResolver, DefaultUserIdResolver>();
+            services.TryAddScoped<ITenantIdResolver, DefaultTenantIdResolver>();
 
 
             services.AddTransient<ITagHelperComponent, ServiceWorkerTagHelperComponent>();
@@ -64,8 +65,8 @@ namespace Microsoft.Extensions.DependencyInjection
             });
             services.AddTransient<IPushNotificationService, PushServicePushNotificationService>();
 
-            services.AddSingleton<IPushNotificationsQueue, PushNotificationsQueue>();
-            services.AddSingleton<IHostedService, PushNotificationsDequeuer>();
+            services.AddSingleton<IPushNotificationsQueue, PushNotificationQueue>();
+            services.AddSingleton<IHostedService, PushNotificationBackgroundTask>();
 
 
             return builder;

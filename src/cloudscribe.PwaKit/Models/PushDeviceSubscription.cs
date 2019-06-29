@@ -2,7 +2,7 @@
 
 namespace cloudscribe.PwaKit.Models
 {
-    public class PushSubscription : Lib.Net.Http.WebPush.PushSubscription
+    public class PushDeviceSubscription : Lib.Net.Http.WebPush.PushSubscription
     {
 
         //this was copied from https://github.com/tpeczek/Demo.AspNetCore.PushNotifications
@@ -22,22 +22,25 @@ namespace cloudscribe.PwaKit.Models
             set { SetKey(Lib.Net.Http.WebPush.PushEncryptionKeyName.Auth, value); }
         }
 
-        /// <summary>
-        /// I'm not sure we ever want to use tenant identifiers as we probably only want 1 queue for all tenants
-        /// but for nodb we need at least "default" so they will go in default project folder
-        /// </summary>
+       
         public string TenantId { get; set; } = "default";
 
         public string UserId { get; set; }
 
+        public string UserAgent { get; set; }
+
+        public string CreatedFromIpAddress { get; set; }
+
+        public DateTime CreatedUtc { get; set; } = DateTime.UtcNow;
+
         public Guid Key { get; set; }
 
-        public PushSubscription()
+        public PushDeviceSubscription()
         {
 
         }
 
-        public PushSubscription(Lib.Net.Http.WebPush.PushSubscription subscription)
+        public PushDeviceSubscription(Lib.Net.Http.WebPush.PushSubscription subscription)
         {
             Key = Guid.NewGuid();
             Endpoint = subscription.Endpoint;

@@ -17,7 +17,8 @@ namespace cloudscribe.PwaKit.Controllers
             IPushSubscriptionStore subscriptionStore, 
             IPushNotificationService notificationService, 
             IPushNotificationsQueue pushNotificationsQueue,
-            IUserIdResolver userIdResolver
+            IUserIdResolver userIdResolver,
+            ITenantIdResolver tenantIdResolver
             )
         {
             _serviceWorkerBuilder = serviceWorkerBuilder;
@@ -28,6 +29,7 @@ namespace cloudscribe.PwaKit.Controllers
             _notificationService = notificationService;
             _pushNotificationsQueue = pushNotificationsQueue;
             _userIdResolver = userIdResolver;
+            _tenantIdResolver = tenantIdResolver;
         }
 
         private readonly IServiceWorkerBuilder _serviceWorkerBuilder;
@@ -38,6 +40,7 @@ namespace cloudscribe.PwaKit.Controllers
         private readonly IPushNotificationService _notificationService;
         private readonly IPushNotificationsQueue _pushNotificationsQueue;
         private readonly IUserIdResolver _userIdResolver;
+        private readonly ITenantIdResolver _tenantIdResolver;
 
         [HttpGet]
         [HttpHead]
@@ -110,8 +113,11 @@ namespace cloudscribe.PwaKit.Controllers
         {
             if(subscription != null && !string.IsNullOrEmpty(subscription.Endpoint))
             {
-                var newSub = new cloudscribe.PwaKit.Models.PushSubscription(subscription);
+                var newSub = new PushDeviceSubscription(subscription);
+                newSub.TenantId = _tenantIdResolver.GetTenantId();
                 newSub.UserId = _userIdResolver.GetUserId(User);
+                newSub.UserAgent = Request.Headers["User-Agent"].ToString();
+                newSub.CreatedFromIpAddress = HttpContext.Connection.RemoteIpAddress.ToString();
 
                 await _subscriptionStore.StoreSubscriptionAsync(newSub);
             }

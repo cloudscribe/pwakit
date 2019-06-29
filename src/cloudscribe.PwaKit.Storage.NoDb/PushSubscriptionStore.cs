@@ -1,4 +1,5 @@
 ﻿using cloudscribe.PwaKit.Interfaces;
+using cloudscribe.PwaKit.Models;
 using Lib.Net.Http.WebPush;
 using NoDb;
 using System;
@@ -11,16 +12,16 @@ namespace cloudscribe.PwaKit.Storage.NoDb
     public class PushSubscriptionStore : IPushSubscriptionStore
     {
         public PushSubscriptionStore(
-            IBasicCommands<cloudscribe.PwaKit.Models.PushSubscription> commands,
-            IBasicQueries<cloudscribe.PwaKit.Models.PushSubscription> queries
+            IBasicCommands<cloudscribe.PwaKit.Models.PushDeviceSubscription> commands,
+            IBasicQueries<cloudscribe.PwaKit.Models.PushDeviceSubscription> queries
             )
         {
             _commands = commands;
             _queries = queries;
         }
 
-        private readonly IBasicCommands<cloudscribe.PwaKit.Models.PushSubscription> _commands;
-        private readonly IBasicQueries<cloudscribe.PwaKit.Models.PushSubscription> _queries;
+        private readonly IBasicCommands<cloudscribe.PwaKit.Models.PushDeviceSubscription> _commands;
+        private readonly IBasicQueries<cloudscribe.PwaKit.Models.PushDeviceSubscription> _queries;
 
         private const string _NoDbProjectId = "default";
 
@@ -52,7 +53,7 @@ namespace cloudscribe.PwaKit.Storage.NoDb
             
         }
 
-        public async Task StoreSubscriptionAsync(cloudscribe.PwaKit.Models.PushSubscription subscription)
+        public async Task StoreSubscriptionAsync(PushDeviceSubscription subscription)
         {
             await _commands.CreateAsync(
                 _NoDbProjectId,

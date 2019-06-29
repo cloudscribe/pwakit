@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace cloudscribe.PwaKit.Services
 {
-    internal class PushNotificationsDequeuer : IHostedService
+    internal class PushNotificationBackgroundTask : IHostedService
     {
         
         private readonly IPushSubscriptionStore _pushSubscriptionStore;
@@ -16,7 +16,7 @@ namespace cloudscribe.PwaKit.Services
 
         private Task _dequeueMessagesTask;
 
-        public PushNotificationsDequeuer(
+        public PushNotificationBackgroundTask(
             IPushNotificationsQueue messagesQueue,
             IPushSubscriptionStore pushSubscriptionStore, 
             IPushNotificationService notificationService

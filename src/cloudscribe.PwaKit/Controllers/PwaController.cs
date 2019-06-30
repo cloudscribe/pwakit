@@ -93,9 +93,16 @@ namespace cloudscribe.PwaKit.Controllers
 
         #region Push Notifications
 
+        [Authorize]
+        [HttpGet]
+        public IActionResult NotificationSettings()
+        {
+            return View();
+        }
+
         [Authorize(Policy ="PushNotificationAdminPolicy")]
         [HttpGet]
-        public IActionResult TestPush()
+        public IActionResult PushConsole()
         {
             return View();
         }
@@ -144,32 +151,12 @@ namespace cloudscribe.PwaKit.Controllers
 
         [Authorize(Policy = "PushNotificationAdminPolicy")]
         [HttpPost]
-        public IActionResult BroadcastNotification([FromBody]SubmitPushMessageModel message)
+        public IActionResult BroadcastNotification([FromBody]PushMessageModel message)
         {
-            var messageModel = new PushMessageModel()
-            {
-                Body = message.Notification
-            };
+            var queueItem = new PushQueueItem(
+                message, 
+                BuiltInRecipientProviderNames.AllSubscribersPushNotificationRecipientProvider);
 
-            var contractResolver = new DefaultContractResolver
-            {
-                NamingStrategy = new CamelCaseNamingStrategy()
-            };
-            var serializationSettings = new JsonSerializerSettings()
-            {
-                ContractResolver = contractResolver
-            };
-
-            var serialized = JsonConvert.SerializeObject(messageModel, serializationSettings);
-            var content = new StringContent(serialized, Encoding.UTF8, "application/json");
-
-            var pushMessage = new PushMessage(content)
-            {
-                Topic = message.Topic,
-                Urgency = message.Urgency
-            };
-
-            var queueItem = new PushQueueItem(pushMessage, BuiltInRecipientProviderNames.AllSubscribersPushNotificationRecipientProvider);
             queueItem.TenantId = _tenantIdResolver.GetTenantId();
 
             _pushNotificationsQueue.Enqueue(queueItem);
@@ -179,32 +166,13 @@ namespace cloudscribe.PwaKit.Controllers
 
         [Authorize(Policy = "PushNotificationAdminPolicy")]
         [HttpPost]
-        public IActionResult SendNotificationToSelf([FromBody]SubmitPushMessageModel message)
+        public IActionResult SendNotificationToSelf([FromBody]PushMessageModel message)
         {
-            var messageModel = new PushMessageModel()
-            {
-                Body = message.Notification
-            };
+            
+            var queueItem = new PushQueueItem(
+                message, 
+                BuiltInRecipientProviderNames.SingleUserPushNotificationRecipientProvider);
 
-            var contractResolver = new DefaultContractResolver
-            {
-                NamingStrategy = new CamelCaseNamingStrategy()
-            };
-            var serializationSettings = new JsonSerializerSettings()
-            {
-                ContractResolver = contractResolver
-            };
-
-            var serialized = JsonConvert.SerializeObject(messageModel, serializationSettings);
-            var content = new StringContent(serialized, Encoding.UTF8, "application/json");
-
-            var pushMessage = new PushMessage(content)
-            {
-                Topic = message.Topic,
-                Urgency = message.Urgency
-            };
-
-            var queueItem = new PushQueueItem(pushMessage, BuiltInRecipientProviderNames.SingleUserPushNotificationRecipientProvider);
             queueItem.TenantId = _tenantIdResolver.GetTenantId();
             queueItem.RecipientProviderCustom1 = _userIdResolver.GetUserId(User);
 

@@ -1,12 +1,11 @@
-﻿using Lib.Net.Http.WebPush;
-using System;
+﻿using System;
 
 namespace cloudscribe.PwaKit.Models
 {
     public class PushQueueItem
     {
         public PushQueueItem(
-            PushMessage message,
+            PushMessageModel message,
             string recipientProviderName
             )
         {
@@ -25,7 +24,7 @@ namespace cloudscribe.PwaKit.Models
         public string RecipientProviderCustom3 { get; set; }
         public string RecipientProviderCustom4 { get; set; }
 
-        public PushMessage Message { get; private set; }
+        public PushMessageModel Message { get; private set; }
 
     }
 }

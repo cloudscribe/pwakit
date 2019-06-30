@@ -17,21 +17,24 @@ namespace cloudscribe.PwaKit.Services
 
             sw.Append("self.addEventListener('push', function (event) {");
 
-            sw.Append("console.log(event);");
-            //sw.Append("var json = JSON.parse(event.data.text());");
+            sw.Append("if (!(self.Notification && self.Notification.permission === 'granted')) {");
+            sw.Append("return;");
+            sw.Append("}");
+
+            //sw.Append("console.log(event);");
+           
             sw.Append("var json = event.data.json();");
             sw.Append("console.log(json);");
 
-            //sw.Append("event.waitUntil(self.registration.showNotification(json.title, {");
-            //sw.Append("body: json.body,");
-            //sw.Append("icon: json.icon");
-            //sw.Append("}));");
-            //sw.Append("});");
+            sw.Append("if(json.messageType === 'Visible') {");
+            sw.Append("event.waitUntil(self.registration.showNotification(json.title, json));");
+            sw.Append("} else {");
+            sw.Append("console.log('non visible message');");
 
-            sw.Append("event.waitUntil(self.registration.showNotification(json.title, json");
-            sw.Append("));");
+            sw.Append("return;"); //cancel notification
+            sw.Append("}");
 
-            sw.Append("});");
+            sw.Append("});"); //end push event
 
 
 

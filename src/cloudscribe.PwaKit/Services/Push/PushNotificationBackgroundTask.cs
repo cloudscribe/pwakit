@@ -1,8 +1,13 @@
 ﻿using cloudscribe.PwaKit.Interfaces;
 using cloudscribe.PwaKit.Models;
+using Lib.Net.Http.WebPush;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System.Collections.Generic;
+using System.Net.Http;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -59,7 +64,8 @@ namespace cloudscribe.PwaKit.Services
                         var subscriptions = await recipientProvider.GetRecipients(queueItem, _stopTokenSource.Token);
                         foreach(var subscription in subscriptions)
                         {
-                            await _notificationService.SendNotificationAsync(subscription, queueItem.Message, _stopTokenSource.Token);
+                            var pushMessage = FromModel(queueItem.Message);
+                            await _notificationService.SendNotificationAsync(subscription, pushMessage, _stopTokenSource.Token);
                         }
                     }
                     else
@@ -68,6 +74,32 @@ namespace cloudscribe.PwaKit.Services
                     } 
                 }
             }
+
+        }
+
+        private PushMessage FromModel(PushMessageModel model)
+        {
+            var contractResolver = new DefaultContractResolver
+            {
+                NamingStrategy = new CamelCaseNamingStrategy()
+                
+            };
+            var serializationSettings = new JsonSerializerSettings()
+            {
+                ContractResolver = contractResolver,
+                NullValueHandling = NullValueHandling.Ignore
+            };
+
+            var serialized = JsonConvert.SerializeObject(model, serializationSettings);
+            var content = new StringContent(serialized, Encoding.UTF8, "application/json");
+
+            var pushMessage = new PushMessage(content)
+            {
+                //Topic = message.Topic,
+                //Urgency = message.Urgency
+            };
+
+            return pushMessage;
 
         }
 

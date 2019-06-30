@@ -135,6 +135,16 @@
               </Children>
             </NavNode>
 
+            <NavNode key="NotificationSettings"
+              controller="Pwa"
+              action="NotificationSettings"
+              text="Notification Settings"
+              componentVisibility="child-dropdown,breadcrumbs"
+              excludeFromSearchSiteMap="true"
+              hideFromAnonymous="true">
+              <Children />
+            </NavNode>
+
 
 
           </Children>
@@ -479,6 +489,20 @@
                  excludeFromSearchSiteMap="true">
                     <Children> </Children>
                 </NavNode>
+
+            <NavNode key="PushNotificationConsole"
+                    controller="Pwa"
+                    action="PushConsole"
+                    text="Push Notification"
+                    iconCssClass="fas fa-share-square fa-fw"
+                    preservedRouteParameters=""
+                    componentVisibility="breadcrumbs,childtree,parenttree"
+                    authorizationPolicy="ViewContentHistoryPolicy"
+                    excludeFromSearchSiteMap="true">
+              <Children>
+              </Children>
+            </NavNode>
+            
 
               <NavNode key="CountryListPage"
                     controller="CoreData"

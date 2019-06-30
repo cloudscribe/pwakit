@@ -1,6 +1,8 @@
 ﻿using cloudscribe.PwaKit;
 using cloudscribe.PwaKit.Integration.SimpleContent;
+using cloudscribe.PwaKit.Integration.SimpleContent.Handlers;
 using cloudscribe.PwaKit.Interfaces;
+using cloudscribe.SimpleContent.Models.EventHandlers;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -10,6 +12,8 @@ namespace Microsoft.Extensions.DependencyInjection
         {
 
             builder.Services.AddScoped<IPreCacheItemProvider, BlogPreCacheItemProvider>();
+
+            builder.Services.AddScoped<IHandlePageUpdated, PageUpdatedNotifyServiceWorkerCache > ();
 
 
             return builder;

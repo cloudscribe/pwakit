@@ -11,27 +11,100 @@ namespace cloudscribe.PwaKit.Services
         public Task AppendToServiceWorkerScript(StringBuilder sw, PwaOptions options, HttpContext context)
         {
 
+
+            //sw.Append("const contentUpdateHandler = function(json) {");
+            //sw.Append("console.log('content update handler');");
+
+            //sw.Append("return new Promise(function(resolve, reject) {");
+
+            //sw.Append("console.log('json.data');");
+
+            //sw.Append("resolve(undefined);");
+
+
+            //sw.Append(" });"); //end promise
+            //sw.Append("}; ");
+
+
+
+
+
             sw.Append("self.importScripts('/js/push-notifications-controller.js');");
 
-            sw.Append("const pushNotificationTitle = 'PwaKit Demo';");
+
 
             sw.Append("self.addEventListener('push', function (event) {");
 
-            sw.Append("console.log(event);");
-            //sw.Append("var json = JSON.parse(event.data.text());");
+            //sw.Append("console.log(event);");
+
             sw.Append("var json = event.data.json();");
             sw.Append("console.log(json);");
 
-            //sw.Append("event.waitUntil(self.registration.showNotification(json.title, {");
-            //sw.Append("body: json.body,");
-            //sw.Append("icon: json.icon");
-            //sw.Append("}));");
+            sw.Append("if(json.messageType === 'contentupdate') {");
+            sw.Append("console.log('content update');");
+            sw.Append("const precacheCacheName = workbox.core.cacheNames.precache;");
+
+            sw.Append("console.log('pre-cache name is ' + precacheCacheName);");
+
+            sw.Append("caches.open(precacheCacheName).then(function(cache) {");
+
+            sw.Append("var key = workbox.precaching.getCacheKeyForURL(json.data);");
+
+            sw.Append("console.log('key is ' + key);");
             //sw.Append("});");
 
-            sw.Append("event.waitUntil(self.registration.showNotification(json.title, json");
-            sw.Append("));");
 
-            sw.Append("});");
+            //sw.Append("cache.delete(key).then(function(response) {");
+            
+            //sw.Append("console.log(response);");
+            ////sw.Append("console.log(window.location.href);");
+
+            //sw.Append("if(response === true) {");
+            //sw.Append("console.log('deleted from cache');");
+            //sw.Append("var refreshMessage = {");
+            //sw.Append("type: 'refresh',");
+            //sw.Append("url: json.data");
+            //sw.Append("};");
+            //sw.Append("var s = JSON.stringify(refreshMessage);");
+
+            //sw.Append("self.clients.matchAll().then(function (clients) {");
+            //sw.Append("clients.forEach(function (client) {");
+            //sw.Append("client.postMessage(s);");
+            //sw.Append("});");
+            //sw.Append("});");
+            
+            //sw.Append("}");
+
+
+
+            //sw.Append("});");
+
+
+
+            sw.Append("})");
+
+            sw.Append("};");
+
+            //sw.Append("if (!(self.Notification && self.Notification.permission === 'granted')) {");
+            //sw.Append("return;");
+            //sw.Append("}");
+
+
+            sw.Append("if(json.messageType === 'Visible') {");
+            sw.Append("event.waitUntil(self.registration.showNotification(json.title, json));");
+            sw.Append("} else {");
+            sw.Append("console.log('non visible message');");
+
+            //sw.Append("console.log(json.data);");
+
+            //sw.Append("if(contentUpdateHandler) {");
+            //sw.Append("event.waitUntil(contentUpdateHandler(json));");
+            //sw.Append("}");
+
+            sw.Append("return;"); //cancel notification
+            sw.Append("}");
+
+            sw.Append("});"); //end push event
 
 
 

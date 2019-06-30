@@ -1,6 +1,6 @@
 ﻿@inject IStringLocalizer<cloudscribe.PwaKit.PwaResources> sr
 @{
-    ViewData["Title"] = sr["Test Push Notification"];
+    ViewData["Title"] = sr["Push Notification Console"];
 }
 
 <h2>@ViewData["Title"]</h2>
@@ -24,26 +24,28 @@
 
 <div>
     <div id="dashboard-controls">
-        <button class="btn btn-success" type="button" disabled="disabled" id="subscribe">@sr["Subscribe for Push Notifications"]</button>
+        <button class="btn btn-success" type="button" disabled="disabled" id="subscribe">@sr["Subscribe to Push Notifications"]</button>
         <button class="btn btn-warning" type="button" disabled="disabled" id="unsubscribe">@sr["Unsubscribe from Push Notifications"]</button>
         <br /><hr />
-
         <div class="form-group">
-            <label for="urgency">@sr["Urgency"]</label>
-            <select id="urgency" class="form-control">
-                <option value="VeryLow">@sr["Very Low"]</option>
-                <option value="Low">@sr["Low"]</option>
-                <option value="Normal" selected="selected">@sr["Normal"]</option>
-                <option value="High">@sr["High"]</option>
-            </select>
+            <label for="title">@sr["Title"]</label>
+            <input type="text" id="title" size="32" maxlength="32" class="form-control" />
         </div>
         <div class="form-group">
-            <label for="topic">@sr["Topic"]</label>
-            <input type="text" id="topic" size="32" maxlength="32" class="form-control" />
+            <label for="body">@sr["Body"]</label>
+            <input id="body" class="form-control" />
         </div>
         <div class="form-group">
-            <label for="notification">@sr["Message"]</label>
-            <input id="notification" class="form-control" />
+            <label for="icon">@sr["Icon"]</label>
+            <input id="icon" class="form-control" value="/manifest/pwa-192x192.png" />
+        </div>
+        <div class="form-group">
+            <label for="badge">@sr["Badge"]</label>
+            <input id="badge" class="form-control" placeholder="a small monochrome icon, currently only supported on Chrome for Android, used to portray a little more information to the user about where the notification is from." />
+        </div>
+        <div class="form-group">
+            <label for="image">@sr["Image"]</label>
+            <input id="image" class="form-control" placeholder="an image url can be provided" />
         </div>
 
         <button class="btn btn-primary" type="button" id="send">@sr["Broadcast Push Notification"]</button>

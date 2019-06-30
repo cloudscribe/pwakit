@@ -4,7 +4,7 @@
     let consoleOutput;
     let serviceWorkerRegistration;
     let subscribeButton, unsubscribeButton;
-    let topicInput, urgencySelect, notificationInput;
+    let titleInput, bodyInput, iconInput, badgeInput, imageInput;
 
     function initializeConsole() {
         consoleOutput = document.getElementById('output');
@@ -32,9 +32,13 @@
         unsubscribeButton = document.getElementById('unsubscribe');
         unsubscribeButton.addEventListener('click', unsubscribeFromPushNotifications);
 
-        topicInput = document.getElementById('topic');
-        notificationInput = document.getElementById('notification');
-        urgencySelect = document.getElementById('urgency');
+        titleInput = document.getElementById('title');
+        bodyInput = document.getElementById('body');
+        iconInput = document.getElementById('icon');
+        badgeInput = document.getElementById('badge');
+        imageInput = document.getElementById('image');
+
+
         document.getElementById('send').addEventListener('click', broadcastNotification);
 
         document.getElementById('sendSelf').addEventListener('click', sendNotificationToSelf);
@@ -123,7 +127,7 @@
     }
 
     function broadcastNotification() {
-        let payload = { topic: topicInput.value, notification: notificationInput.value, urgency: urgencySelect.value };
+        let payload = { title: titleInput.value, body: bodyInput.value, icon: iconInput.value, badge: badgeInput.value, image: imageInput.value };
 
         fetch('/pwa/broadcastnotification', {
             method: 'POST',
@@ -142,7 +146,7 @@
     }
 
     function sendNotificationToSelf() {
-        let payload = { topic: topicInput.value, notification: notificationInput.value, urgency: urgencySelect.value };
+        let payload = { title: titleInput.value, body: bodyInput.value, icon: iconInput.value, badge: badgeInput.value, image: imageInput.value };
 
         fetch('/pwa/sendnotificationtoself', {
             method: 'POST',

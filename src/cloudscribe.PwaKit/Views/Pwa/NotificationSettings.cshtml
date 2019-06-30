@@ -1,0 +1,15 @@
+﻿@inject IStringLocalizer<cloudscribe.PwaKit.PwaResources> sr
+@{
+    ViewData["Title"] = sr["Push Notification Settings"];
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<button class="btn btn-success" type="button" disabled="disabled" id="subscribe">@sr["Subscribe to Push Notifications"]</button>
+<button class="btn btn-warning" type="button" disabled="disabled" id="unsubscribe">@sr["Unsubscribe from Push Notifications"]</button>
+
+@section Scripts {
+    <script src="/js/push-notifications-controller.js" asp-append-version="true"></script>
+    <script src="/js/push-user-settings.js" asp-append-version="true"></script>
+}
+

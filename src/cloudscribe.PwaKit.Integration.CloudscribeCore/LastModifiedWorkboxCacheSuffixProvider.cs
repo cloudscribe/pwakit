@@ -28,7 +28,7 @@ namespace cloudscribe.PwaKit.Integration.CloudscribeCore
 
             var rootNode = await _siteMapTreeBuilder.GetTree();
             var maxContentDate = rootNode.Flatten().Where(x => x.LastModifiedUtc.HasValue).Max(x => x.LastModifiedUtc.Value);
-            if(maxContentDate > _siteContext.LastModifiedUtc)
+            if (maxContentDate > _siteContext.LastModifiedUtc)
             {
                 return maxContentDate.ToString("s");
             }

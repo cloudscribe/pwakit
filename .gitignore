@@ -332,4 +332,5 @@ ASALocalRun/
 **/dp_keys/**
 **/nodb_storage/projects/default/logitem/**
 **/nodb_storage/projects/**/userlocation/**
+**/nodb_storage/projects/**/contenthistory/**
 **/nodb_storage/projects/**/pushdevicesubscription/**

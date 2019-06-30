@@ -28,9 +28,15 @@ namespace cloudscribe.PwaKit.Integration.SimpleContent.Handlers
             var message = new PushMessageModel()
             {
                 MessageType = "contentupdate",
-                Body = "/" + page.Slug
+                Body = "Content updated",
+                Data = "/" + page.Slug
 
             };
+
+            if(page.Slug == "home")
+            {
+                message.Data = "/";
+            }
 
             var queueItem = new PushQueueItem(
                 message,

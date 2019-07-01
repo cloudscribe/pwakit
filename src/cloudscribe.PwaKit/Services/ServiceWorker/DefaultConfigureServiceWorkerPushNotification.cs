@@ -12,22 +12,6 @@ namespace cloudscribe.PwaKit.Services
         {
 
 
-            //sw.Append("const contentUpdateHandler = function(json) {");
-            //sw.Append("console.log('content update handler');");
-
-            //sw.Append("return new Promise(function(resolve, reject) {");
-
-            //sw.Append("console.log('json.data');");
-
-            //sw.Append("resolve(undefined);");
-
-
-            //sw.Append(" });"); //end promise
-            //sw.Append("}; ");
-
-
-
-
 
             sw.Append("self.importScripts('/js/push-notifications-controller.js');");
 
@@ -35,32 +19,88 @@ namespace cloudscribe.PwaKit.Services
 
             sw.Append("self.addEventListener('push', function (event) {");
 
-            //sw.Append("console.log(event);");
-
+            
             sw.Append("var json = event.data.json();");
-            sw.Append("console.log(json);");
 
-            sw.Append("if(json.messageType === 'contentupdate') {");
-            sw.Append("console.log('content update');");
+            if(options.EnableServiceWorkerConsoleLog)
+            {
+                sw.Append("console.log(json);");
+            }
+
             sw.Append("const precacheCacheName = workbox.core.cacheNames.precache;");
+            if (options.EnableServiceWorkerConsoleLog)
+            {
+                sw.Append("console.log('pre-cache name is ' + precacheCacheName);");
+            }
 
-            sw.Append("console.log('pre-cache name is ' + precacheCacheName);");
+
+            // --- content add begin
+
+            sw.Append("if(json.messageType === 'newcontent') {");
+            if (options.EnableServiceWorkerConsoleLog)
+            {
+                sw.Append("console.log('content add');");
+            }
 
             sw.Append("caches.open(precacheCacheName).then(function(cache) {");
 
+            sw.Append("fetch(json.data).then(function (response) {");
+            sw.Append("cache.put(json.data, response.clone()).then(function () {");
+            if (options.EnableServiceWorkerConsoleLog)
+            {
+                sw.Append("console.log('added item to cache');");
+            }
+
+            sw.Append("});");
+            sw.Append("});");
+
+
+            sw.Append("});"); //end cache open
+            sw.Append("}");
+            // --- content add end
+
+
+            // --- content update begin
+
+            sw.Append("if(json.messageType === 'contentupdate') {");
+            if (options.EnableServiceWorkerConsoleLog)
+            {
+                sw.Append("console.log('content update');");
+            }
+               
+            sw.Append("caches.open(precacheCacheName).then(function(cache) {");
+
+
             sw.Append("var key = workbox.precaching.getCacheKeyForURL(json.data);");
-
-            sw.Append("console.log('key is ' + key);");
-            //sw.Append("});");
-
-
-            //sw.Append("cache.delete(key).then(function(response) {");
+            if (options.EnableServiceWorkerConsoleLog)
+            {
+                sw.Append("console.log('key is ' + key);");
+            }
             
-            //sw.Append("console.log(response);");
-            ////sw.Append("console.log(window.location.href);");
+            sw.Append("cache.delete(key).then(function(response) {");
 
-            //sw.Append("if(response === true) {");
-            //sw.Append("console.log('deleted from cache');");
+            if (options.EnableServiceWorkerConsoleLog)
+            {
+                sw.Append("console.log(response);");
+            }
+                
+            sw.Append("if(response === true) {");
+            if (options.EnableServiceWorkerConsoleLog)
+            {
+                sw.Append("console.log('deleted from cache');");
+            }
+                
+
+            sw.Append("fetch(key).then(function (response) {");
+            sw.Append("cache.put(key, response.clone()).then(function () {");
+            if (options.EnableServiceWorkerConsoleLog)
+            {
+                sw.Append("console.log('updated cache');");
+            }
+                
+            sw.Append("});");
+            sw.Append("});");
+
             //sw.Append("var refreshMessage = {");
             //sw.Append("type: 'refresh',");
             //sw.Append("url: json.data");
@@ -72,18 +112,58 @@ namespace cloudscribe.PwaKit.Services
             //sw.Append("client.postMessage(s);");
             //sw.Append("});");
             //sw.Append("});");
-            
-            //sw.Append("}");
+
+            sw.Append("}"); //end if delete response === true
+           
+            sw.Append("});"); //end delete
 
 
 
-            //sw.Append("});");
+            sw.Append("})"); //end cache open
+
+            sw.Append("};"); //end if contentupdate
+
+            /// --- content update end
+
+            /// -- content delete
+
+            sw.Append("if(json.messageType === 'contentdelete') {");
+            if (options.EnableServiceWorkerConsoleLog)
+            {
+                sw.Append("console.log('content delete');");
+            }
+
+            sw.Append("caches.open(precacheCacheName).then(function(cache) {");
+
+            sw.Append("var key = workbox.precaching.getCacheKeyForURL(json.data);");
+            if (options.EnableServiceWorkerConsoleLog)
+            {
+                sw.Append("console.log('key is ' + key);");
+            }
+
+            sw.Append("cache.delete(key).then(function(response) {");
+
+            if (options.EnableServiceWorkerConsoleLog)
+            {
+                sw.Append("console.log(response);");
+            }
+
+            sw.Append("if(response === true) {");
+            if (options.EnableServiceWorkerConsoleLog)
+            {
+                sw.Append("console.log('removed item from cache');");
+            }
+            sw.Append("}"); //end if true
+
+            sw.Append("});"); //end delete
 
 
+            sw.Append("});"); //end cache open
+            sw.Append("}");
 
-            sw.Append("})");
+            /// --- content delete end
 
-            sw.Append("};");
+
 
             //sw.Append("if (!(self.Notification && self.Notification.permission === 'granted')) {");
             //sw.Append("return;");

@@ -8,37 +8,41 @@ using System.Threading.Tasks;
 
 namespace cloudscribe.PwaKit.Integration.SimpleContent.Handlers
 {
-    public class PageUpdatedNotifyServiceWorkerCache : IHandlePageUpdated
+    public class PageDeleteNotifyServiceWorkerCache : IHandlePagePreDelete
     {
-        public PageUpdatedNotifyServiceWorkerCache(
+        public PageDeleteNotifyServiceWorkerCache(
             IPushNotificationsQueue pushNotificationsQueue,
+            IPageQueries pageQueries,
+            IProjectSettingsResolver projectSettingsResolver,
             IPageUrlResolver pageUrlResolver
             )
         {
             _pushNotificationsQueue = pushNotificationsQueue;
+            _pageQueries = pageQueries;
+            _projectSettingsResolver = projectSettingsResolver;
             _pageUrlResolver = pageUrlResolver;
         }
 
         private readonly IPushNotificationsQueue _pushNotificationsQueue;
+        private readonly IPageQueries _pageQueries;
+        private readonly IProjectSettingsResolver _projectSettingsResolver;
         private readonly IPageUrlResolver _pageUrlResolver;
 
-        public async Task Handle(
-            string projectId,
-            IPage page,
-            CancellationToken cancellationToken = default(CancellationToken)
-            )
+        public async Task Handle(string projectId, string pageId, CancellationToken cancellationToken = default(CancellationToken))
         {
+            var page = await _pageQueries.GetPage(projectId, pageId, cancellationToken);
+
             var url = await _pageUrlResolver.ResolvePageUrl(page);
 
             var message = new PushMessageModel()
             {
-                MessageType = "contentupdate",
-                Body = "Content updated",
+                MessageType = "contentdelete",
+                Body = "Content deleted",
                 Data = url
 
             };
 
-            if(page.Slug == "home")
+            if (page.Slug == "home")
             {
                 message.Data = "/";
             }
@@ -51,12 +55,9 @@ namespace cloudscribe.PwaKit.Integration.SimpleContent.Handlers
 
             _pushNotificationsQueue.Enqueue(queueItem);
 
-            //TODO: need to extract all image urls and sned message to sw to add to cache if not in there already
-            // or maybe need an event for file system when files added or deleted
 
-            
 
         }
-
     }
+
 }

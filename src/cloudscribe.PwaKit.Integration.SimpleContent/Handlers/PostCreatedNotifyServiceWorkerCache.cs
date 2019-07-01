@@ -8,55 +8,51 @@ using System.Threading.Tasks;
 
 namespace cloudscribe.PwaKit.Integration.SimpleContent.Handlers
 {
-    public class PageUpdatedNotifyServiceWorkerCache : IHandlePageUpdated
+    public class PostCreatedNotifyServiceWorkerCache : IHandlePostCreated
     {
-        public PageUpdatedNotifyServiceWorkerCache(
+        public PostCreatedNotifyServiceWorkerCache(
             IPushNotificationsQueue pushNotificationsQueue,
-            IPageUrlResolver pageUrlResolver
+            IProjectSettingsResolver projectSettingsResolver,
+            IBlogUrlResolver blogUrlResolver
             )
         {
             _pushNotificationsQueue = pushNotificationsQueue;
-            _pageUrlResolver = pageUrlResolver;
+            _projectSettingsResolver = projectSettingsResolver;
+            _blogUrlResolver = blogUrlResolver;
         }
 
         private readonly IPushNotificationsQueue _pushNotificationsQueue;
-        private readonly IPageUrlResolver _pageUrlResolver;
+        private readonly IProjectSettingsResolver _projectSettingsResolver;
+        private readonly IBlogUrlResolver _blogUrlResolver;
 
-        public async Task Handle(
-            string projectId,
-            IPage page,
-            CancellationToken cancellationToken = default(CancellationToken)
-            )
+        public async Task Handle(string projectId, IPost post, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var url = await _pageUrlResolver.ResolvePageUrl(page);
+            var project = await _projectSettingsResolver.GetCurrentProjectSettings(cancellationToken);
+
+            var url = await _blogUrlResolver.ResolvePostUrl(post, project);
 
             var message = new PushMessageModel()
             {
-                MessageType = "contentupdate",
-                Body = "Content updated",
+                MessageType = "newcontent",
+                Body = "New content",
                 Data = url
 
             };
-
-            if(page.Slug == "home")
-            {
-                message.Data = "/";
-            }
-
+            
             var queueItem = new PushQueueItem(
                 message,
                 BuiltInRecipientProviderNames.AllSubscribersPushNotificationRecipientProvider);
 
-            queueItem.TenantId = page.ProjectId;
+            queueItem.TenantId = post.BlogId;
 
             _pushNotificationsQueue.Enqueue(queueItem);
+
+
 
             //TODO: need to extract all image urls and sned message to sw to add to cache if not in there already
             // or maybe need an event for file system when files added or deleted
 
-            
 
         }
-
     }
 }

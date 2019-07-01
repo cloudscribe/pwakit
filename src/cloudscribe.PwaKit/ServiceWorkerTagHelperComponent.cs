@@ -43,7 +43,7 @@ namespace cloudscribe.PwaKit
             var urlHelper = _urlHelperFactory.GetUrlHelper(_actionContextAccesor.ActionContext);
             var url = urlHelper.Action("Init", "Pwa");
 
-            var script = "\r\n\t<script" + (_options.EnableCspNonce ? PwaConstants.CspNonce : string.Empty) + " src='" + url + "'></script>";
+            var script = "\r\n\t<script type=\"module\" " + (_options.EnableCspNonce ? PwaConstants.CspNonce : string.Empty) + " src='" + url + "'></script>";
 
             return script;
         }

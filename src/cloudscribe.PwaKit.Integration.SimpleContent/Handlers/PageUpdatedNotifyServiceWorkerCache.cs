@@ -52,7 +52,7 @@ namespace cloudscribe.PwaKit.Integration.SimpleContent.Handlers
             _pushNotificationsQueue.Enqueue(queueItem);
 
             //TODO: need to extract all image urls and sned message to sw to add to cache if not in there already
-
+            // or maybe need an event for file system when files added or deleted
 
             
 

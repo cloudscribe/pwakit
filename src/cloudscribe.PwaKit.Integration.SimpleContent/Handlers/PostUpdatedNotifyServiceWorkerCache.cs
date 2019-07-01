@@ -3,9 +3,6 @@ using cloudscribe.PwaKit.Models;
 using cloudscribe.PwaKit.Services;
 using cloudscribe.SimpleContent.Models;
 using cloudscribe.SimpleContent.Models.EventHandlers;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -53,6 +50,7 @@ namespace cloudscribe.PwaKit.Integration.SimpleContent.Handlers
 
 
             //TODO: need to extract all image urls and sned message to sw to add to cache if not in there already
+            // or maybe need an event for file system when files added or deleted
 
 
         }

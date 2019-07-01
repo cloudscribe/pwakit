@@ -54,13 +54,20 @@ namespace cloudscribe.PwaKit.Services
             //sw.Append("});");
 
 
-            //sw.Append("cache.delete(key).then(function(response) {");
+            sw.Append("cache.delete(key).then(function(response) {");
             
-            //sw.Append("console.log(response);");
-            ////sw.Append("console.log(window.location.href);");
+            sw.Append("console.log(response);");
+            //sw.Append("console.log(window.location.href);");
 
-            //sw.Append("if(response === true) {");
-            //sw.Append("console.log('deleted from cache');");
+            sw.Append("if(response === true) {");
+            sw.Append("console.log('deleted from cache');");
+
+            sw.Append("fetch(key).then(function (response) {");
+            sw.Append("cache.put(key, response.clone()).then(function () {");
+            sw.Append("console.log('updated cache');");
+            sw.Append("});");
+            sw.Append("});");
+
             //sw.Append("var refreshMessage = {");
             //sw.Append("type: 'refresh',");
             //sw.Append("url: json.data");
@@ -72,12 +79,12 @@ namespace cloudscribe.PwaKit.Services
             //sw.Append("client.postMessage(s);");
             //sw.Append("});");
             //sw.Append("});");
-            
-            //sw.Append("}");
+
+            sw.Append("}"); //end if
 
 
 
-            //sw.Append("});");
+            sw.Append("});");
 
 
 

@@ -70,6 +70,8 @@ namespace cloudscribe.PwaKit
         /// </summary>
         public string WorkBoxUrl { get; set; } = "https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js";
 
+        public string WorkBoxWindowModuleUrl { get; set; } = "https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-window.prod.mjs";
+
 
 
     }

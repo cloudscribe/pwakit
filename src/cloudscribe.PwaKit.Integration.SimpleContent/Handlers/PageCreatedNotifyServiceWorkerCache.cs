@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace cloudscribe.PwaKit.Integration.SimpleContent.Handlers
 {
-    public class PageUpdatedNotifyServiceWorkerCache : IHandlePageUpdated
+    public class PageCreatedNotifyServiceWorkerCache : IHandlePageCreated
     {
-        public PageUpdatedNotifyServiceWorkerCache(
+        public PageCreatedNotifyServiceWorkerCache(
             IPushNotificationsQueue pushNotificationsQueue,
             IPageUrlResolver pageUrlResolver
             )
@@ -22,23 +22,19 @@ namespace cloudscribe.PwaKit.Integration.SimpleContent.Handlers
         private readonly IPushNotificationsQueue _pushNotificationsQueue;
         private readonly IPageUrlResolver _pageUrlResolver;
 
-        public async Task Handle(
-            string projectId,
-            IPage page,
-            CancellationToken cancellationToken = default(CancellationToken)
-            )
+        public async Task Handle(string projectId, IPage page, CancellationToken cancellationToken = default(CancellationToken))
         {
             var url = await _pageUrlResolver.ResolvePageUrl(page);
 
             var message = new PushMessageModel()
             {
-                MessageType = "contentupdate",
-                Body = "Content updated",
+                MessageType = "newcontent",
+                Body = "New content",
                 Data = url
 
             };
 
-            if(page.Slug == "home")
+            if (page.Slug == "home")
             {
                 message.Data = "/";
             }
@@ -54,9 +50,6 @@ namespace cloudscribe.PwaKit.Integration.SimpleContent.Handlers
             //TODO: need to extract all image urls and sned message to sw to add to cache if not in there already
 
 
-            
-
         }
-
     }
 }

@@ -54,7 +54,20 @@ namespace cloudscribe.PwaKit.Services
                 comma = ",";
             }
 
-            sw.Append("]);");
+            sw.Append("]");
+
+            sw.Append(",{"); //begin options
+
+            sw.Append("plugins: [");
+            sw.Append("new workbox.broadcastUpdate.Plugin({");
+            sw.Append("channelName: 'app-channel'");
+            sw.Append("}),");
+            sw.Append("]");
+
+            sw.Append("}"); //end options
+
+
+            sw.Append(");");
 
 
             //sw.Append("self.addEventListener('install', (event) => {");

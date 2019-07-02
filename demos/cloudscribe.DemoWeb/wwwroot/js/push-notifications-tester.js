@@ -1,4 +1,4 @@
-﻿const PushNotifications = (function () {
+﻿const PushNotificationTester = (function () {
     let applicationServerPublicKey;
 
     let consoleOutput;
@@ -181,5 +181,13 @@
     };
 })();
 
-window.swRegisteredHandler = PushNotifications.initialize;
+if ('serviceWorker' in navigator) {
+
+    navigator.serviceWorker.ready.then(function (serviceWorkerRegistration) {
+        PushNotificationTester.initialize(serviceWorkerRegistration);
+    });
+
+}
+
+//window.swRegisteredHandler = PushNotifications.initialize;
 

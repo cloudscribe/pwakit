@@ -12,7 +12,7 @@ namespace Microsoft.Extensions.DependencyInjection
         {
 
             builder.Services.AddScoped<IPwaRouteNameProvider, PwaRouteNameProvider>();
-            builder.Services.AddScoped<IWorkboxCacheSuffixProvider, LastModifiedWorkboxCacheSuffixProvider>();
+            //builder.Services.AddScoped<IWorkboxCacheSuffixProvider, LastModifiedWorkboxCacheSuffixProvider>();
             builder.Services.AddScoped<IUserIdResolver, UserIdResolver>();
             builder.Services.AddScoped<ITenantIdResolver, TenantIdResolver>();
 

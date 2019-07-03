@@ -21,26 +21,34 @@ namespace cloudscribe.PwaKit.Services
         {
             var cacheSuffix = await _workboxCacheSuffixProvider.GetWorkboxCacheSuffix();
 
-            if (context.User.Identity.IsAuthenticated)
-            {
-                sw.Append("workbox.core.setCacheNameDetails({");
-                sw.Append("prefix: 'web-app-auth',");
-                sw.Append("suffix: '" + cacheSuffix + "',");
-                sw.Append("precache: 'auth-user-precache',");
-                sw.Append("runtime: 'auth-user-runtime-cache'");
-                sw.Append("});");
+            //if (context.User.Identity.IsAuthenticated)
+            //{
+            //    sw.Append("workbox.core.setCacheNameDetails({");
+            //    sw.Append("prefix: 'web-app-auth',");
+            //    sw.Append("suffix: '" + cacheSuffix + "',");
+            //    sw.Append("precache: 'auth-user-precache',");
+            //    sw.Append("runtime: 'auth-user-runtime-cache'");
+            //    sw.Append("});");
 
 
-            }
-            else
-            {
-                sw.Append("workbox.core.setCacheNameDetails({");
-                sw.Append("prefix: 'web-app-anon',");
-                sw.Append("suffix: '" + cacheSuffix + "',");
-                sw.Append("precache: 'unauth-user-precache',");
-                sw.Append("runtime: 'unauth-user-runtime-cache'");
-                sw.Append("});");
-            }
+            //}
+            //else
+            //{
+            //    sw.Append("workbox.core.setCacheNameDetails({");
+            //    sw.Append("prefix: 'web-app-anon',");
+            //    sw.Append("suffix: '" + cacheSuffix + "',");
+            //    sw.Append("precache: 'unauth-user-precache',");
+            //    sw.Append("runtime: 'unauth-user-runtime-cache'");
+            //    sw.Append("});");
+            //}
+
+            //no longer need separate cahce for auth vs anonymous
+            sw.Append("workbox.core.setCacheNameDetails({");
+            sw.Append("prefix: 'web-app',");
+            sw.Append("suffix: '" + cacheSuffix + "',");
+            sw.Append("precache: 'precache',");
+            sw.Append("runtime: 'runtime-cache'");
+            sw.Append("});");
 
 
             //https://developers.google.com/web/tools/workbox/reference-docs/latest/workbox.core

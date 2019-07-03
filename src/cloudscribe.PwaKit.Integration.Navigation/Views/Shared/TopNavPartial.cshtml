@@ -1,0 +1,4 @@
+﻿@model string
+@using cloudscribe.Web.Navigation
+@await Component.InvokeAsync("Navigation", new { viewName = "Bootstrap4TopNavWithDropdowns", filterName = NamedNavigationFilters.TopNav, startingNodeKey = "" })
+<partial name="_PwaLoginPartialWithDropdowns" model="@Model" />

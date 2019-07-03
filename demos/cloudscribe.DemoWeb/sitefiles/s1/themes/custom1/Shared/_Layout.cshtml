@@ -57,13 +57,13 @@
                 @if (!string.IsNullOrWhiteSpace(Tenant.LogoUrl))
                 {
                     <div>
-                         <partial name="CmsSiteLogoPartial" model="@Tenant" />
+                        <partial name="CmsSiteLogoPartial" model="@Tenant" />
                     </div>
                 }
                 @if (Tenant.ShowSiteNameLink)
                 {
                     <div class="align-self-center pt-4 pt-sm-0">
-                         <partial name="CmsSiteTitlePartial" model="@Tenant" />
+                        <partial name="CmsSiteTitlePartial" model="@Tenant" />
                     </div>
                 }
                 @if (!string.IsNullOrWhiteSpace(Tenant.HeaderContent))
@@ -80,8 +80,18 @@
             </button>
 
             <div class="collapse navbar-collapse bg-dark pl-2" id="navbarNavDropdown">
-                @await Component.InvokeAsync("Navigation", new { viewName = "Bootstrap4TopNavWithDropdowns", filterName = NamedNavigationFilters.TopNav, startingNodeKey = "" })
-                <partial name="_LoginPartialWithDropdowns" />
+                <partial name="TopNavPartial" model="@Context.Request.PathAndQuery()" />
+                <form id="frmTopNav" style="display:none;" class="form-inline" role="form" asp-controller="PwaNav" asp-action="TopNav" method="get" asp-antiforgery="false"
+                      data-ajax="true"
+                      data-ajax-method="GET"
+                      data-ajax-success="navLoaded"
+                      data-ajax-failure="navLoadFail"
+                      data-ajax-mode="replace"
+                      data-ajax-update="#navbarNavDropdown">
+                    <input type="hidden" name="currentUrl" value="@Context.Request.PathAndQuery()" />
+                    <button id="btnGetNav" type="submit" class="collapse" aria-hidden="true">Load Menu</button>
+                </form>
+
             </div>
         </nav>
     </header>
@@ -123,39 +133,44 @@
         </div>
         <div class="d-flex flex-wrap flex-grow justify-content-center">
             <div class="p-2">
-            <ul class="list-unstyled d-flex flex-wrap">
-                <li class=" mr-2">
-                    <a class="text-nowrap" href="@siteRoot/sitemap">Site Map</a>
-                </li>
-                @if (Tenant != null && !string.IsNullOrWhiteSpace(Tenant.PrivacyPolicy))
-                {
-                    <li class="border-left pl-2 mr-2">
-                        <a asp-controller="Privacy" asp-action="Index">Privacy Policy</a>
+                <ul class="list-unstyled d-flex flex-wrap">
+                    <li class=" mr-2">
+                        <a class="text-nowrap" href="@siteRoot/sitemap">Site Map</a>
                     </li>
-                }
-                <li class="border-left pl-2 mr-2">
-                    @* you are free to remove the powered by cloudscribe link but we appreciate it if you choose to keep it! *@
-                    <a class="text-nowrap" target="_blank" href="https://www.cloudscribe.com/?utm_source=@Context.Request.Host.Value&amp;utm_medium=referral&amp;utm_campaign=poweredbycloudscribe">Powered by cloudscribe</a>
-                </li>
-            </ul>
-        </div>
-        <div class="pl-sm-2  text-center w-100"><span class="text-nowrap">Copyright &copy; @DateTime.Now.Year</span><span class="d-none d-sm-inline"> - </span><span> @(Tenant?.SiteName ?? "Sample")</span></div>
-        <partial name="_CookieConsentRevokePartial" />
+                    @if (Tenant != null && !string.IsNullOrWhiteSpace(Tenant.PrivacyPolicy))
+                    {
+                        <li class="border-left pl-2 mr-2">
+                            <a asp-controller="Privacy" asp-action="Index">Privacy Policy</a>
+                        </li>
+                    }
+                    <li class="border-left pl-2 mr-2">
+                        @* you are free to remove the powered by cloudscribe link but we appreciate it if you choose to keep it! *@
+                        <a class="text-nowrap" target="_blank" href="https://www.cloudscribe.com/?utm_source=@Context.Request.Host.Value&amp;utm_medium=referral&amp;utm_campaign=poweredbycloudscribe">Powered by cloudscribe</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="pl-sm-2  text-center w-100"><span class="text-nowrap">Copyright &copy; @DateTime.Now.Year</span><span class="d-none d-sm-inline"> - </span><span> @(Tenant?.SiteName ?? "Sample")</span></div>
+            <partial name="_CookieConsentRevokePartial" />
 
         </div>
-        
+
     </footer>
     @RenderSection("Toolbar", required: false)
     <environment names="Development">
         <script src="~/js/jquery.min.js" cs-resolve-theme-resource="true" cs-tenant="@Tenant"></script>
         <script src="~/js/bootstrap.bundle.js" cs-resolve-theme-resource="true" cs-tenant="@Tenant"></script>
         <script src="~/cr/js/bs4.smartmenus.min.js"></script>
+        <script src="~/cr/js/show-if-url-check-true-unobtrusive.js" asp-append-version="true"></script>
     </environment>
     <environment names="Staging,Production">
         <script src="~/js/jquery.min.js" cs-resolve-theme-resource="true" cs-tenant="@Tenant"></script>
         <script src="~/js/bootstrap.bundle.min.js" cs-resolve-theme-resource="true" cs-tenant="@Tenant"></script>
         <script src="~/cr/js/bs4.smartmenus.min.js"></script>
+        <script src="~/cr/js/show-if-url-check-true-unobtrusive.min.js" asp-append-version="true"></script>
     </environment>
+    <script src="~/cr/js/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/js/top-nav-loader.js" asp-append-version="true"></script>
+
     @RenderSection("Bottom", required: false)
     @RenderSection("Scripts", required: false)
     <add-this profile-id="@Tenant.AddThisDotComUsername" async></add-this>

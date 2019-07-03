@@ -31,15 +31,15 @@
 
   <ItemGroup Label="Package References">
 
-    <PackageReference Include="cloudscribe.Core.Web" Version="3.1.91" />
+    <PackageReference Include="cloudscribe.Core.Web" Version="3.1.92" />
     <PackageReference Include="cloudscribe.Core.CompiledViews.Bootstrap4" Version="3.1.45" />
-    <PackageReference Include="cloudscribe.Web.StaticFiles" Version="1.1.6" />
+    <PackageReference Include="cloudscribe.Web.StaticFiles" Version="1.1.8" />
     <PackageReference Include="cloudscribe.Core.Storage.NoDb" Version="3.0.18" />
     
-    <PackageReference Include="cloudscribe.Core.SimpleContent" Version="4.0.14" />
-    <PackageReference Include="cloudscribe.SimpleContent.Web" Version="4.0.38" />
+    <PackageReference Include="cloudscribe.Core.SimpleContent" Version="4.0.15" />
+    <PackageReference Include="cloudscribe.SimpleContent.Web" Version="4.0.39" />
     <PackageReference Include="cloudscribe.Core.SimpleContent.CompiledViews.Bootstrap4" Version="4.0.15" />
-    <PackageReference Include="cloudscribe.SimpleContent.CompiledViews.Bootstrap4" Version="4.0.32" />
+    <PackageReference Include="cloudscribe.SimpleContent.CompiledViews.Bootstrap4" Version="4.0.33" />
     <PackageReference Include="cloudscribe.SimpleContent.MetaWeblog" Version="4.0.9" />
     <PackageReference Include="cloudscribe.SimpleContent.Syndication" Version="4.0.6" />
     <PackageReference Include="cloudscribe.SimpleContent.ContentTemplates.Bootstrap4" Version="1.0.18" />

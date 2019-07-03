@@ -22,6 +22,14 @@ namespace cloudscribe.PwaKit.Services
             var offlineUrl = _offlinePageUrlProvider.GetOfflineUrl();
 
             sw.Append("workbox.routing.setCatchHandler(({event}) => {");
+
+            sw.Append("console.log(event);");
+
+            sw.Append("if(event.request.url.indexOf('pwanav/topnav') > -1) {");
+            sw.Append("return Response.error();");
+
+            sw.Append("}");
+
             // The FALLBACK_URL entries must be added to the cache ahead of time, either via runtime
             // or precaching.
             // If they are precached, then call workbox.precaching.getCacheKeyForURL(FALLBACK_URL)

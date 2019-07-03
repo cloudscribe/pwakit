@@ -50,7 +50,12 @@ namespace cloudscribe.PwaKit.Integration.CloudscribeCore
 
         public async Task<List<string>> GetNetworkOnlyUrls(PwaOptions options, HttpContext context)
         {
-            var result = new List<string>();
+            var result = new List<string>()
+            {
+                "/blog/canedit",
+                "/page/canedit",
+                "/pwa/topnav"
+            };
 
             if (!context.User.Identity.IsAuthenticated)
             {

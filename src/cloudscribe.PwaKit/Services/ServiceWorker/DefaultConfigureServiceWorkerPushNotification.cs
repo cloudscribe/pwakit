@@ -35,6 +35,12 @@ namespace cloudscribe.PwaKit.Services
             //sw.Append("})");
             //sw.Append("} ");
 
+            ///try indexeddb
+            sw.Append("if(self.indexedDB) { console.log('IndexedDB is supported'); } ");
+            sw.Append("let idb = self.indexedDB; ");
+
+
+
             sw.Append("function sendMessage(msg) {");
             sw.Append("const channel = new BroadcastChannel('app-channel');");
             sw.Append("channel.postMessage(msg);");
@@ -54,24 +60,97 @@ namespace cloudscribe.PwaKit.Services
             sw.Append("} else {");
 
             sw.Append("console.log('building function');");
-            sw.Append("var messageBuffer = [];");
+            //sw.Append("var messageBuffer = [];");
             sw.Append("priv = {");
 
             sw.Append("addMessage : function(msg) {");
-            sw.Append("messageBuffer.push(msg);");
+            //sw.Append("messageBuffer.push(msg);");
             sw.Append("console.log('add message');");
-            sw.Append("console.log(messageBuffer);");
+            //sw.Append("console.log(messageBuffer);");
+            
+            sw.Append("var request = idb.open('sw_DB', 1);");
+
+            sw.Append("request.onsuccess = function(event) {");
+
+            sw.Append("var db = event.target.result;");
+            sw.Append("var transaction = db.transaction('clientmessages', 'readwrite');");
+
+            sw.Append("transaction.onsuccess = function(event) {");
+            sw.Append("console.log('[Transaction] ALL DONE!');");
+            sw.Append("}; ");//endtransaction.success
+
+            sw.Append("var msgStore = transaction.objectStore('clientmessages');");
+            sw.Append("var db_op_req = msgStore.add(msg);");
+
+            sw.Append("db_op_req.onsuccess = function(event) {");
+            sw.Append("console.log(event);");
+            sw.Append("}; "); //end db_op_req onsucess
+
+            sw.Append("}; "); //end request onsuccess
+
+            sw.Append("request.onupgradeneeded = function(event) {");
+            sw.Append("var db = event.target.result;");
+            sw.Append("var store = db.createObjectStore('clientmessages', {keyPath:'id'});");
+            sw.Append("}; ");// end onupgraded
+
+
             sw.Append("},"); //end add message
 
             sw.Append("iterate: function(f) {");
             sw.Append("console.log('iterate message');");
-            sw.Append("console.log(messageBuffer);");
-            sw.Append("var i = messageBuffer.length;");
-            sw.Append("while (i--) {");
-            sw.Append("var msg = messageBuffer[i];");
+            //sw.Append("console.log(messageBuffer);");
+            //sw.Append("var i = messageBuffer.length;");
+            //sw.Append("while (i--) {");
+            //sw.Append("var msg = messageBuffer[i];");
+            //sw.Append("f(msg);");
+            //sw.Append("messageBuffer.splice(i, 1);");
+            //sw.Append("}"); //end while
+
+
+            sw.Append("var request = idb.open('sw_DB', 1);");
+
+            sw.Append("request.onupgradeneeded = function(event) {");
+            sw.Append("var db = event.target.result;");
+            sw.Append("var store = db.createObjectStore('clientmessages', {keyPath : 'id'});");
+            sw.Append("}; ");// end onupgraded
+
+
+            sw.Append("request.onsuccess = function(event) {");
+
+            sw.Append("var db = event.target.result; ");
+
+            sw.Append("var transaction = db.transaction('clientmessages', 'readwrite');");
+            sw.Append("transaction.onsuccess = function(event) {");
+            sw.Append("console.log('[Transaction] ALL DONE!');");
+            sw.Append("}; ");//endtransaction.success
+
+            sw.Append("var msgStore = transaction.objectStore('clientmessages');");
+
+            //get all messages and send to client
+            sw.Append("msgStore.getAll().onsuccess = function(event) {");
+            sw.Append("console.log('get all messages');");
+            sw.Append("console.log(event.target.result);");
+            sw.Append("var list = event.target.result;");
+
+            sw.Append("list.forEach(function(msg) {");
             sw.Append("f(msg);");
-            sw.Append("messageBuffer.splice(i, 1);");
-            sw.Append("}"); //end while
+            sw.Append("});");//end foreach
+
+            sw.Append("msgStore.clear().onsuccess = function(event) {");
+            sw.Append("console.log('clear all messages');");
+            sw.Append("console.log(event);");
+            sw.Append("}; "); //end clear
+
+
+            sw.Append("}; "); //end getall
+           
+
+            sw.Append("}; "); //end request onsuccess
+
+            
+
+
+
             sw.Append("}"); //end iterate
             sw.Append("};");// end  priv 
             sw.Append("} ");//end if priv
@@ -94,14 +173,14 @@ namespace cloudscribe.PwaKit.Services
             
             
             sw.Append("self.addEventListener('message', function(event){");
-            sw.Append("console.log('SW Received Message');");
+            sw.Append("console.log('SW Received Message ' + new Date().toString());");
             sw.Append("console.log(event);");
 
             sw.Append("if(event.data.type === 'page-ready') {");
             sw.Append("if(self.messageList) {");
             sw.Append("self.messageList.iterate(sendMessage);");
 
-            sw.Append("sendMessage({type:'hello' });");
+            //sw.Append("sendMessage({type:'hello' });");
             sw.Append("} ");
 
 
@@ -199,10 +278,11 @@ namespace cloudscribe.PwaKit.Services
                 sw.Append("console.log('updated cache');");
             }
 
-            sw.Append("let msg = { type:'cacheupdate', url: key }; ");
+            sw.Append("let msg = { type:'cacheupdate', url: key, id: key }; ");
 
             sw.Append("if(self.messageList) {");
             sw.Append("self.messageList.addMessage(msg);");
+            sw.Append("console.log('added new message ' + new Date().toString())");
             //sw.Append("self.messageList.iterate(sendMessage);");
             sw.Append("} ");
 

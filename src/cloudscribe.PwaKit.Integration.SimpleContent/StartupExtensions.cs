@@ -13,13 +13,13 @@ namespace Microsoft.Extensions.DependencyInjection
 
             builder.Services.AddScoped<IPreCacheItemProvider, BlogPreCacheItemProvider>();
 
-            builder.Services.AddScoped<IHandlePageCreated, PageCreatedNotifyServiceWorkerCache > ();
-            builder.Services.AddScoped<IHandlePageUpdated, PageUpdatedNotifyServiceWorkerCache>();
-            builder.Services.AddScoped<IHandlePagePreDelete, PageDeleteNotifyServiceWorkerCache>();
+            //builder.Services.AddScoped<IHandlePageCreated, PageCreatedNotifyServiceWorkerCache > ();
+            //builder.Services.AddScoped<IHandlePageUpdated, PageUpdatedNotifyServiceWorkerCache>();
+            //builder.Services.AddScoped<IHandlePagePreDelete, PageDeleteNotifyServiceWorkerCache>();
 
-            builder.Services.AddScoped<IHandlePostCreated, PostCreatedNotifyServiceWorkerCache>();
-            builder.Services.AddScoped<IHandlePostUpdated, PostUpdatedNotifyServiceWorkerCache>();
-            builder.Services.AddScoped<IHandlePostPreDelete, PostDeleteNotifyServiceWorkerCache>();
+            //builder.Services.AddScoped<IHandlePostCreated, PostCreatedNotifyServiceWorkerCache>();
+            //builder.Services.AddScoped<IHandlePostUpdated, PostUpdatedNotifyServiceWorkerCache>();
+            //builder.Services.AddScoped<IHandlePostPreDelete, PostDeleteNotifyServiceWorkerCache>();
 
 
 

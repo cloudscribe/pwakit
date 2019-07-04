@@ -1,7 +1,9 @@
 ﻿using cloudscribe.PwaKit.Interfaces;
+using cloudscribe.PwaKit.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -11,17 +13,20 @@ namespace cloudscribe.PwaKit.Services
     {
         public DefaultGeneratePwaInitScript(
             IOptions<PwaOptions> pwaOptionsAccessor,
+            IEnumerable<IPreCacheItemProvider> preCacheProviders,
             IPwaRouteNameProvider pwaRouteNameProvider
             )
         {
             _options = pwaOptionsAccessor.Value;
             _pwaRouteNameProvider = pwaRouteNameProvider;
+            _preCacheProviders = preCacheProviders;
         }
 
         private readonly PwaOptions _options;
         private readonly IPwaRouteNameProvider _pwaRouteNameProvider;
+        private readonly IEnumerable<IPreCacheItemProvider> _preCacheProviders;
 
-        public Task<string> BuildPwaInitScript(HttpContext context, IUrlHelper urlHelper)
+        public async Task<string> BuildPwaInitScript(HttpContext context, IUrlHelper urlHelper)
         {
 
             var url = urlHelper.RouteUrl(_pwaRouteNameProvider.GetServiceWorkerRouteName());
@@ -87,17 +92,57 @@ namespace cloudscribe.PwaKit.Services
 
             //activated event
             script.Append("wb.addEventListener('activated', (event) => {");
+
             script.Append("if (!event.isUpdate) {");
             script.Append("console.log('Service worker activated for the first time');");
             script.Append("} else {");
             script.Append("console.log('Service worker activated');");
             script.Append("}");
 
+            var items = new List<PreCacheItem>();
+            foreach (var provider in _preCacheProviders)
+            {
+                var i = await provider.GetItems();
+                items.AddRange(i);
+            }
+
+            script.Append("const urlsToCache = [");
+            var comma = "";
+
+            foreach (var item in items)
+            {
+                script.Append(comma);
+                if (!string.IsNullOrEmpty(item.Revision))
+                {
+                    script.Append("{");
+                    script.Append("\"url\": \"" + item.Url + "\",");
+                    script.Append("\"revision\": \"" + item.Revision + "\"");
+
+                    script.Append("}");
+                }
+                else
+                {
+                    script.Append("'" + item.Url + "'");
+                }
+
+                comma = ",";
+            }
+
+
+            script.Append("];");
+            script.Append("wb.messageSW({");
+            script.Append("type: 'CACHE_URLS',");
+            script.Append("payload: {urlsToCache} ");
+            script.Append("});");
+
+
            
             
-            //end activated event
+            
 
-            script.Append("});");
+            script.Append("});"); //end activated event
+
+
 
             script.Append("wb.addEventListener('waiting', (event) => {");
             script.Append("console.log('new service worker waiting');");
@@ -225,9 +270,9 @@ namespace cloudscribe.PwaKit.Services
 
             script.Append("}"); //end serviceworker in navigator
 
-            
 
-            return Task.FromResult(script.ToString());
+            return script.ToString();
+            //return Task.FromResult(script.ToString());
 
 
         }

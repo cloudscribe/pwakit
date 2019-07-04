@@ -25,14 +25,14 @@ namespace cloudscribe.PwaKit.Services
             var cacheSuffix = await _workboxCacheSuffixProvider.GetWorkboxCacheSuffix();
 
             sw.Append("const networkFirstHandler = new workbox.strategies.NetworkFirst({");
-            sw.Append("cacheName: 'network-first-content-cache-" + cacheSuffix + "',");
-            sw.Append("plugins: [");
-            sw.Append("new workbox.expiration.Plugin({");
-            sw.Append(" maxEntries: 2000,");
-            sw.Append("maxAgeSeconds: 30 * 24 * 60 * 60,"); //30 days
+            //sw.Append("cacheName: 'network-first-content-cache-" + cacheSuffix + "',");
+            //sw.Append("plugins: [");
+            //sw.Append("new workbox.expiration.Plugin({");
+            //sw.Append(" maxEntries: 2000,");
+            //sw.Append("maxAgeSeconds: 30 * 24 * 60 * 60,"); //30 days
 
-            sw.Append("})");
-            sw.Append("]");
+            //sw.Append("})");
+            //sw.Append("]");
             sw.Append("}); ");
 
             sw.Append("const networkFirstMatchFunction = ({url, event}) => {");
@@ -52,22 +52,57 @@ namespace cloudscribe.PwaKit.Services
             sw.Append("return true;");
             sw.Append("};");
 
-            var offlineUrl = _offlinePageUrlProvider.GetOfflineUrl();
 
-            sw.Append("workbox.routing.registerRoute(networkFirstMatchFunction, args => {");
-            sw.Append("return networkFirstHandler.handle(args).then(response => {");
-            sw.Append("if (!response) {");
-            sw.Append("return caches.match('" + offlineUrl + "');");
-            sw.Append("} else if (response.status === 404) {");
-            sw.Append("return caches.match('" + offlineUrl + "');");
-            sw.Append("}");
+            sw.Append("workbox.routing.registerRoute(");
+            sw.Append("networkFirstMatchFunction,");
+            sw.Append("new workbox.strategies.NetworkFirst()");
+            sw.Append(");");
 
-            //sw.Append("console.log('network first returning response');");
-            //sw.Append("console.log(response.url);");
 
-            sw.Append("return response;");
-            sw.Append("});");
-            sw.Append("});");
+
+           // var offlineUrl = _offlinePageUrlProvider.GetOfflineUrl();
+
+
+
+            //sw.Append("workbox.routing.registerRoute(networkFirstMatchFunction, args => {");
+            //sw.Append("return networkFirstHandler.handle(args).then(response => {");
+
+            //sw.Append("if (!response) {");
+
+            //sw.Append("const precacheCacheName = workbox.core.cacheNames.precache;");
+
+            //sw.Append("caches.open(precacheCacheName).then(function(cache) {");
+
+            //sw.Append("cache.match(event.request).then(function(response) {");
+            //sw.Append("return response;");
+            //sw.Append("}).catch(function() {");
+
+            //sw.Append("return caches.match('" + offlineUrl + "');");
+
+            //sw.Append("}) ");
+
+
+            //sw.Append("})");//end cache open
+
+            ////sw.Append("caches.match(event.request).then(function(response) {");
+            ////sw.Append("return response;");
+            ////sw.Append("}).catch(function() {");
+
+            ////sw.Append("return caches.match('" + offlineUrl + "');");
+
+            ////sw.Append("}) ");
+
+
+
+
+            //sw.Append("}"); //end if not response
+
+            ////sw.Append("console.log('network first returning response');");
+            ////sw.Append("console.log(response.url);");
+
+            //sw.Append("return response;");
+            //sw.Append("});");
+            //sw.Append("});");
 
            
 

@@ -11,31 +11,8 @@ namespace cloudscribe.PwaKit.Services
         public Task AppendToServiceWorkerScript(StringBuilder sw, PwaOptions options, HttpContext context)
         {
 
-            //helper functions
-            //clients in this case are open browser tabs
-            //sw.Append("function send_message_to_client(client, msg){");
-            //sw.Append("return new Promise(function(resolve, reject){");
-            //sw.Append("var msg_chan = new MessageChannel();");
-            //sw.Append("msg_chan.port1.onmessage = function(event){");
-            //sw.Append("if(event.data.error){");
-            //sw.Append("reject(event.data.error);");
-            //sw.Append("} else {");
-            //sw.Append("resolve(event.data);");
-            //sw.Append("}");
-            //sw.Append("};");
-            //sw.Append("client.postMessage(\"SW Says: '\"+msg+\"'\", [msg_chan.port2]);");
-            //sw.Append("});");
-            //sw.Append("} ");
+            #region ClientMessageBus
 
-            //sw.Append("function send_message_to_all_clients(msg){");
-            //sw.Append("clients.matchAll().then(clients => {");
-            //sw.Append("clients.forEach(client => {");
-            //sw.Append("send_message_to_client(client, msg).then(m => console.log(\"SW Received Message: \"+m));");
-            //sw.Append("})");
-            //sw.Append("})");
-            //sw.Append("} ");
-
-            ///try indexeddb
             sw.Append("var idb;");
             sw.Append("if(self.indexedDB) { ");
             sw.Append("idb = self.indexedDB; ");
@@ -196,10 +173,12 @@ namespace cloudscribe.PwaKit.Services
            
             sw.Append("}); ");
 
+            #endregion
 
-            
 
+            #region pushmanager
 
+            sw.Append("if ('PushManager' in self) {");
 
 
 
@@ -291,32 +270,15 @@ namespace cloudscribe.PwaKit.Services
             sw.Append("if(self.messageList) {");
             sw.Append("self.messageList.addMessage(msg);");
             sw.Append("console.log('added new message ' + new Date().toString())");
-            //sw.Append("self.messageList.iterate(sendMessage);");
+            
             sw.Append("} ");
 
-            //sw.Append("if(windowReady === true) {");
-           // sw.Append("sendMessage(msg);");
-            //sw.Append("} else {");
-            //sw.Append("messageBuffer.push(msg);");
-            //sw.Append("console.log(messageBuffer);");
-            //sw.Append("}");
-
-            
+          
                 
             sw.Append("});");
             sw.Append("});");
 
-            //sw.Append("var refreshMessage = {");
-            //sw.Append("type: 'refresh',");
-            //sw.Append("url: json.data");
-            //sw.Append("};");
-            //sw.Append("var s = JSON.stringify(refreshMessage);");
-
-            //sw.Append("self.clients.matchAll().then(function (clients) {");
-            //sw.Append("clients.forEach(function (client) {");
-            //sw.Append("client.postMessage(s);");
-            //sw.Append("});");
-            //sw.Append("});");
+           
 
             sw.Append("}"); //end if delete response === true
            
@@ -370,22 +332,12 @@ namespace cloudscribe.PwaKit.Services
 
 
 
-            //sw.Append("if (!(self.Notification && self.Notification.permission === 'granted')) {");
-            //sw.Append("return;");
-            //sw.Append("}");
-
 
             sw.Append("if(json.messageType === 'Visible') {");
             sw.Append("event.waitUntil(self.registration.showNotification(json.title, json));");
             sw.Append("} else {");
             sw.Append("console.log('non visible message');");
-
-            //sw.Append("console.log(json.data);");
-
-            //sw.Append("if(contentUpdateHandler) {");
-            //sw.Append("event.waitUntil(contentUpdateHandler(json));");
-            //sw.Append("}");
-
+            
             sw.Append("return;"); //cancel notification
             sw.Append("}");
 
@@ -432,7 +384,11 @@ namespace cloudscribe.PwaKit.Services
             //sw.Append("event.notification.close();");
             sw.Append("});");
 
+            sw.Append("} else {");
+            sw.Append("console.log('PushManager NOT supported');");
+            sw.Append("} ");
 
+            #endregion
 
             return Task.CompletedTask;
         }

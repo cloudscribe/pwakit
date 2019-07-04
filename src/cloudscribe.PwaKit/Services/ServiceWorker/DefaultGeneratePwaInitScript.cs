@@ -196,16 +196,15 @@ namespace cloudscribe.PwaKit.Services
             
             // Register the service worker after event listeners have been added.
             script.Append("wb.register();");
-            
 
-           // script.Append("});"); //end load event
-            script.Append("}"); //end serviceworker in navigator
 
-            script.Append("navigator.serviceWorker.ready.then(function (serviceWorkerRegistration) {");
-            script.Append("console.log('serviceworker ready');");
+            // script.Append("});"); //end load event
 
             script.Append("if ('MessageChannel' in window) {");
 
+            script.Append("navigator.serviceWorker.ready.then(function (serviceWorkerRegistration) {");
+            script.Append("console.log('serviceworker ready');");
+            
             script.Append("setTimeout(function() {");
 
             script.Append("const messageChannel = new MessageChannel();");
@@ -215,12 +214,18 @@ namespace cloudscribe.PwaKit.Services
 
             script.Append("},3000);");
 
+            
+            script.Append("});"); //end serviceworker ready
+
             script.Append("} else {");
             script.Append("console.log('MessageChannel not supported');");
             script.Append("} "); //end if MessageChannel
 
 
-            script.Append("});"); //end serviceworker ready
+
+            script.Append("}"); //end serviceworker in navigator
+
+            
 
             return Task.FromResult(script.ToString());
 

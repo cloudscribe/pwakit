@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace cloudscribe.PwaKit.Integration.CloudscribeCore
 {
-    public class ContentFilesPreCacheItemProvider : IPreCacheItemProvider
+    public class ContentFilesRuntimeCacheItemProvider : IRuntimeCacheItemProvider
     {
-        public ContentFilesPreCacheItemProvider(
+        public ContentFilesRuntimeCacheItemProvider(
             IMediaPathResolver mediaPathResolver,
             IOptions<PwaContentFilesPreCacheOptions> optionsAccessor
             )
@@ -33,11 +33,11 @@ namespace cloudscribe.PwaKit.Integration.CloudscribeCore
         }
 
 
-        public async Task<List<PreCacheItem>> GetItems()
+        public async Task<List<ServiceWorkerCacheItem>> GetItems()
         {
             await EnsureProjectSettings();
 
-            var result = new List<PreCacheItem>();
+            var result = new List<ServiceWorkerCacheItem>();
 
             if (!Directory.Exists(_rootPath.RootFileSystemPath))
             {
@@ -48,7 +48,7 @@ namespace cloudscribe.PwaKit.Integration.CloudscribeCore
 
             var filesToCache = allFiles.Where(x => _options.FileExtensionsToCache.Contains(Path.GetExtension(x).ToLower()))
                 .Select(x =>
-                    new PreCacheItem()
+                    new ServiceWorkerCacheItem()
                     {
                         Url = x.Replace(_rootPath.RootFileSystemPath, "").Replace(Path.DirectorySeparatorChar, '/')
                     }

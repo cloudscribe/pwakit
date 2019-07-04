@@ -24,7 +24,7 @@ namespace cloudscribe.PwaKit.Services
 
             sw.Append("const networkOnlyMatchFunction = ({url, event}) => {");
 
-            sw.Append("if(event.request.method == 'POST') {");
+            sw.Append("if(event && event.request && event.request.method === 'POST') {");
 
             if(options.EnableServiceWorkerConsoleLog)
             {

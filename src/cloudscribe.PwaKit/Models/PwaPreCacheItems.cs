@@ -8,10 +8,10 @@ namespace cloudscribe.PwaKit.Models
     {
         public PwaPreCacheItems()
         {
-            Assets = new List<PreCacheItem>();
+            Assets = new List<ServiceWorkerCacheItem>();
         }
 
-        public List<PreCacheItem> Assets { get; set; }
+        public List<ServiceWorkerCacheItem> Assets { get; set; }
 
     }
 }

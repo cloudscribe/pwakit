@@ -24,7 +24,9 @@ namespace cloudscribe.PwaKit.Integration.CloudscribeCore
                 "Account",
                 "FileManager",
                 "ContentSettings",
-                "ContentHistory"
+                "ContentHistory",
+                "SystemInfo",
+                "Pwa"
 
             };
 

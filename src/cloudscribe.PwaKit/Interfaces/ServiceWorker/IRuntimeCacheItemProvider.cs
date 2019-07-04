@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace cloudscribe.PwaKit.Interfaces
 {
-    public interface IPreCacheItemProvider
+    public interface IRuntimeCacheItemProvider
     {
         Task<List<ServiceWorkerCacheItem>> GetItems();
     }

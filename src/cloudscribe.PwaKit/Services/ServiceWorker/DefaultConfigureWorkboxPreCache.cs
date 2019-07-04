@@ -20,7 +20,7 @@ namespace cloudscribe.PwaKit.Services
 
         public async Task AppendToServiceWorkerScript(StringBuilder sw, PwaOptions options, HttpContext context)
         {
-            var items = new List<PreCacheItem>();
+            var items = new List<ServiceWorkerCacheItem>();
             foreach (var provider in _preCacheProviders)
             {
                 var i = await provider.GetItems();

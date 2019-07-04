@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace cloudscribe.PwaKit.Integration.Navigation
 {
-    public class NavigationPreCacheItemProvider : IPreCacheItemProvider
+    public class NavigationRuntimeCacheItemProvider : IRuntimeCacheItemProvider
     {
-        public NavigationPreCacheItemProvider(
+        public NavigationRuntimeCacheItemProvider(
             NavigationTreeBuilderService siteMapTreeBuilder,
             IEnumerable<INavigationNodePermissionResolver> permissionResolvers,
             IEnumerable<INavigationNodeServiceWorkerFilter> navigationNodeServiceWorkerFilters,
@@ -37,9 +37,9 @@ namespace cloudscribe.PwaKit.Integration.Navigation
         private List<string> addedUrls = new List<string>();
         
 
-        public async Task<List<PreCacheItem>> GetItems()
+        public async Task<List<ServiceWorkerCacheItem>> GetItems()
         {
-            var result = new List<PreCacheItem>();
+            var result = new List<ServiceWorkerCacheItem>();
             var rootNode = await _siteMapTreeBuilder.GetTree();
             
             var urlHelper = _urlHelperFactory.GetUrlHelper(_actionContextAccesor.ActionContext);
@@ -64,7 +64,7 @@ namespace cloudscribe.PwaKit.Integration.Navigation
 
                 
 
-                result.Add(new PreCacheItem()
+                result.Add(new ServiceWorkerCacheItem()
                 {
                     Url = url,
                     LastModifiedUtc = navNode.LastModifiedUtc

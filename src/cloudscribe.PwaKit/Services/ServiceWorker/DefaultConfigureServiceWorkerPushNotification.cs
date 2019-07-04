@@ -36,16 +36,26 @@ namespace cloudscribe.PwaKit.Services
             //sw.Append("} ");
 
             ///try indexeddb
-            sw.Append("if(self.indexedDB) { console.log('IndexedDB is supported'); } ");
-            sw.Append("let idb = self.indexedDB; ");
+            sw.Append("var idb;");
+            sw.Append("if(self.indexedDB) { ");
+            sw.Append("idb = self.indexedDB; ");
+            sw.Append("console.log('IndexedDB is supported');");
+            sw.Append("} ");
 
 
 
             sw.Append("function sendMessage(msg) {");
+
+            sw.Append("if ('BroadcastChannel' in self) {");
+
             sw.Append("const channel = new BroadcastChannel('app-channel');");
             sw.Append("channel.postMessage(msg);");
             sw.Append("console.log('sent message to client');");
-            sw.Append("} ");
+
+            sw.Append("} else {");
+            sw.Append("console.log('message not sent to client because BroadcastChannel npt supported by the browser');");
+            sw.Append("} "); //endif broadcast channel
+            sw.Append("} "); //end send message
 
 
             sw.Append("var messageListBuilder = function() {");
@@ -60,14 +70,15 @@ namespace cloudscribe.PwaKit.Services
             sw.Append("} else {");
 
             sw.Append("console.log('building function');");
-            //sw.Append("var messageBuffer = [];");
+            
             sw.Append("priv = {");
 
             sw.Append("addMessage : function(msg) {");
-            //sw.Append("messageBuffer.push(msg);");
-            sw.Append("console.log('add message');");
-            //sw.Append("console.log(messageBuffer);");
             
+            sw.Append("if(idb) {");
+
+            sw.Append("console.log('add message');");
+
             sw.Append("var request = idb.open('sw_DB', 1);");
 
             sw.Append("request.onsuccess = function(event) {");
@@ -93,20 +104,17 @@ namespace cloudscribe.PwaKit.Services
             sw.Append("var store = db.createObjectStore('clientmessages', {keyPath:'id'});");
             sw.Append("}; ");// end onupgraded
 
+            sw.Append("} else {");
+            sw.Append("console.log('failed to add message because IndexedDB not suppported in this browser');");
+            sw.Append("} ");
 
             sw.Append("},"); //end add message
 
             sw.Append("iterate: function(f) {");
+
+            sw.Append("if(idb) {");
+
             sw.Append("console.log('iterate message');");
-            //sw.Append("console.log(messageBuffer);");
-            //sw.Append("var i = messageBuffer.length;");
-            //sw.Append("while (i--) {");
-            //sw.Append("var msg = messageBuffer[i];");
-            //sw.Append("f(msg);");
-            //sw.Append("messageBuffer.splice(i, 1);");
-            //sw.Append("}"); //end while
-
-
             sw.Append("var request = idb.open('sw_DB', 1);");
 
             sw.Append("request.onupgradeneeded = function(event) {");
@@ -141,13 +149,13 @@ namespace cloudscribe.PwaKit.Services
             sw.Append("console.log(event);");
             sw.Append("}; "); //end clear
 
-
             sw.Append("}; "); //end getall
            
-
             sw.Append("}; "); //end request onsuccess
 
-            
+            sw.Append("} else {");
+            sw.Append("console.log('failed to send message because IndexedDB not suppported in this browser');");
+            sw.Append("} ");
 
 
 

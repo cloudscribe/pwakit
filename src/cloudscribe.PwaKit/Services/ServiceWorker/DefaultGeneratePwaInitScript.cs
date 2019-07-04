@@ -175,6 +175,9 @@ namespace cloudscribe.PwaKit.Services
 
             script.Append("}); ");// end message listener
 
+
+            script.Append("if ('BroadcastChannel' in window) {");
+
             script.Append("const channel = new BroadcastChannel('app-channel');");
             script.Append("channel.onmessage = function(e) {");
             script.Append("console.log('received message on app channel');");
@@ -184,9 +187,11 @@ namespace cloudscribe.PwaKit.Services
             script.Append("console.log('cache update for current url so reloading');");
             script.Append("window.location.reload();");
             script.Append("}");
-
-            //script.Append("console.log('window location ' + window.location.href);");
             script.Append("};");
+
+            script.Append("} else {");
+            script.Append("console.log('Broadcast channel not supported');");
+            script.Append("} ");
 
             
             // Register the service worker after event listeners have been added.
@@ -199,6 +204,8 @@ namespace cloudscribe.PwaKit.Services
             script.Append("navigator.serviceWorker.ready.then(function (serviceWorkerRegistration) {");
             script.Append("console.log('serviceworker ready');");
 
+            script.Append("if ('MessageChannel' in window) {");
+
             script.Append("setTimeout(function() {");
 
             script.Append("const messageChannel = new MessageChannel();");
@@ -207,6 +214,10 @@ namespace cloudscribe.PwaKit.Services
             script.Append(", [messageChannel.port2]);");
 
             script.Append("},3000);");
+
+            script.Append("} else {");
+            script.Append("console.log('MessageChannel not supported');");
+            script.Append("} "); //end if MessageChannel
 
 
             script.Append("});"); //end serviceworker ready

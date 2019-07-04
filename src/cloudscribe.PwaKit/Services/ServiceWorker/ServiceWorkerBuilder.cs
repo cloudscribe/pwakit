@@ -121,20 +121,17 @@ namespace cloudscribe.PwaKit.Services
 
 
             //The order of the Route registration is important. If multiple Routes are registered that could handle a request, the Route that is registered first will be used to respond to the request.
+            
+            await _configureWorkboxNetworkOnlyRoutes.AppendToServiceWorkerScript(sw, _options, context);
 
+            await _configureWorkboxPreCache.AppendToServiceWorkerScript(sw, _options, context);
 
-            //await _configureWorkboxNetworkOnlyRoutes.AppendToServiceWorkerScript(sw, _options, context);
-
-            //await _configureWorkboxCacheFirstRoutes.AppendToServiceWorkerScript(sw, _options, context);
+            await _configureWorkboxCacheFirstRoutes.AppendToServiceWorkerScript(sw, _options, context);
 
             await _configureWorkboxNetworkFirstRoutes.AppendToServiceWorkerScript(sw, _options, context);
-
-            //await _configureWorkboxPreCache.AppendToServiceWorkerScript(sw, _options, context);
-
+            
             await _configureGoogleAnalytics.AppendToServiceWorkerScript(sw, _options, context);
-
-
-
+            
             foreach (var p in _addCodeToServiceWorkers)
             {
                 await p.AppendToServiceWorkerScript(sw, _options, context);

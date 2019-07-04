@@ -13,7 +13,7 @@ namespace cloudscribe.PwaKit.Services
     {
         public DefaultGeneratePwaInitScript(
             IOptions<PwaOptions> pwaOptionsAccessor,
-            IEnumerable<IPreCacheItemProvider> preCacheProviders,
+            IEnumerable<IRuntimeCacheItemProvider> preCacheProviders,
             IPwaRouteNameProvider pwaRouteNameProvider
             )
         {
@@ -24,7 +24,7 @@ namespace cloudscribe.PwaKit.Services
 
         private readonly PwaOptions _options;
         private readonly IPwaRouteNameProvider _pwaRouteNameProvider;
-        private readonly IEnumerable<IPreCacheItemProvider> _preCacheProviders;
+        private readonly IEnumerable<IRuntimeCacheItemProvider> _preCacheProviders;
 
         public async Task<string> BuildPwaInitScript(HttpContext context, IUrlHelper urlHelper)
         {
@@ -99,7 +99,7 @@ namespace cloudscribe.PwaKit.Services
             script.Append("console.log('Service worker activated');");
             script.Append("}");
 
-            var items = new List<PreCacheItem>();
+            var items = new List<ServiceWorkerCacheItem>();
             foreach (var provider in _preCacheProviders)
             {
                 var i = await provider.GetItems();

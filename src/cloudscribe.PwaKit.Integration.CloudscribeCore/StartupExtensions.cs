@@ -38,7 +38,7 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             builder.Services.Configure<PwaContentFilesPreCacheOptions>(builder.Configuration.GetSection("PwaContentFilesPreCacheOptions"));
 
-            builder.Services.AddScoped<IPreCacheItemProvider, ContentFilesPreCacheItemProvider>();
+            builder.Services.AddScoped<IRuntimeCacheItemProvider, ContentFilesRuntimeCacheItemProvider>();
 
 
             return builder;

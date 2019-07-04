@@ -11,7 +11,7 @@ namespace Microsoft.Extensions.DependencyInjection
         public static PwaBuilder PreCacheAllBlogPostUrls(this PwaBuilder builder)
         {
 
-            builder.Services.AddScoped<IPreCacheItemProvider, BlogPreCacheItemProvider>();
+            builder.Services.AddScoped<IRuntimeCacheItemProvider, BlogRuntimeCacheItemProvider>();
 
             //builder.Services.AddScoped<IHandlePageCreated, PageCreatedNotifyServiceWorkerCache > ();
             //builder.Services.AddScoped<IHandlePageUpdated, PageUpdatedNotifyServiceWorkerCache>();

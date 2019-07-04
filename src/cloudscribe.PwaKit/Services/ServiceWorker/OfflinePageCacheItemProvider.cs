@@ -17,11 +17,11 @@ namespace cloudscribe.PwaKit.Services
         private readonly IOfflinePageUrlProvider _offlinePageUrlProvider;
         
 
-        public Task<List<PreCacheItem>> GetItems()
+        public Task<List<ServiceWorkerCacheItem>> GetItems()
         {
-            var result = new List<PreCacheItem>();
+            var result = new List<ServiceWorkerCacheItem>();
             
-            var offlinePage = new PreCacheItem()
+            var offlinePage = new ServiceWorkerCacheItem()
             {
                 Url = _offlinePageUrlProvider.GetOfflineUrl()
                

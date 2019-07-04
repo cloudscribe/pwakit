@@ -13,7 +13,7 @@ namespace Microsoft.Extensions.DependencyInjection
     {
         public static PwaBuilder PreCacheNavigationMenuUrls(this PwaBuilder builder)
         {
-            builder.Services.AddScoped<IPreCacheItemProvider, NavigationPreCacheItemProvider>();
+            builder.Services.AddScoped<IRuntimeCacheItemProvider, NavigationRuntimeCacheItemProvider>();
 
             return builder;
         }

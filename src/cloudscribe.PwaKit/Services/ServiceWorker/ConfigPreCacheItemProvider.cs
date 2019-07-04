@@ -17,7 +17,7 @@ namespace cloudscribe.PwaKit.Services
 
         private readonly PwaPreCacheItems _options;
 
-        public Task<List<PreCacheItem>> GetItems()
+        public Task<List<ServiceWorkerCacheItem>> GetItems()
         {
             return Task.FromResult(_options.Assets);
         }

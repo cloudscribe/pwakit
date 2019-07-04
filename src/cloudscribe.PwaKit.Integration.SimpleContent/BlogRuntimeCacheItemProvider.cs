@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace cloudscribe.PwaKit.Integration.SimpleContent
 {
-    public class BlogPreCacheItemProvider : IPreCacheItemProvider
+    public class BlogRuntimeCacheItemProvider : IRuntimeCacheItemProvider
     {
-        public BlogPreCacheItemProvider(
+        public BlogRuntimeCacheItemProvider(
             IProjectService projectService,
             IBlogService blogService,
             IBlogUrlResolver blogUrlResolver,
@@ -28,9 +28,9 @@ namespace cloudscribe.PwaKit.Integration.SimpleContent
         private readonly IBlogUrlResolver _blogUrlResolver;
         private readonly IHttpContextAccessor _contextAccessor;
 
-        public async Task<List<PreCacheItem>> GetItems()
+        public async Task<List<ServiceWorkerCacheItem>> GetItems()
         {
-            var result = new List<PreCacheItem>();
+            var result = new List<ServiceWorkerCacheItem>();
 
             var includeUnpublished = false;
             var posts = await _blogService.GetPosts(includeUnpublished).ConfigureAwait(false);
@@ -51,11 +51,10 @@ namespace cloudscribe.PwaKit.Integration.SimpleContent
                 }
 
                 //if (_addedUrls.Contains(url)) continue;
-                result.Add(new PreCacheItem()
+                result.Add(new ServiceWorkerCacheItem()
                 {
                     Url = url,
-                    LastModifiedUtc = post.LastModified,
-                    Revision = post.LastModified.ToString("s")
+                    LastModifiedUtc = post.LastModified
                 });
                
 

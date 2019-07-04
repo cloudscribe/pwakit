@@ -16,7 +16,10 @@ namespace cloudscribe.PwaKit.Services
             sw.Append("var idb;");
             sw.Append("if(self.indexedDB) { ");
             sw.Append("idb = self.indexedDB; ");
-            sw.Append("console.log('IndexedDB is supported');");
+            if(options.EnableServiceWorkerConsoleLog)
+            {
+                sw.Append("console.log('IndexedDB is supported');");
+            }
             sw.Append("} ");
 
 
@@ -27,10 +30,17 @@ namespace cloudscribe.PwaKit.Services
 
             sw.Append("const channel = new BroadcastChannel('app-channel');");
             sw.Append("channel.postMessage(msg);");
-            sw.Append("console.log('sent message to client');");
 
+            if (options.EnableServiceWorkerConsoleLog)
+            {
+                sw.Append("console.log('sent message to client');");
+            }
+               
             sw.Append("} else {");
-            sw.Append("console.log('message not sent to client because BroadcastChannel npt supported by the browser');");
+            if (options.EnableServiceWorkerConsoleLog)
+            {
+                sw.Append("console.log('message not sent to client because BroadcastChannel not supported by the browser');");
+            } 
             sw.Append("} "); //endif broadcast channel
             sw.Append("} "); //end send message
 
@@ -41,21 +51,31 @@ namespace cloudscribe.PwaKit.Services
             sw.Append("function build() {");
 
             sw.Append("if(priv) {");
-            sw.Append("console.log('returning ready function');");
+            if (options.EnableServiceWorkerConsoleLog)
+            {
+                sw.Append("console.log('returning ready function');");
+            }
+                
             sw.Append("return;");
 
             sw.Append("} else {");
 
-            sw.Append("console.log('building function');");
-            
+            if (options.EnableServiceWorkerConsoleLog)
+            {
+                sw.Append("console.log('building messagelist function');");
+            }
+              
             sw.Append("priv = {");
 
             sw.Append("addMessage : function(msg) {");
             
             sw.Append("if(idb) {");
 
-            sw.Append("console.log('add message');");
-
+            if (options.EnableServiceWorkerConsoleLog)
+            {
+                sw.Append("console.log('add message');");
+            }
+              
             sw.Append("var request = idb.open('sw_DB', 1);");
 
             sw.Append("request.onsuccess = function(event) {");
@@ -64,14 +84,22 @@ namespace cloudscribe.PwaKit.Services
             sw.Append("var transaction = db.transaction('clientmessages', 'readwrite');");
 
             sw.Append("transaction.onsuccess = function(event) {");
-            sw.Append("console.log('[Transaction] ALL DONE!');");
+            if (options.EnableServiceWorkerConsoleLog)
+            {
+                sw.Append("console.log('IndexDB transaction success');");
+            }
+              
             sw.Append("}; ");//endtransaction.success
 
             sw.Append("var msgStore = transaction.objectStore('clientmessages');");
             sw.Append("var db_op_req = msgStore.add(msg);");
 
             sw.Append("db_op_req.onsuccess = function(event) {");
-            sw.Append("console.log(event);");
+            if (options.EnableServiceWorkerConsoleLog)
+            {
+                sw.Append("console.log(event);");
+            }
+                
             sw.Append("}; "); //end db_op_req onsucess
 
             sw.Append("}; "); //end request onsuccess
@@ -82,7 +110,10 @@ namespace cloudscribe.PwaKit.Services
             sw.Append("}; ");// end onupgraded
 
             sw.Append("} else {");
-            sw.Append("console.log('failed to add message because IndexedDB not suppported in this browser');");
+            if (options.EnableServiceWorkerConsoleLog)
+            {
+                sw.Append("console.log('failed to add message because IndexedDB not suppported in this browser');");
+            }  
             sw.Append("} ");
 
             sw.Append("},"); //end add message
@@ -90,8 +121,10 @@ namespace cloudscribe.PwaKit.Services
             sw.Append("iterate: function(f) {");
 
             sw.Append("if(idb) {");
-
-            sw.Append("console.log('iterate message');");
+            if (options.EnableServiceWorkerConsoleLog)
+            {
+                sw.Append("console.log('iterate message');");
+            }   
             sw.Append("var request = idb.open('sw_DB', 1);");
 
             sw.Append("request.onupgradeneeded = function(event) {");
@@ -106,15 +139,23 @@ namespace cloudscribe.PwaKit.Services
 
             sw.Append("var transaction = db.transaction('clientmessages', 'readwrite');");
             sw.Append("transaction.onsuccess = function(event) {");
-            sw.Append("console.log('[Transaction] ALL DONE!');");
+            if (options.EnableServiceWorkerConsoleLog)
+            {
+                sw.Append("console.log('IndexDb transaction success');");
+            }
+                
             sw.Append("}; ");//endtransaction.success
 
             sw.Append("var msgStore = transaction.objectStore('clientmessages');");
 
             //get all messages and send to client
             sw.Append("msgStore.getAll().onsuccess = function(event) {");
-            sw.Append("console.log('get all messages');");
-            sw.Append("console.log(event.target.result);");
+            if (options.EnableServiceWorkerConsoleLog)
+            {
+                sw.Append("console.log('get all messages');");
+                sw.Append("console.log(event.target.result);");
+            }
+               
             sw.Append("var list = event.target.result;");
 
             sw.Append("list.forEach(function(msg) {");
@@ -122,8 +163,12 @@ namespace cloudscribe.PwaKit.Services
             sw.Append("});");//end foreach
 
             sw.Append("msgStore.clear().onsuccess = function(event) {");
-            sw.Append("console.log('clear all messages');");
-            sw.Append("console.log(event);");
+            if (options.EnableServiceWorkerConsoleLog)
+            {
+                sw.Append("console.log('clear all messages');");
+                sw.Append("console.log(event);");
+            }
+                
             sw.Append("}; "); //end clear
 
             sw.Append("}; "); //end getall
@@ -131,7 +176,11 @@ namespace cloudscribe.PwaKit.Services
             sw.Append("}; "); //end request onsuccess
 
             sw.Append("} else {");
-            sw.Append("console.log('failed to send message because IndexedDB not suppported in this browser');");
+            if (options.EnableServiceWorkerConsoleLog)
+            {
+                sw.Append("console.log('failed to send message because IndexedDB not suppported in this browser');");
+            }
+                
             sw.Append("} ");
 
 
@@ -142,7 +191,11 @@ namespace cloudscribe.PwaKit.Services
             sw.Append("} ");//end build function
 
             sw.Append("if(priv) {");
-            sw.Append("console.log('returning ready priv');");
+            if (options.EnableServiceWorkerConsoleLog)
+            {
+                sw.Append("console.log('returning ready priv');");
+            }
+               
             sw.Append("return priv;");
             sw.Append("}");
 
@@ -158,8 +211,12 @@ namespace cloudscribe.PwaKit.Services
             
             
             sw.Append("self.addEventListener('message', function(event){");
-            sw.Append("console.log('SW Received Message ' + new Date().toString());");
-            sw.Append("console.log(event);");
+            if (options.EnableServiceWorkerConsoleLog)
+            {
+                sw.Append("console.log('SW Received Message ' + new Date().toString());");
+                sw.Append("console.log(event);");
+            }
+                
 
             sw.Append("if(event.data.type === 'page-ready') {");
             sw.Append("if(self.messageList) {");
@@ -269,7 +326,11 @@ namespace cloudscribe.PwaKit.Services
 
             sw.Append("if(self.messageList) {");
             sw.Append("self.messageList.addMessage(msg);");
-            sw.Append("console.log('added new message ' + new Date().toString())");
+            if (options.EnableServiceWorkerConsoleLog)
+            {
+                sw.Append("console.log('added new message ' + new Date().toString())");
+            }
+                
             
             sw.Append("} ");
 
@@ -336,7 +397,11 @@ namespace cloudscribe.PwaKit.Services
             sw.Append("if(json.messageType === 'Visible') {");
             sw.Append("event.waitUntil(self.registration.showNotification(json.title, json));");
             sw.Append("} else {");
-            sw.Append("console.log('non visible message');");
+            if (options.EnableServiceWorkerConsoleLog)
+            {
+                sw.Append("console.log('non visible message');");
+            }
+                
             
             sw.Append("return;"); //cancel notification
             sw.Append("}");
@@ -379,13 +444,20 @@ namespace cloudscribe.PwaKit.Services
             sw.Append("});");
 
             sw.Append("self.addEventListener('notificationclick', function (event) {");
-
-            sw.Append("console.log(event);");
+            if (options.EnableServiceWorkerConsoleLog)
+            {
+                sw.Append("console.log(event);");
+            }
+                
             //sw.Append("event.notification.close();");
             sw.Append("});");
 
             sw.Append("} else {");
-            sw.Append("console.log('PushManager NOT supported');");
+            if (options.EnableServiceWorkerConsoleLog)
+            {
+                sw.Append("console.log('PushManager NOT supported');");
+            }
+                
             sw.Append("} ");
 
             #endregion

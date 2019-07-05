@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.Routing;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace cloudscribe.PwaKit.Integration.Navigation
+namespace cloudscribe.PwaKit.Integration.CloudscribeCore
 {
     public class NavigationRuntimeCacheItemProvider : IRuntimeCacheItemProvider
     {
@@ -80,7 +80,11 @@ namespace cloudscribe.PwaKit.Integration.Navigation
         private bool ShouldRenderNode(NavigationNode node)
         {
             //if (node.Controller == "Account") return false;
-            
+
+            // if any node fails to add to cahce then all nodes fails so exclude any nodes that have a policy or role requirement
+            if (!string.IsNullOrWhiteSpace(node.AuthorizationPolicy)) return false;
+
+            if (!string.IsNullOrWhiteSpace(node.ViewRoles)) return false;
 
             TreeNode<NavigationNode> treeNode = new TreeNode<NavigationNode>(node);
             foreach (var permission in _permissionResolvers)

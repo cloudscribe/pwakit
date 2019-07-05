@@ -11,13 +11,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "cloudscribe.DemoWeb", "demo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "cloudscribe.PwaKit", "src\cloudscribe.PwaKit\cloudscribe.PwaKit.csproj", "{64FC671A-96AF-4F8E-9D42-AC366C2FA819}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "cloudscribe.PwaKit.Integration.Navigation", "src\cloudscribe.PwaKit.Integration.Navigation\cloudscribe.PwaKit.Integration.Navigation.csproj", "{80AAAE6B-20DA-4978-B041-A3C9718C061F}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "cloudscribe.PwaKit.Integration.CloudscribeCore", "src\cloudscribe.PwaKit.Integration.CloudscribeCore\cloudscribe.PwaKit.Integration.CloudscribeCore.csproj", "{CD9AF390-6B60-48BF-B15C-90C5D1221248}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "cloudscribe.PwaKit.Integration.SimpleContent", "src\cloudscribe.PwaKit.Integration.SimpleContent\cloudscribe.PwaKit.Integration.SimpleContent.csproj", "{B4CA8B17-37B8-486E-9601-E2B8C9D3F0D8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cloudscribe.PwaKit.Storage.NoDb", "src\cloudscribe.PwaKit.Storage.NoDb\cloudscribe.PwaKit.Storage.NoDb.csproj", "{2968898C-2839-4E12-B19E-1B658C1579FB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "cloudscribe.PwaKit.Storage.NoDb", "src\cloudscribe.PwaKit.Storage.NoDb\cloudscribe.PwaKit.Storage.NoDb.csproj", "{2968898C-2839-4E12-B19E-1B658C1579FB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,10 +31,6 @@ Global
 		{64FC671A-96AF-4F8E-9D42-AC366C2FA819}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{64FC671A-96AF-4F8E-9D42-AC366C2FA819}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{64FC671A-96AF-4F8E-9D42-AC366C2FA819}.Release|Any CPU.Build.0 = Release|Any CPU
-		{80AAAE6B-20DA-4978-B041-A3C9718C061F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{80AAAE6B-20DA-4978-B041-A3C9718C061F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{80AAAE6B-20DA-4978-B041-A3C9718C061F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{80AAAE6B-20DA-4978-B041-A3C9718C061F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CD9AF390-6B60-48BF-B15C-90C5D1221248}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CD9AF390-6B60-48BF-B15C-90C5D1221248}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CD9AF390-6B60-48BF-B15C-90C5D1221248}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -56,7 +50,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{17DEA380-2524-45F2-BB59-3E35B5FFB162} = {A36C639E-1D91-40FC-B443-188CA8ACC74E}
 		{64FC671A-96AF-4F8E-9D42-AC366C2FA819} = {B773B550-618A-4034-B53A-782D55410339}
-		{80AAAE6B-20DA-4978-B041-A3C9718C061F} = {B773B550-618A-4034-B53A-782D55410339}
 		{CD9AF390-6B60-48BF-B15C-90C5D1221248} = {B773B550-618A-4034-B53A-782D55410339}
 		{B4CA8B17-37B8-486E-9601-E2B8C9D3F0D8} = {B773B550-618A-4034-B53A-782D55410339}
 		{2968898C-2839-4E12-B19E-1B658C1579FB} = {B773B550-618A-4034-B53A-782D55410339}

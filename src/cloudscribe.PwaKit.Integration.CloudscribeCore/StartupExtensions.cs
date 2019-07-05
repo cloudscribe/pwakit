@@ -1,6 +1,5 @@
 ﻿using cloudscribe.PwaKit;
 using cloudscribe.PwaKit.Integration.CloudscribeCore;
-using cloudscribe.PwaKit.Integration.Navigation;
 using cloudscribe.PwaKit.Interfaces;
 
 namespace Microsoft.Extensions.DependencyInjection
@@ -40,6 +39,13 @@ namespace Microsoft.Extensions.DependencyInjection
 
             builder.Services.AddScoped<IRuntimeCacheItemProvider, ContentFilesRuntimeCacheItemProvider>();
 
+
+            return builder;
+        }
+
+        public static PwaBuilder PreCacheNavigationMenuUrls(this PwaBuilder builder)
+        {
+            builder.Services.AddScoped<IRuntimeCacheItemProvider, NavigationRuntimeCacheItemProvider>();
 
             return builder;
         }

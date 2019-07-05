@@ -1,5 +1,4 @@
-﻿using cloudscribe.PwaKit.Integration.Navigation;
-using cloudscribe.Web.Navigation;
+﻿using cloudscribe.Web.Navigation;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

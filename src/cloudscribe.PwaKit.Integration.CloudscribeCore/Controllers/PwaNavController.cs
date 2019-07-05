@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace cloudscribe.PwaKit.Integration.Navigation.Controllers
+namespace cloudscribe.PwaKit.Integration.CloudscribeCore.Controllers
 {
     public class PwaNavController : Controller
     {

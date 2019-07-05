@@ -1,8 +1,8 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
     <Description>Integration between cloudscribe.Core and cloudscribe.PwaKit</Description>
-    <Version>1.0.0-alpha-20190629</Version>
+    <Version>1.0.0-alpha-20190701</Version>
     <Authors>Joe Audette</Authors>
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <PackageTags>pwa,serviceworker,cloudscribe</PackageTags>
@@ -13,17 +13,21 @@
     <RepositoryType>git</RepositoryType>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <NoWarn>1701;1702;0436</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <NoWarn>1701;1702;0436</NoWarn>
+  </PropertyGroup>
+
   <ItemGroup>
-    <ProjectReference Include="..\cloudscribe.PwaKit.Integration.Navigation\cloudscribe.PwaKit.Integration.Navigation.csproj" />
     <ProjectReference Include="..\cloudscribe.PwaKit\cloudscribe.PwaKit.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     
-    <PackageReference Include="cloudscribe.Core.Models" Version="3.0.23" />
-    <PackageReference Include="cloudscribe.Core.Identity" Version="3.0.23" />
-    <PackageReference Include="cloudscribe.Web.Navigation" Version="2.1.21" />
-    <PackageReference Include="cloudscribe.FileManager.CoreIntegration" Version="3.0.28" />
+    <PackageReference Include="cloudscribe.Core.Web" Version="3.1.92" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.1.3" />
     
   </ItemGroup>
 

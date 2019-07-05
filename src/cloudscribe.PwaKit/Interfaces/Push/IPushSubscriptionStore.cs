@@ -13,6 +13,12 @@ namespace cloudscribe.PwaKit.Interfaces
             CancellationToken cancellationToken = default(CancellationToken)
             );
 
+        Task<IEnumerable<PushDeviceSubscription>> GetAllSubscriptionsExceptForUser(
+           string tenantId,
+           string userId,
+           CancellationToken cancellationToken = default(CancellationToken)
+           );
+
         Task<IEnumerable<PushDeviceSubscription>> GetSubscriptionsForUser(
             string tenantId,
             string userId,

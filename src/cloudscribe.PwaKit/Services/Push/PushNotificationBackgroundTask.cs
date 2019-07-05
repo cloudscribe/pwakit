@@ -5,6 +5,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
@@ -54,25 +55,34 @@ namespace cloudscribe.PwaKit.Services
         {
             while (!_stopTokenSource.IsCancellationRequested)
             {
-                PushQueueItem queueItem = await _messagesQueue.DequeueAsync(_stopTokenSource.Token);
-
-                if (!_stopTokenSource.IsCancellationRequested)
+                try
                 {
-                    var recipientProvider = GetRecipientProvider(queueItem.RecipientProviderName);
-                    if(recipientProvider != null)
+                    PushQueueItem queueItem = await _messagesQueue.DequeueAsync(_stopTokenSource.Token);
+
+                    if (!_stopTokenSource.IsCancellationRequested)
                     {
-                        var subscriptions = await recipientProvider.GetRecipients(queueItem, _stopTokenSource.Token);
-                        foreach(var subscription in subscriptions)
+                        var recipientProvider = GetRecipientProvider(queueItem.RecipientProviderName);
+                        if (recipientProvider != null)
                         {
-                            var pushMessage = FromModel(queueItem.Message);
-                            await _notificationService.SendNotificationAsync(subscription, pushMessage, _stopTokenSource.Token);
+                            var subscriptions = await recipientProvider.GetRecipients(queueItem, _stopTokenSource.Token);
+                            foreach (var subscription in subscriptions)
+                            {
+                                var pushMessage = FromModel(queueItem.Message);
+                                await _notificationService.SendNotificationAsync(subscription, pushMessage, _stopTokenSource.Token);
+                            }
+                        }
+                        else
+                        {
+                            _log.LogWarning($"failed to send notification because IPushNotificationRecipientProvider with name {queueItem.RecipientProviderName} was not found");
                         }
                     }
-                    else
-                    {
-                        _log.LogWarning($"failed to send notification because IPushNotificationRecipientProvider with name {queueItem.RecipientProviderName} was not found");
-                    } 
                 }
+                catch(Exception ex)
+                {
+                    _log.LogError($"{ex.Message}:{ex.StackTrace}");
+                }
+
+                
             }
 
         }

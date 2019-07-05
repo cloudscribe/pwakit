@@ -295,13 +295,13 @@ namespace cloudscribe.PwaKit.Services
             sw.Append("caches.open(precacheCacheName).then(function(cache) {");
 
 
-            sw.Append("var key = workbox.precaching.getCacheKeyForURL(json.data);");
-            if (options.EnableServiceWorkerConsoleLog)
-            {
-                sw.Append("console.log('key is ' + key);");
-            }
+            //sw.Append("var key = workbox.precaching.getCacheKeyForURL(json.data);");
+            //if (options.EnableServiceWorkerConsoleLog)
+            //{
+            //    sw.Append("console.log('key is ' + key);");
+            //}
             
-            sw.Append("cache.delete(key).then(function(response) {");
+            sw.Append("cache.delete(json.data).then(function(response) {");
 
             if (options.EnableServiceWorkerConsoleLog)
             {
@@ -315,14 +315,14 @@ namespace cloudscribe.PwaKit.Services
             }
                 
 
-            sw.Append("fetch(key).then(function (response) {");
-            sw.Append("cache.put(key, response.clone()).then(function () {");
+            sw.Append("fetch(json.data).then(function (response) {");
+            sw.Append("cache.put(json.data, response.clone()).then(function () {");
             if (options.EnableServiceWorkerConsoleLog)
             {
                 sw.Append("console.log('updated cache');");
             }
 
-            sw.Append("let msg = { type:'cacheupdate', url: key, id: key }; ");
+            sw.Append("let msg = { type:'cacheupdate', url: json.data, id: json.data }; ");
 
             sw.Append("if(self.messageList) {");
             sw.Append("self.messageList.addMessage(msg);");
@@ -363,13 +363,13 @@ namespace cloudscribe.PwaKit.Services
 
             sw.Append("caches.open(precacheCacheName).then(function(cache) {");
 
-            sw.Append("var key = workbox.precaching.getCacheKeyForURL(json.data);");
-            if (options.EnableServiceWorkerConsoleLog)
-            {
-                sw.Append("console.log('key is ' + key);");
-            }
+            //sw.Append("var key = workbox.precaching.getCacheKeyForURL(json.data);");
+            //if (options.EnableServiceWorkerConsoleLog)
+            //{
+            //    sw.Append("console.log('key is ' + key);");
+            //}
 
-            sw.Append("cache.delete(key).then(function(response) {");
+            sw.Append("cache.delete(json.data).then(function(response) {");
 
             if (options.EnableServiceWorkerConsoleLog)
             {

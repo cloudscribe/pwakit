@@ -362,30 +362,16 @@ namespace cloudscribe.PwaKit.Services
             }
 
             sw.Append("caches.open(precacheCacheName).then(function(cache) {");
-
-            //sw.Append("var key = workbox.precaching.getCacheKeyForURL(json.data);");
-            //if (options.EnableServiceWorkerConsoleLog)
-            //{
-            //    sw.Append("console.log('key is ' + key);");
-            //}
-
+            
             sw.Append("cache.delete(json.data).then(function(response) {");
-
-            if (options.EnableServiceWorkerConsoleLog)
-            {
-                sw.Append("console.log(response);");
-            }
-
-            sw.Append("if(response === true) {");
+            
             if (options.EnableServiceWorkerConsoleLog)
             {
                 sw.Append("console.log('removed item from cache');");
             }
-            sw.Append("}"); //end if true
-
+            
             sw.Append("});"); //end delete
-
-
+            
             sw.Append("});"); //end cache open
             sw.Append("}");
 

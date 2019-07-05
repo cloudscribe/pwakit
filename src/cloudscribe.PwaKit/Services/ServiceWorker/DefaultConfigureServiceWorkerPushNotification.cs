@@ -1,5 +1,6 @@
 ﻿using cloudscribe.PwaKit.Interfaces;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -7,8 +8,15 @@ namespace cloudscribe.PwaKit.Services
 {
     public class DefaultConfigureServiceWorkerPushNotification : IConfigureServiceWorkerPushNotification
     {
+        public DefaultConfigureServiceWorkerPushNotification(IConfigurePushApiMethods configurePushApiMethods)
+        {
+            _configurePushApiMethods = configurePushApiMethods;
+        }
 
-        public Task AppendToServiceWorkerScript(StringBuilder sw, PwaOptions options, HttpContext context)
+        private readonly IConfigurePushApiMethods _configurePushApiMethods;
+
+
+        public async Task AppendToServiceWorkerScript(StringBuilder sw, PwaOptions options, HttpContext context, IUrlHelper urlHelper)
         {
 
             #region ClientMessageBus
@@ -238,9 +246,10 @@ namespace cloudscribe.PwaKit.Services
             sw.Append("if ('PushManager' in self) {");
 
 
+            await _configurePushApiMethods.AppendToInitScript(sw, context, urlHelper);
 
-            sw.AppendLine("self.importScripts('/pwa/js/push-notifications-controller.js');");
-            
+            //sw.AppendLine("self.importScripts('/pwa/js/push-notifications-controller.js');");
+
             sw.Append("self.addEventListener('push', function (event) {");
 
             
@@ -448,7 +457,7 @@ namespace cloudscribe.PwaKit.Services
 
             #endregion
 
-            return Task.CompletedTask;
+            //return Task.CompletedTask;
         }
 
 

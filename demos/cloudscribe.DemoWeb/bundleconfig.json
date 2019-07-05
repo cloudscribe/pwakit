@@ -1,0 +1,14 @@
+[
+  {
+    "outputFileName": "wwwroot/js/push-notifications-console.min.js",
+    "inputFiles": [
+      "wwwroot/js/push-notifications-console.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/push-user-settings.min.js",
+    "inputFiles": [
+      "wwwroot/js/push-user-settings.js"
+    ]
+  }
+]

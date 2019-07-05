@@ -22,11 +22,17 @@
     </None>
 
     <Content Remove="appsettings.Development.json" CopyToPublishDirectory="Never" />
+
+    <Content Remove="bundleconfig.json" />
     <Content Include="appsettings.Development.json" CopyToPublishDirectory="Never" />
     
     <Content Include="sitefiles\**\wwwroot\**" CopyToPublishDirectory="PreserveNewest" />
     <Content Include="SharedThemes\**\wwwroot\**" CopyToPublishDirectory="PreserveNewest" />
 
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="bundleconfig.json" />
   </ItemGroup>
 
   <ItemGroup Label="Package References">

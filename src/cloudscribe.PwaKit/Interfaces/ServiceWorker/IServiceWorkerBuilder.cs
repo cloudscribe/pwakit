@@ -1,13 +1,11 @@
 ﻿using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
 namespace cloudscribe.PwaKit.Interfaces
 {
     public interface IServiceWorkerBuilder
     {
-        Task<string> Build(HttpContext context);
+        Task<string> Build(HttpContext context, IUrlHelper urlHelper);
     }
 }

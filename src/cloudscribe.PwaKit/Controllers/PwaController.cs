@@ -55,7 +55,7 @@ namespace cloudscribe.PwaKit.Controllers
         [HttpHead]
         public async Task<IActionResult> ServiceWorker()
         {
-            var sw = await _serviceWorkerBuilder.Build(HttpContext);
+            var sw = await _serviceWorkerBuilder.Build(HttpContext, Url);
 
             if(string.IsNullOrWhiteSpace(sw))
             {

@@ -38,6 +38,10 @@ namespace cloudscribe.PwaKit.Services
             sw.Append("return true;");
             sw.Append("} ");
 
+            sw.Append("if(url.href.indexOf('/pwa/getpublickey') > -1) {");
+            sw.Append("return true;");
+            sw.Append("} ");
+
             var urls = await GetNetworkOnlyUrls(options, context);
 
             sw.Append("var networkOnlyUrls = [");

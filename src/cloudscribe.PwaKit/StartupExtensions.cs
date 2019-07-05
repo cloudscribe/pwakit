@@ -49,6 +49,8 @@ namespace Microsoft.Extensions.DependencyInjection
             services.TryAddScoped<IConfigureWorkboxOfflineGoogleAnalytics, DefaultConfigureWorkboxOfflineGoogleAnalytics>();
             services.TryAddScoped<IConfigureServiceWorkerPushNotification, DefaultConfigureServiceWorkerPushNotification>();
 
+            services.TryAddScoped<IConfigurePushApiMethods, DefaultConfigurePushApiMethods>();
+
             services.TryAddScoped<IUserIdResolver, DefaultUserIdResolver>();
             services.TryAddScoped<ITenantIdResolver, DefaultTenantIdResolver>();
 

@@ -21,6 +21,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="js\**;css\**" Exclude="bin\**;obj\**;**\*.csproj;packages\**;@(EmbeddedResource)" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\cloudscribe.PwaKit\cloudscribe.PwaKit.csproj" />
   </ItemGroup>
 

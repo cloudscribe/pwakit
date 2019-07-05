@@ -239,7 +239,7 @@ namespace cloudscribe.PwaKit.Services
 
 
 
-            sw.AppendLine("self.importScripts('/js/push-notifications-controller.js');");
+            sw.AppendLine("self.importScripts('/pwa/js/push-notifications-controller.js');");
             
             sw.Append("self.addEventListener('push', function (event) {");
 
@@ -251,7 +251,7 @@ namespace cloudscribe.PwaKit.Services
                 sw.Append("console.log(json);");
             }
 
-            sw.Append("const precacheCacheName = workbox.core.cacheNames.precache;");
+            sw.Append("const precacheCacheName = workbox.core.cacheNames.runtime;");
             if (options.EnableServiceWorkerConsoleLog)
             {
                 sw.Append("console.log('pre-cache name is ' + precacheCacheName);");

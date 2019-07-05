@@ -1,16 +1,28 @@
 ﻿using cloudscribe.PwaKit.Interfaces;
-using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
 
 namespace cloudscribe.PwaKit.Services
 {
     public class DefaultUserIdResolver : IUserIdResolver
     {
-        public string GetUserId(ClaimsPrincipal user)
+        public DefaultUserIdResolver(IHttpContextAccessor httpContextAccessor)
         {
-            if(user.Identity.IsAuthenticated)
+            _httpContextAccessor = httpContextAccessor;
+        }
+
+        private readonly IHttpContextAccessor _httpContextAccessor;
+
+        public string GetCurrentUserId()
+        {
+            var context = _httpContextAccessor.HttpContext;
+            if(context != null)
             {
-                return user.Identity.Name;
+                if (context.User.Identity.IsAuthenticated)
+                {
+                    return context.User.Identity.Name;
+                }
             }
+            
 
             return null;
         }

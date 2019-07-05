@@ -1,6 +1,6 @@
-﻿using cloudscribe.PwaKit;
+﻿using cloudscribe.FileManager.Web.Events;
+using cloudscribe.PwaKit;
 using cloudscribe.PwaKit.Integration.CloudscribeCore;
-using cloudscribe.PwaKit.Integration.Navigation;
 using cloudscribe.PwaKit.Interfaces;
 
 namespace Microsoft.Extensions.DependencyInjection
@@ -39,7 +39,15 @@ namespace Microsoft.Extensions.DependencyInjection
             builder.Services.Configure<PwaContentFilesPreCacheOptions>(builder.Configuration.GetSection("PwaContentFilesPreCacheOptions"));
 
             builder.Services.AddScoped<IRuntimeCacheItemProvider, ContentFilesRuntimeCacheItemProvider>();
+            builder.Services.AddScoped<IHandleFilesUploaded, FileUploadCacheUpdateHandler>();
 
+
+            return builder;
+        }
+
+        public static PwaBuilder PreCacheNavigationMenuUrls(this PwaBuilder builder)
+        {
+            builder.Services.AddScoped<IRuntimeCacheItemProvider, NavigationRuntimeCacheItemProvider>();
 
             return builder;
         }

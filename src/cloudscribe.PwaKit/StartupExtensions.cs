@@ -26,6 +26,10 @@ namespace Microsoft.Extensions.DependencyInjection
             services.Configure<PwaOptions>(config.GetSection("PwaOptions"));
             services.Configure<PwaPreCacheItems>(config.GetSection("PwaPreCacheItems"));
 
+            services.Configure<PushClientSettings>(config.GetSection("PushServiceClient"));
+
+            
+
             services.AddScoped<IPreCacheItemProvider, ConfigPreCacheItemProvider>();
             services.AddScoped<IPreCacheItemProvider, OfflinePageCacheItemProvider>();
 
@@ -44,6 +48,8 @@ namespace Microsoft.Extensions.DependencyInjection
             services.TryAddScoped<IGeneratePwaInitScript, DefaultGeneratePwaInitScript>();
             services.TryAddScoped<IConfigureWorkboxOfflineGoogleAnalytics, DefaultConfigureWorkboxOfflineGoogleAnalytics>();
             services.TryAddScoped<IConfigureServiceWorkerPushNotification, DefaultConfigureServiceWorkerPushNotification>();
+
+            services.TryAddScoped<IConfigurePushApiMethods, DefaultConfigurePushApiMethods>();
 
             services.TryAddScoped<IUserIdResolver, DefaultUserIdResolver>();
             services.TryAddScoped<ITenantIdResolver, DefaultTenantIdResolver>();
@@ -69,6 +75,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddSingleton<IHostedService, PushNotificationBackgroundTask>();
 
             services.AddSingleton<IPushNotificationRecipientProvider, AllSubscribersPushNotificationRecipientProvider>();
+            services.AddSingleton<IPushNotificationRecipientProvider, AllButCurrentUserPushNotificationRecipientProvider>();
             services.AddSingleton<IPushNotificationRecipientProvider, SingleUserPushNotificationRecipientProvider>();
 
 

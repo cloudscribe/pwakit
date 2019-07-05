@@ -56,13 +56,13 @@ namespace cloudscribe.PwaKit.Services
             //sw.Append("/(.*)\\.(?:png|gif|jpg)/,");
             sw.Append("cacheFirstMatcher,");
             sw.Append("new workbox.strategies.CacheFirst({");
-            sw.Append("cacheName: 'images-cache-" + _options.CacheIdSuffix + "',");
-            sw.Append("plugins: [");
-            sw.Append("new workbox.expiration.Plugin({");
-            sw.Append("maxEntries: 2000,");
-            sw.Append("maxAgeSeconds: 30 * 24 * 60 * 60,"); // 30 Days
-            sw.Append("})");
-            sw.Append("]");
+            //sw.Append("cacheName: 'images-cache-" + _options.CacheIdSuffix + "',");
+            //sw.Append("plugins: [");
+            //sw.Append("new workbox.expiration.Plugin({");
+            //sw.Append("maxEntries: 2000,");
+            //sw.Append("maxAgeSeconds: 30 * 24 * 60 * 60,"); // 30 Days
+            //sw.Append("})");
+            //sw.Append("]");
             sw.Append("})");
             sw.Append(");");
 

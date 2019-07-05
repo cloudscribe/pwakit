@@ -1,15 +1,22 @@
 ﻿const PushNotificationSettings = (function () {
     let applicationServerPublicKey;
     let serviceWorkerRegistration;
-    let subscribeButton, unsubscribeButton;
     
-
+   
     function initializeUIState() {
-        subscribeButton = document.getElementById('subscribe');
-        subscribeButton.addEventListener('click', subscribeForPushNotifications);
 
-        unsubscribeButton = document.getElementById('unsubscribe');
-        unsubscribeButton.addEventListener('click', unsubscribeFromPushNotifications);
+        var subscribeButtons = document.querySelectorAll('[data-push-subscribe-button]');
+        for (i = 0; i < subscribeButtons.length; ++i) {
+            var btnSubscribe = subscribeButtons[i];
+            btnSubscribe.addEventListener('click', subscribeForPushNotifications);
+        }
+
+
+        var unsubscribeButtons = document.querySelectorAll('[data-push-unsubscribe-button]');
+        for (i = 0; i < unsubscribeButtons.length; ++i) {
+            var btnUnsubscribe = unsubscribeButtons[i];
+            btnUnsubscribe.addEventListener('click', unsubscribeFromPushNotifications);
+        }
         
         serviceWorkerRegistration.pushManager.getSubscription()
             .then(function (subscription) {
@@ -18,9 +25,29 @@
     }
 
     function changeUIState(notificationsBlocked, isSubscibed) {
-        subscribeButton.disabled = notificationsBlocked || isSubscibed;
-        unsubscribeButton.disabled = notificationsBlocked || !isSubscibed;
-        
+
+        var subscribeButtons = document.querySelectorAll('[data-push-subscribe-button]');
+        for (i = 0; i < subscribeButtons.length; ++i) {
+            var btnSubscribe = subscribeButtons[i];
+            if (notificationsBlocked || isSubscibed) {
+                btnSubscribe.style.display = 'none';
+            } else {
+                btnSubscribe.style.display = 'block';
+            }
+        }
+
+        var unsubscribeButtons = document.querySelectorAll('[data-push-unsubscribe-button]');
+        for (i = 0; i < unsubscribeButtons.length; ++i) {
+            var btnUnsubscribe = unsubscribeButtons[i];
+            if (notificationsBlocked || !isSubscibed) {
+                btnUnsubscribe.style.display = 'none';
+            } else {
+                btnUnsubscribe.style.display = 'block';
+            }
+        }
+
+
+       
     }
 
     function subscribeForPushNotifications() {
@@ -107,10 +134,11 @@
     };
 })();
 
-if ('serviceWorker' in navigator) {
+document.addEventListener("DOMContentLoaded", function () {
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.ready.then(function (serviceWorkerRegistration) {
+            PushNotificationSettings.initialize(serviceWorkerRegistration);
+         });
+    }
 
-    navigator.serviceWorker.ready.then(function (serviceWorkerRegistration) {
-        PushNotificationSettings.initialize(serviceWorkerRegistration);
-    });
-
-}
+});

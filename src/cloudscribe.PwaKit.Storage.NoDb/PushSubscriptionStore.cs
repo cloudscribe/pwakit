@@ -35,6 +35,17 @@ namespace cloudscribe.PwaKit.Storage.NoDb
             return all.Where(x => x.TenantId == tenantId);
         }
 
+        public async Task<IEnumerable<PushDeviceSubscription>> GetAllSubscriptionsExceptForUser(
+            string tenantId,
+            string userId,
+            CancellationToken cancellationToken = default(CancellationToken)
+            )
+        {
+            var all = await _queries.GetAllAsync(_NoDbProjectId).ConfigureAwait(false);
+
+            return all.Where(x => x.TenantId == tenantId && x.UserId != userId);
+        }
+
         public async Task<IEnumerable<PushDeviceSubscription>> GetSubscriptionsForUser(
             string tenantId,
             string userId,

@@ -24,8 +24,8 @@
 
 <div>
     <div id="dashboard-controls">
-        <button class="btn btn-success" type="button" disabled="disabled" id="subscribe">@sr["Subscribe to Push Notifications"]</button>
-        <button class="btn btn-warning" type="button" disabled="disabled" id="unsubscribe">@sr["Unsubscribe from Push Notifications"]</button>
+        <button class="btn btn-success" type="button" data-push-subscribe-button>@sr["Subscribe to Push Notifications"]</button>
+        <button class="btn btn-warning" type="button" data-push-unsubscribe-button>@sr["Unsubscribe from Push Notifications"]</button>
         <br /><hr />
         <div class="form-group">
             <label for="title">@sr["Title"]</label>
@@ -60,6 +60,6 @@
 </div>
 
 @section Scripts {
-    <script src="/js/push-notifications-controller.js" asp-append-version="true"></script>
-    <script src="/js/push-notifications-tester.js" asp-append-version="true"></script>
+    
+    <script src="/pwa/js/push-notifications-console.min.js" asp-append-version="true"></script>
 }

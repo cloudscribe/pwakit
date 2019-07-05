@@ -30,10 +30,17 @@ namespace cloudscribe.PwaKit.Services
             {
                 sw.Append("console.log('networkOnlyMatchFunction returning true for url ' + url.href + ' for POST');");
             }
-            
-
+           
             sw.Append("return true;");
-            sw.Append("}");
+            sw.Append("} ");
+
+            sw.Append("if(url.href.indexOf('/pwanav/topnav') > -1) {");
+            sw.Append("return true;");
+            sw.Append("} ");
+
+            sw.Append("if(url.href.indexOf('/pwa/getpublickey') > -1) {");
+            sw.Append("return true;");
+            sw.Append("} ");
 
             var urls = await GetNetworkOnlyUrls(options, context);
 

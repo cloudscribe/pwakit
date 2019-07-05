@@ -13,17 +13,20 @@ namespace cloudscribe.PwaKit.Integration.SimpleContent.Handlers
         public PostCreatedNotifyServiceWorkerCache(
             IPushNotificationsQueue pushNotificationsQueue,
             IProjectSettingsResolver projectSettingsResolver,
-            IBlogUrlResolver blogUrlResolver
+            IBlogUrlResolver blogUrlResolver,
+            IUserIdResolver userIdResolver
             )
         {
             _pushNotificationsQueue = pushNotificationsQueue;
             _projectSettingsResolver = projectSettingsResolver;
             _blogUrlResolver = blogUrlResolver;
+            _userIdResolver = userIdResolver;
         }
 
         private readonly IPushNotificationsQueue _pushNotificationsQueue;
         private readonly IProjectSettingsResolver _projectSettingsResolver;
         private readonly IBlogUrlResolver _blogUrlResolver;
+        private readonly IUserIdResolver _userIdResolver;
 
         public async Task Handle(string projectId, IPost post, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -38,12 +41,13 @@ namespace cloudscribe.PwaKit.Integration.SimpleContent.Handlers
                 Data = url
 
             };
-            
+
             var queueItem = new PushQueueItem(
                 message,
-                BuiltInRecipientProviderNames.AllSubscribersPushNotificationRecipientProvider);
+                BuiltInRecipientProviderNames.AllButCurrentUserPushNotificationRecipientProvider);
 
             queueItem.TenantId = post.BlogId;
+            queueItem.RecipientProviderCustom1 = _userIdResolver.GetCurrentUserId();
 
             _pushNotificationsQueue.Enqueue(queueItem);
 

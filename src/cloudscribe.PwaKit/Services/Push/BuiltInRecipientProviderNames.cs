@@ -5,5 +5,7 @@
         public const string AllSubscribersPushNotificationRecipientProvider = "AllSubscribersPushNotificationRecipientProvider";
 
         public const string SingleUserPushNotificationRecipientProvider = "SingleUserPushNotificationRecipientProvider";
+
+        public const string AllButCurrentUserPushNotificationRecipientProvider = "AllButCurrentUserPushNotificationRecipientProvider";
     }
 }

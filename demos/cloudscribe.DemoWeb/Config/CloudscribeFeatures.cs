@@ -56,7 +56,7 @@ namespace Microsoft.Extensions.DependencyInjection
             pwaBuilder.MakeCloudscribeAdminPagesNetworkOnly();
             pwaBuilder.PreCacheAllFileManagerImageUrls();
             pwaBuilder.PreCacheNavigationMenuUrls();
-            pwaBuilder.PreCacheAllBlogPostUrls();
+            pwaBuilder.PreCacheAllSimpleContentUrls();
             pwaBuilder.AddNoDbStorage();
 
 

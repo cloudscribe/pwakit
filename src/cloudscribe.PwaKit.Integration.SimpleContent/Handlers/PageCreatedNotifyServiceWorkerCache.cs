@@ -12,15 +12,18 @@ namespace cloudscribe.PwaKit.Integration.SimpleContent.Handlers
     {
         public PageCreatedNotifyServiceWorkerCache(
             IPushNotificationsQueue pushNotificationsQueue,
-            IPageUrlResolver pageUrlResolver
+            IPageUrlResolver pageUrlResolver,
+            IUserIdResolver userIdResolver
             )
         {
             _pushNotificationsQueue = pushNotificationsQueue;
             _pageUrlResolver = pageUrlResolver;
+            _userIdResolver = userIdResolver;
         }
 
         private readonly IPushNotificationsQueue _pushNotificationsQueue;
         private readonly IPageUrlResolver _pageUrlResolver;
+        private readonly IUserIdResolver _userIdResolver;
 
         public async Task Handle(string projectId, IPage page, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -41,9 +44,10 @@ namespace cloudscribe.PwaKit.Integration.SimpleContent.Handlers
 
             var queueItem = new PushQueueItem(
                 message,
-                BuiltInRecipientProviderNames.AllSubscribersPushNotificationRecipientProvider);
+                BuiltInRecipientProviderNames.AllButCurrentUserPushNotificationRecipientProvider);
 
             queueItem.TenantId = page.ProjectId;
+            queueItem.RecipientProviderCustom1 = _userIdResolver.GetCurrentUserId();
 
             _pushNotificationsQueue.Enqueue(queueItem);
 

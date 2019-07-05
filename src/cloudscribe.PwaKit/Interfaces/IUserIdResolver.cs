@@ -4,6 +4,6 @@ namespace cloudscribe.PwaKit.Interfaces
 {
     public interface IUserIdResolver
     {
-        string GetUserId(ClaimsPrincipal user);
+        string GetCurrentUserId();
     }
 }

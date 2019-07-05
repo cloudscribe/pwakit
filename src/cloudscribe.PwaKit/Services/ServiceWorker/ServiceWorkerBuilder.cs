@@ -1,6 +1,7 @@
 ﻿using cloudscribe.PwaKit.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System.Collections.Generic;
 using System.Text;
@@ -48,7 +49,7 @@ namespace cloudscribe.PwaKit.Services
 
 
 
-        public async Task<string> Build(HttpContext context)
+        public async Task<string> Build(HttpContext context, IUrlHelper urlHelper)
         {
             var sw = new StringBuilder();
 
@@ -117,7 +118,7 @@ namespace cloudscribe.PwaKit.Services
             
             await _configureServiceWorkerReloading.AppendToServiceWorkerScript(sw, _options, context);
 
-            await _configureServiceWorkerPushNotification.AppendToServiceWorkerScript(sw, _options, context);
+            await _configureServiceWorkerPushNotification.AppendToServiceWorkerScript(sw, _options, context, urlHelper);
 
 
             //The order of the Route registration is important. If multiple Routes are registered that could handle a request, the Route that is registered first will be used to respond to the request.

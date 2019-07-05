@@ -100,7 +100,7 @@
         <div class="row">
             <main id="content" class="col order-3">
                 @*<partial name="AlertsPartial" />*@
-                <partial name="PwaInstallPrompt" />
+                
                 <partial name="_CookieConsentPartial" />
                 @RenderBody()
             </main>
@@ -153,7 +153,7 @@
             <partial name="_CookieConsentRevokePartial" />
 
         </div>
-
+        <partial name="PwaInstallPrompt" />
     </footer>
     @RenderSection("Toolbar", required: false)
     <environment names="Development">
@@ -169,7 +169,7 @@
         <script src="~/cr/js/show-if-url-check-true-unobtrusive.min.js" asp-append-version="true"></script>
     </environment>
     <script src="~/cr/js/jquery.unobtrusive-ajax.min.js"></script>
-    <script src="~/js/top-nav-loader.js" asp-append-version="true"></script>
+    <script src="~/pwanav/js/top-nav-loader.js" asp-append-version="true"></script>
 
     @RenderSection("Bottom", required: false)
     @RenderSection("Scripts", required: false)

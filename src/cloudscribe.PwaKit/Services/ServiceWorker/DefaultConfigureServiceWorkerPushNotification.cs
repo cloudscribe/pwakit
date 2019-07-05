@@ -1,5 +1,6 @@
 ﻿using cloudscribe.PwaKit.Interfaces;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -7,8 +8,15 @@ namespace cloudscribe.PwaKit.Services
 {
     public class DefaultConfigureServiceWorkerPushNotification : IConfigureServiceWorkerPushNotification
     {
+        public DefaultConfigureServiceWorkerPushNotification(IConfigurePushApiMethods configurePushApiMethods)
+        {
+            _configurePushApiMethods = configurePushApiMethods;
+        }
 
-        public Task AppendToServiceWorkerScript(StringBuilder sw, PwaOptions options, HttpContext context)
+        private readonly IConfigurePushApiMethods _configurePushApiMethods;
+
+
+        public async Task AppendToServiceWorkerScript(StringBuilder sw, PwaOptions options, HttpContext context, IUrlHelper urlHelper)
         {
 
             #region ClientMessageBus
@@ -238,9 +246,10 @@ namespace cloudscribe.PwaKit.Services
             sw.Append("if ('PushManager' in self) {");
 
 
+            await _configurePushApiMethods.AppendToInitScript(sw, context, urlHelper);
 
-            sw.AppendLine("self.importScripts('/js/push-notifications-controller.js');");
-            
+            //sw.AppendLine("self.importScripts('/pwa/js/push-notifications-controller.js');");
+
             sw.Append("self.addEventListener('push', function (event) {");
 
             
@@ -251,7 +260,7 @@ namespace cloudscribe.PwaKit.Services
                 sw.Append("console.log(json);");
             }
 
-            sw.Append("const precacheCacheName = workbox.core.cacheNames.precache;");
+            sw.Append("const precacheCacheName = workbox.core.cacheNames.runtime;");
             if (options.EnableServiceWorkerConsoleLog)
             {
                 sw.Append("console.log('pre-cache name is ' + precacheCacheName);");
@@ -295,13 +304,13 @@ namespace cloudscribe.PwaKit.Services
             sw.Append("caches.open(precacheCacheName).then(function(cache) {");
 
 
-            sw.Append("var key = workbox.precaching.getCacheKeyForURL(json.data);");
-            if (options.EnableServiceWorkerConsoleLog)
-            {
-                sw.Append("console.log('key is ' + key);");
-            }
+            //sw.Append("var key = workbox.precaching.getCacheKeyForURL(json.data);");
+            //if (options.EnableServiceWorkerConsoleLog)
+            //{
+            //    sw.Append("console.log('key is ' + key);");
+            //}
             
-            sw.Append("cache.delete(key).then(function(response) {");
+            sw.Append("cache.delete(json.data).then(function(response) {");
 
             if (options.EnableServiceWorkerConsoleLog)
             {
@@ -315,14 +324,14 @@ namespace cloudscribe.PwaKit.Services
             }
                 
 
-            sw.Append("fetch(key).then(function (response) {");
-            sw.Append("cache.put(key, response.clone()).then(function () {");
+            sw.Append("fetch(json.data).then(function (response) {");
+            sw.Append("cache.put(json.data, response.clone()).then(function () {");
             if (options.EnableServiceWorkerConsoleLog)
             {
                 sw.Append("console.log('updated cache');");
             }
 
-            sw.Append("let msg = { type:'cacheupdate', url: key, id: key }; ");
+            sw.Append("let msg = { type:'cacheupdate', url: json.data, id: json.data }; ");
 
             sw.Append("if(self.messageList) {");
             sw.Append("self.messageList.addMessage(msg);");
@@ -362,30 +371,16 @@ namespace cloudscribe.PwaKit.Services
             }
 
             sw.Append("caches.open(precacheCacheName).then(function(cache) {");
-
-            sw.Append("var key = workbox.precaching.getCacheKeyForURL(json.data);");
-            if (options.EnableServiceWorkerConsoleLog)
-            {
-                sw.Append("console.log('key is ' + key);");
-            }
-
-            sw.Append("cache.delete(key).then(function(response) {");
-
-            if (options.EnableServiceWorkerConsoleLog)
-            {
-                sw.Append("console.log(response);");
-            }
-
-            sw.Append("if(response === true) {");
+            
+            sw.Append("cache.delete(json.data).then(function(response) {");
+            
             if (options.EnableServiceWorkerConsoleLog)
             {
                 sw.Append("console.log('removed item from cache');");
             }
-            sw.Append("}"); //end if true
-
+            
             sw.Append("});"); //end delete
-
-
+            
             sw.Append("});"); //end cache open
             sw.Append("}");
 
@@ -462,7 +457,7 @@ namespace cloudscribe.PwaKit.Services
 
             #endregion
 
-            return Task.CompletedTask;
+            //return Task.CompletedTask;
         }
 
 

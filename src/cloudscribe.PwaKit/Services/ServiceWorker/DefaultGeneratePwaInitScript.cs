@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,17 +16,23 @@ namespace cloudscribe.PwaKit.Services
         public DefaultGeneratePwaInitScript(
             IOptions<PwaOptions> pwaOptionsAccessor,
             IEnumerable<IRuntimeCacheItemProvider> preCacheProviders,
+            IConfigurePushApiMethods configurePushApiMethods,
             IPwaRouteNameProvider pwaRouteNameProvider
             )
         {
             _options = pwaOptionsAccessor.Value;
             _pwaRouteNameProvider = pwaRouteNameProvider;
             _preCacheProviders = preCacheProviders;
+            _configurePushApiMethods = configurePushApiMethods;
         }
 
         private readonly PwaOptions _options;
         private readonly IPwaRouteNameProvider _pwaRouteNameProvider;
         private readonly IEnumerable<IRuntimeCacheItemProvider> _preCacheProviders;
+        private readonly IConfigurePushApiMethods _configurePushApiMethods;
+
+
+        const string baseResourcePath = "cloudscribe.PwaKit.js.";
 
         public async Task<string> BuildPwaInitScript(HttpContext context, IUrlHelper urlHelper)
         {
@@ -32,6 +40,22 @@ namespace cloudscribe.PwaKit.Services
             var url = urlHelper.RouteUrl(_pwaRouteNameProvider.GetServiceWorkerRouteName());
 
             var script = new StringBuilder();
+
+            await _configurePushApiMethods.AppendToInitScript(script, context, urlHelper);
+
+
+            var assembly = typeof(DefaultGeneratePwaInitScript).GetTypeInfo().Assembly;
+            using (var resourceStream = assembly.GetManifestResourceStream(baseResourcePath + "push-user-settings.min.js"))
+            {
+                using (StreamReader reader = new StreamReader(resourceStream))
+                {
+                    string s = reader.ReadToEnd();
+
+                    script.Append(s);
+                }
+            }
+
+
 
             if (_options.SetupInstallPrompt)
             {

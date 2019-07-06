@@ -8,14 +8,14 @@ namespace Microsoft.Extensions.DependencyInjection
 {
     public static class StartupExtensions
     {
-        public static PwaBuilder AddNoDbStorage(this PwaBuilder builder)
+        public static IServiceCollection AddPwaNoDbStorage(this IServiceCollection services)
         {
 
-            builder.Services.AddNoDbSingleton<PushDeviceSubscription>();
-            builder.Services.AddSingleton<IPushSubscriptionStore, PushSubscriptionStore>();
+            services.AddNoDbSingleton<PushDeviceSubscription>();
+            services.AddSingleton<IPushSubscriptionStore, PushSubscriptionStore>();
 
 
-            return builder;
+            return services;
         }
 
     }

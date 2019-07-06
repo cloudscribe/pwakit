@@ -15,12 +15,14 @@ namespace cloudscribe.DemoWeb
             var hostBuilder = CreateWebHostBuilder(args);
             var host = hostBuilder.Build();
 
+            var config = host.Services.GetRequiredService<IConfiguration>();
+
             using (var scope = host.Services.CreateScope())
             {
                 var scopedServices = scope.ServiceProvider;
                 try
                 {
-                    EnsureDataStorageIsReady(scopedServices);
+                    EnsureDataStorageIsReady(scopedServices, config);
 
                 }
                 catch (Exception ex)
@@ -32,7 +34,7 @@ namespace cloudscribe.DemoWeb
 
             var env = host.Services.GetRequiredService<IHostingEnvironment>();
             var loggerFactory = host.Services.GetRequiredService<ILoggerFactory>();
-            var config = host.Services.GetRequiredService<IConfiguration>();
+            
             ConfigureLogging(env, loggerFactory, host.Services, config);
 
             host.Run();
@@ -42,9 +44,26 @@ namespace cloudscribe.DemoWeb
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>();
 
-        private static void EnsureDataStorageIsReady(IServiceProvider scopedServices)
+        private static void EnsureDataStorageIsReady(IServiceProvider scopedServices, IConfiguration config)
         {
-            CoreNoDbStartup.InitializeDataAsync(scopedServices).Wait();
+            var storage = config["DevOptions:DbPlatform"];
+
+            switch (storage)
+            {
+                case "NoDb":
+                    CoreNoDbStartup.InitializeDataAsync(scopedServices).Wait();
+
+                    break;
+
+                case "ef":
+                default:
+                    LoggingEFStartup.InitializeDatabaseAsync(scopedServices).Wait();
+                    CoreEFStartup.InitializeDatabaseAsync(scopedServices).Wait();
+                    SimpleContentEFStartup.InitializeDatabaseAsync(scopedServices).Wait();
+                    PwaDatabase.InitializeDatabaseAsync(scopedServices).Wait();
+                    
+                    break;
+            }
 
 
 

@@ -11,22 +11,76 @@ namespace Microsoft.Extensions.DependencyInjection
             bool useHangfire
             )
         {
-            var useSingletons = true;
-            services.AddCloudscribeCoreNoDbStorage(useSingletons);
-            services.AddCloudscribeLoggingNoDbStorage(config, useSingletons);
-
-            services.AddNoDbStorageForSimpleContent(useSingletons);
 
 
+            var storage = config["DevOptions:DbPlatform"];
+            var efProvider = config["DevOptions:EFProvider"];
 
 
+            switch (storage)
+            {
+                case "NoDb":
+
+                    var useSingletons = true;
+                    services.AddCloudscribeCoreNoDbStorage(useSingletons);
+                    services.AddNoDbStorageForSimpleContent(useSingletons);
+                    services.AddCloudscribeLoggingNoDbStorage(config, useSingletons);
+
+                    services.AddPwaNoDbStorage();
+
+                    break;
+
+                case "ef":
+                default:
+
+                    switch (efProvider)
+                    {
+                        case "sqlite":
+                            var slConnection = config.GetConnectionString("SQLiteEntityFrameworkConnectionString");
+                            services.AddCloudscribeCoreEFStorageSQLite(slConnection);
+                            services.AddCloudscribeSimpleContentEFStorageSQLite(slConnection);
+                            services.AddCloudscribeLoggingEFStorageSQLite(slConnection);
+
+                            services.AddPwaStorageSQLite(slConnection);
+                            
+                            break;
+                            
+                        case "pgsql":
+                            var pgsConnection = config.GetConnectionString("PostgreSqlConnectionString");
+                            services.AddCloudscribeCorePostgreSqlStorage(pgsConnection);
+                            services.AddCloudscribeSimpleContentPostgreSqlStorage(pgsConnection);
+                            services.AddCloudscribeLoggingPostgreSqlStorage(pgsConnection);
+
+                            services.AddPwaStoragePostgreSql(pgsConnection);
+                            
+                            break;
+
+                        case "MySql":
+                            var mysqlConnection = config.GetConnectionString("MySqlEntityFrameworkConnectionString");
+                            services.AddCloudscribeCoreEFStorageMySql(mysqlConnection);
+                            services.AddCloudscribeSimpleContentEFStorageMySQL(mysqlConnection);
+                            services.AddCloudscribeLoggingEFStorageMySQL(mysqlConnection);
+
+                            services.AddPwaStorageMySql(mysqlConnection);
+                            
+                            break;
+
+                        case "MSSQL":
+                        default:
+                            var connectionString = config.GetConnectionString("EntityFrameworkConnection");
+                            services.AddCloudscribeCoreEFStorageMSSQL(connectionString);
+                            services.AddCloudscribeSimpleContentEFStorageMSSQL(connectionString);
+                            services.AddCloudscribeLoggingEFStorageMSSQL(connectionString);
+
+                            services.AddPwaStorageMSSQL(connectionString);
+                            
+                            break;
+                    }
 
 
-
-
-
-
-
+                    break;
+            }
+            
             return services;
         }
 
@@ -37,9 +91,7 @@ namespace Microsoft.Extensions.DependencyInjection
         {
 
             services.AddCloudscribeLogging(config);
-
-
-
+            
             services.AddScoped<cloudscribe.Web.Navigation.INavigationNodePermissionResolver, cloudscribe.Web.Navigation.NavigationNodePermissionResolver>();
             services.AddScoped<cloudscribe.Web.Navigation.INavigationNodePermissionResolver, cloudscribe.SimpleContent.Web.Services.PagesNavigationNodePermissionResolver>();
             services.AddCloudscribeCoreMvc(config);
@@ -53,18 +105,14 @@ namespace Microsoft.Extensions.DependencyInjection
 
             var pwaBuilder = services.AddPwaKit(config);
             pwaBuilder.AddCloudscribeCoreIntegration();
+
+            pwaBuilder.UseSiteLastModifiedAsCacheSuffix();
             pwaBuilder.MakeCloudscribeAdminPagesNetworkOnly();
             pwaBuilder.PreCacheAllFileManagerImageUrls();
             pwaBuilder.PreCacheNavigationMenuUrls();
             pwaBuilder.PreCacheAllSimpleContentUrls();
-            pwaBuilder.AddNoDbStorage();
-
-
-
-
-
-
-
+            
+            
 
             return services;
         }

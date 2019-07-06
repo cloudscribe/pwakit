@@ -20,8 +20,32 @@
         
         serviceWorkerRegistration.pushManager.getSubscription()
             .then(function (subscription) {
+                
                 changeUIState(Notification.permission === 'denied', subscription !== null);
+
+                if (Notification.permission === 'denied', subscription !== null) {
+
+                    console.log('found subscription');
+                    console.log(subscription);
+                    //update the sub on the server
+                    PushNotificationsController.storePushSubscription(subscription)
+                        .then(function (response) {
+                            if (response.ok) {
+                                console.log('Successfully saved subscription');
+                            } else {
+                                console.log('Failed to uppdate subscription');
+                            }
+                        }).catch(function (error) {
+                            console.log('Failed to update subscription on server: ' + error);
+                        });
+
+                }
+                
+
             });
+
+
+
     }
 
     function changeUIState(notificationsBlocked, isSubscibed) {
@@ -32,7 +56,7 @@
             if (notificationsBlocked || isSubscibed) {
                 btnSubscribe.style.display = 'none';
             } else {
-                btnSubscribe.style.display = 'block';
+                btnSubscribe.style.display = 'inline-block';
             }
         }
 
@@ -46,6 +70,18 @@
             }
         }
 
+        var notifications = document.querySelectorAll('[data-show-if-not-push-subscribed]');
+        for (i = 0; i < notifications.length; ++i) {
+            var n = notifications[i];
+            if (notificationsBlocked || !isSubscibed) {
+                n.style.display = 'block';
+                n.classList.add('show');
+            } else {
+                n.style.display = 'none';
+                n.classList.remove('show');
+            }
+        }
+        
 
        
     }
@@ -95,6 +131,7 @@
         serviceWorkerRegistration.pushManager.getSubscription()
             .then(function (pushSubscription) {
                 if (pushSubscription) {
+
                     pushSubscription.unsubscribe()
                         .then(function () {
                             PushNotificationsController.discardPushSubscription(pushSubscription)
@@ -112,6 +149,8 @@
                         }).catch(function (error) {
                             console.log('Failed to unsubscribe from Push Notifications: ' + error);
                         });
+
+
                 }
             });
     }
@@ -138,7 +177,13 @@ document.addEventListener("DOMContentLoaded", function () {
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.ready.then(function (serviceWorkerRegistration) {
             PushNotificationSettings.initialize(serviceWorkerRegistration);
-         });
+        });
+    } else {
+        var warnings = document.querySelectorAll('[data-show-if-push-not-supported]');
+        for (i = 0; i < warnings.length; ++i) {
+            warnings[i].style.display = 'block';
+            
+        }
     }
 
 });

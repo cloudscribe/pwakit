@@ -1,6 +1,7 @@
 ﻿using cloudscribe.PwaKit.Interfaces;
 using cloudscribe.PwaKit.Models;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System.Collections.Generic;
@@ -43,26 +44,42 @@ namespace cloudscribe.PwaKit.Services
 
             await _configurePushApiMethods.AppendToInitScript(script, context, urlHelper);
 
-
-            var assembly = typeof(DefaultGeneratePwaInitScript).GetTypeInfo().Assembly;
-            using (var resourceStream = assembly.GetManifestResourceStream(baseResourcePath + "push-user-settings.min.js"))
+            var canShowPush = true;
+           
+            if (_options.RequireCookieConsentBeforeRegisteringServiceWorker)
             {
-                using (StreamReader reader = new StreamReader(resourceStream))
+                var consentFeature = context.Features.Get<ITrackingConsentFeature>();
+                if (consentFeature != null && !consentFeature.CanTrack)
                 {
-                    string s = reader.ReadToEnd();
-
-                    script.Append(s);
+                    canShowPush = false;
                 }
             }
+
+            if(canShowPush)
+            {
+                var assembly = typeof(DefaultGeneratePwaInitScript).GetTypeInfo().Assembly;
+                var userSettingsFile = baseResourcePath + "push-user-settings.min.js";
+                using (var resourceStream = assembly.GetManifestResourceStream(userSettingsFile))
+                {
+                    using (StreamReader reader = new StreamReader(resourceStream))
+                    {
+                        string s = reader.ReadToEnd();
+
+                        script.Append(s);
+                    }
+                }
+            }
+            
 
 
 
             if (_options.SetupInstallPrompt)
             {
                 script.Append("let deferredPrompt;");
-                script.Append("let divPrompt = document.getElementById('divPwaInstallPrompt');");
+                //script.Append("let divPrompt = document.getElementById('divPwaInstallPrompt');");
                 script.Append("let btnInstall = document.getElementById('btnPwaInstall');");
-                script.Append("if(divPrompt && btnInstall) {");
+                //script.Append("let pwaHeading = document.getElementById('pwaInstallHeading');");
+                script.Append("if(btnInstall) {");
 
 
                 script.Append("window.addEventListener('beforeinstallprompt', (e) => {");
@@ -72,16 +89,18 @@ namespace cloudscribe.PwaKit.Services
                 script.Append("deferredPrompt = e;");
 
                 //update the UI notify the user
-                script.Append("divPrompt.classList.add('show');");
-                script.Append("divPrompt.style.display ='block';");
+                //script.Append("divPrompt.classList.add('show');");
+                //script.Append("divPrompt.style.display ='block';");
+                //script.Append("pwaHeading.style.display = 'block';");
+                script.Append("btnInstall.style.display = 'inline-block';");
 
                 script.Append("});");
 
 
                 script.Append("btnInstall.addEventListener('click', (e) => {");
 
-                script.Append("document.getElementById('divPwaInstallPrompt').classList.remove('show');");
-                script.Append("divPrompt.style.display ='none';");
+                //script.Append("document.getElementById('divPwaInstallPrompt').classList.remove('show');");
+               // script.Append("divPrompt.style.display ='none';");
                 // Show the prompt
                 script.Append("deferredPrompt.prompt();");
                 // Wait for the user to respond to the prompt

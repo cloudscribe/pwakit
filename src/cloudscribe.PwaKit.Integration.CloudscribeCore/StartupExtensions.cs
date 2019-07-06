@@ -12,10 +12,8 @@ namespace Microsoft.Extensions.DependencyInjection
         {
 
             builder.Services.AddScoped<IPwaRouteNameProvider, PwaRouteNameProvider>();
-            //builder.Services.AddScoped<IWorkboxCacheSuffixProvider, LastModifiedWorkboxCacheSuffixProvider>();
             builder.Services.AddScoped<IUserIdResolver, UserIdResolver>();
             builder.Services.AddScoped<ITenantIdResolver, TenantIdResolver>();
-
 
             return builder;
         }
@@ -48,6 +46,19 @@ namespace Microsoft.Extensions.DependencyInjection
         public static PwaBuilder PreCacheNavigationMenuUrls(this PwaBuilder builder)
         {
             builder.Services.AddScoped<IRuntimeCacheItemProvider, NavigationRuntimeCacheItemProvider>();
+
+            return builder;
+        }
+
+        /// <summary>
+        /// this will cause the cahce to be cleared and re-popualated if site settings are updated
+        /// </summary>
+        /// <param name="builder"></param>
+        /// <returns></returns>
+        public static PwaBuilder UseSiteLastModifiedAsCacheSuffix(this PwaBuilder builder)
+        {
+
+            builder.Services.AddScoped<IWorkboxCacheSuffixProvider, LastModifiedWorkboxCacheSuffixProvider>();
 
             return builder;
         }

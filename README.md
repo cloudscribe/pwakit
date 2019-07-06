@@ -5,7 +5,15 @@ aiming to provide tools to facilitate building PWAs (Progressive Web Apps) with 
 
 Configurable dynamic runtime creation of serviceworker using google workbox
 
-Push notifications - work in progress
+Push notifications
+
+## Try It
+
+You can log into the demo site in this repository using username admin and password admin.
+
+You can then opt in to push notifications and under Administration > Push Notification you can send notifications for testing purposes.
+
+Documentation coming soon.
 
 ## Credits
 

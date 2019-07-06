@@ -137,13 +137,29 @@ namespace cloudscribe.PwaKit.Controllers
         {
             if(subscription != null && !string.IsNullOrEmpty(subscription.Endpoint))
             {
-                var newSub = new PushDeviceSubscription(subscription);
-                newSub.TenantId = _tenantIdResolver.GetTenantId();
-                newSub.UserId = _userIdResolver.GetCurrentUserId();
-                newSub.UserAgent = Request.Headers["User-Agent"].ToString();
-                newSub.CreatedFromIpAddress = HttpContext.Connection.RemoteIpAddress.ToString();
+                var tenantId = _tenantIdResolver.GetTenantId(); ;
+                var existing = await _subscriptionStore.GetSubscriptionByEndpoint(tenantId, subscription.Endpoint);
+                if(existing != null)
+                {
+                    //the user could subscribe while not authenticated, if they are later authenticated add the userid to the subscription
+                    if(string.IsNullOrEmpty(existing.UserId) && User.Identity.IsAuthenticated)
+                    {
+                        existing.UserId = _userIdResolver.GetCurrentUserId();
+                        await _subscriptionStore.UpdateSubscription(existing);
+                    }
+                }
+                else
+                {
+                    var newSub = new PushDeviceSubscription(subscription);
+                    newSub.TenantId = _tenantIdResolver.GetTenantId();
+                    newSub.UserId = _userIdResolver.GetCurrentUserId();
+                    newSub.UserAgent = Request.Headers["User-Agent"].ToString();
+                    newSub.CreatedFromIpAddress = HttpContext.Connection.RemoteIpAddress.ToString();
 
-                await _subscriptionStore.SaveSubscription(newSub);
+                    await _subscriptionStore.CreateSubscription(newSub);
+                }
+
+                
             }
             
             return NoContent();
@@ -153,6 +169,11 @@ namespace cloudscribe.PwaKit.Controllers
         [HttpDelete]
         public async Task<IActionResult> Subscription(string endpoint)
         {
+            //if(string.IsNullOrEmpty(endpoint))
+            //{
+            //    endpoint = Request.Query["endpoint"];
+            //}
+
             await _subscriptionStore.DeleteSubscription(endpoint);
 
             return NoContent();

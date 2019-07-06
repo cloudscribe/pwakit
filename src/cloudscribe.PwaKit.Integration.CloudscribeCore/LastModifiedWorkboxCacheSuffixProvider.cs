@@ -12,28 +12,29 @@ namespace cloudscribe.PwaKit.Integration.CloudscribeCore
     public class LastModifiedWorkboxCacheSuffixProvider : IWorkboxCacheSuffixProvider
     {
         public LastModifiedWorkboxCacheSuffixProvider(
-            SiteContext siteContext,
-            NavigationTreeBuilderService siteMapTreeBuilder
+            SiteContext siteContext
+            //NavigationTreeBuilderService siteMapTreeBuilder
             )
         {
             _siteContext = siteContext;
-            _siteMapTreeBuilder = siteMapTreeBuilder;
+            //_siteMapTreeBuilder = siteMapTreeBuilder;
         }
 
         private readonly SiteContext _siteContext;
-        private readonly NavigationTreeBuilderService _siteMapTreeBuilder;
+        //private readonly NavigationTreeBuilderService _siteMapTreeBuilder;
 
-        public async Task<string> GetWorkboxCacheSuffix()
+        public Task<string> GetWorkboxCacheSuffix()
         {
 
-            var rootNode = await _siteMapTreeBuilder.GetTree();
+            //var rootNode = await _siteMapTreeBuilder.GetTree();
             //var maxContentDate = rootNode.Flatten().Where(x => x.LastModifiedUtc.HasValue).Max(x => x.LastModifiedUtc.Value);
             //if (maxContentDate > _siteContext.LastModifiedUtc)
             //{
             //    return maxContentDate.ToString("s");
             //}
 
-            return _siteContext.LastModifiedUtc.ToString("s");
+            var result = _siteContext.LastModifiedUtc.ToString("s");
+            return Task.FromResult(result);
 
         }
 

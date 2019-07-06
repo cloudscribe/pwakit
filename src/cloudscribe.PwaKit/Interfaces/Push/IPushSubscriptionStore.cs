@@ -19,13 +19,21 @@ namespace cloudscribe.PwaKit.Interfaces
            CancellationToken cancellationToken = default(CancellationToken)
            );
 
+        Task<PushDeviceSubscription> GetSubscriptionByEndpoint(
+            string tenantId,
+            string endpoint,
+            CancellationToken cancellationToken = default(CancellationToken)
+            );
+
         Task<IEnumerable<PushDeviceSubscription>> GetSubscriptionsForUser(
             string tenantId,
             string userId,
             CancellationToken cancellationToken = default(CancellationToken)
             );
 
-        Task SaveSubscription(PushDeviceSubscription subscription);
+        Task CreateSubscription(PushDeviceSubscription subscription);
+
+        Task UpdateSubscription(PushDeviceSubscription subscription);
 
         Task DeleteSubscription(string endpoint);
 

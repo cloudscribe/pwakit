@@ -20,9 +20,13 @@
         
         serviceWorkerRegistration.pushManager.getSubscription()
             .then(function (subscription) {
+                
                 changeUIState(Notification.permission === 'denied', subscription !== null);
 
                 if (Notification.permission === 'denied', subscription !== null) {
+
+                    console.log('found subscription');
+                    console.log(subscription);
                     //update the sub on the server
                     PushNotificationsController.storePushSubscription(subscription)
                         .then(function (response) {
@@ -127,6 +131,7 @@
         serviceWorkerRegistration.pushManager.getSubscription()
             .then(function (pushSubscription) {
                 if (pushSubscription) {
+
                     pushSubscription.unsubscribe()
                         .then(function () {
                             PushNotificationsController.discardPushSubscription(pushSubscription)
@@ -144,6 +149,8 @@
                         }).catch(function (error) {
                             console.log('Failed to unsubscribe from Push Notifications: ' + error);
                         });
+
+
                 }
             });
     }

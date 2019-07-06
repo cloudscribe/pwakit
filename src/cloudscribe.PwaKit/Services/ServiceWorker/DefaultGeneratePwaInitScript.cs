@@ -58,7 +58,8 @@ namespace cloudscribe.PwaKit.Services
             if(canShowPush)
             {
                 var assembly = typeof(DefaultGeneratePwaInitScript).GetTypeInfo().Assembly;
-                using (var resourceStream = assembly.GetManifestResourceStream(baseResourcePath + "push-user-settings.js"))
+                var userSettingsFile = baseResourcePath + "push-user-settings.min.js";
+                using (var resourceStream = assembly.GetManifestResourceStream(userSettingsFile))
                 {
                     using (StreamReader reader = new StreamReader(resourceStream))
                     {

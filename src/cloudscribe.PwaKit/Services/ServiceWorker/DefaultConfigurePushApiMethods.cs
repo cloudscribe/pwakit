@@ -37,8 +37,10 @@ namespace cloudscribe.PwaKit.Services
             
             script.Append(" return {");
 
+            var publicKeyUrl = urlHelper.Action("GetPublicKey", "Pwa");
+
             script.Append("retrievePublicKey: function () {");
-            script.Append("return fetch('/pwa/getpublickey').then(function (response) {");
+            script.Append("return fetch('" + publicKeyUrl + "').then(function (response) {");
             script.Append("if (response.ok) {");
             script.Append("return response.text().then(function (applicationServerPublicKeyBase64) {");
             script.Append("return urlB64ToUint8Array(applicationServerPublicKeyBase64);");
@@ -48,10 +50,11 @@ namespace cloudscribe.PwaKit.Services
             script.Append("}");
             script.Append("});");
             script.Append("},");
-            
-            
+
+            var subscriptionUrl = urlHelper.Action("Subscription", "Pwa");
+
             script.Append("storePushSubscription: function (pushSubscription) {");
-            script.Append("return fetch('/pwa/subscription', {");
+            script.Append("return fetch('" + subscriptionUrl + "', {");
             script.Append("method: 'POST',");
             script.Append("headers: { 'Content-Type': 'application/json' },");
             script.Append("body: JSON.stringify(pushSubscription)");
@@ -59,7 +62,7 @@ namespace cloudscribe.PwaKit.Services
             script.Append("},");
 
             script.Append("discardPushSubscription: function (pushSubscription) {");
-            script.Append("return fetch('/pwa/subscription?endpoint=' + encodeURIComponent(pushSubscription.endpoint), {");
+            script.Append("return fetch('" + subscriptionUrl  + "?endpoint=' + encodeURIComponent(pushSubscription.endpoint), {");
             script.Append("method: 'DELETE'");
             script.Append("});");
             script.Append("}");

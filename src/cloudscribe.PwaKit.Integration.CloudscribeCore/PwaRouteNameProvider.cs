@@ -40,11 +40,11 @@ namespace cloudscribe.PwaKit.Integration.CloudscribeCore
                 if (!string.IsNullOrEmpty(_currentSite.SiteFolderName))
                 {
 
-                    return "./" + _currentSite.SiteFolderName;
+                    return "/" + _currentSite.SiteFolderName;
                 }
             }
 
-            return "./";
+            return "/";
         }
 
         public string GetOfflinePageRouteName()

@@ -407,21 +407,45 @@ namespace cloudscribe.PwaKit.Services
 
 
             sw.Append("self.addEventListener('pushsubscriptionchange', function (event) {");
+
+            if (options.EnableServiceWorkerConsoleLog)
+            {
+                sw.Append("console.log('push subscription change');");
+            }
+
             sw.Append("const handlePushSubscriptionChangePromise = Promise.resolve();");
 
             sw.Append("if (event.oldSubscription) {");
+
+            if (options.EnableServiceWorkerConsoleLog)
+            {
+                sw.Append("console.log('old subscription');");
+            }
+
             sw.Append("handlePushSubscriptionChangePromise = handlePushSubscriptionChangePromise.then(function () {");
             sw.Append("return PushNotificationsController.discardPushSubscription(event.oldSubscription);");
             sw.Append("});");
             sw.Append("}");
 
             sw.Append("if (event.newSubscription) {");
+
+            if (options.EnableServiceWorkerConsoleLog)
+            {
+                sw.Append("console.log('new subscription');");
+            }
+
             sw.Append("handlePushSubscriptionChangePromise = handlePushSubscriptionChangePromise.then(function () {");
             sw.Append("return PushNotificationsController.storePushSubscription(event.newSubscription);");
             sw.Append("});");
             sw.Append("}");
 
             sw.Append("if (!event.newSubscription) {");
+
+            if (options.EnableServiceWorkerConsoleLog)
+            {
+                sw.Append("console.log('not new subscription');");
+            }
+
             sw.Append("handlePushSubscriptionChangePromise = handlePushSubscriptionChangePromise.then(function () {");
             sw.Append("return PushNotificationsController.retrievePublicKey().then(function (applicationServerPublicKey) {");
             sw.Append("return pushServiceWorkerRegistration.pushManager.subscribe({");

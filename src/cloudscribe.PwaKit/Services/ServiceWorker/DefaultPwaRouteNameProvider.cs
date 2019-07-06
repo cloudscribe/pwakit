@@ -11,7 +11,7 @@ namespace cloudscribe.PwaKit.Services
 
         public string GetServiceWorkerScope()
         {
-            return "./";
+            return "/";
         }
 
         public string GetOfflinePageRouteName()

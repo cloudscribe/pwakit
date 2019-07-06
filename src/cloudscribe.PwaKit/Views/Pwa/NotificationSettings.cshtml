@@ -7,9 +7,4 @@
 
 <button class="btn btn-success" data-push-subscribe-button type="button">@sr["Subscribe to Push Notifications"]</button>
 <button class="btn btn-warning" data-push-unsubscribe-button type="button">@sr["Unsubscribe from Push Notifications"]</button>
-
-@*@section Scripts {
-    <script src="/pwa/js/push-notifications-controller.js" asp-append-version="true"></script>
-    <script src="/pwa/js/push-user-settings.js" asp-append-version="true"></script>
-}*@
-
+<p data-show-if-push-not-supported style="display:none;">@sr["Sorry push notifications are not supported on the current device or browser."]</p>

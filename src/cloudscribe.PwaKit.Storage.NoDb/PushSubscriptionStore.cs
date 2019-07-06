@@ -35,6 +35,18 @@ namespace cloudscribe.PwaKit.Storage.NoDb
             return all.Where(x => x.TenantId == tenantId);
         }
 
+
+        public async Task<PushDeviceSubscription> GetSubscriptionByEndpoint(
+            string tenantId,
+            string endpoint,
+            CancellationToken cancellationToken = default(CancellationToken)
+            )
+        {
+            var all = await _queries.GetAllAsync(_NoDbProjectId).ConfigureAwait(false);
+
+            return all.Where(x => x.TenantId == tenantId && x.Endpoint == endpoint).FirstOrDefault();
+        }
+
         public async Task<IEnumerable<PushDeviceSubscription>> GetAllSubscriptionsExceptForUser(
             string tenantId,
             string userId,
@@ -68,7 +80,7 @@ namespace cloudscribe.PwaKit.Storage.NoDb
             
         }
         
-        public async Task SaveSubscription(PushDeviceSubscription subscription)
+        public async Task CreateSubscription(PushDeviceSubscription subscription)
         {
             await _commands.CreateAsync(
                 _NoDbProjectId,
@@ -76,5 +88,15 @@ namespace cloudscribe.PwaKit.Storage.NoDb
                 subscription
                 ).ConfigureAwait(false);
         }
+
+        public async Task UpdateSubscription(PushDeviceSubscription subscription)
+        {
+            await _commands.UpdateAsync(
+                _NoDbProjectId,
+                subscription.Key.ToString(),
+                subscription
+                ).ConfigureAwait(false);
+        }
+
     }
 }

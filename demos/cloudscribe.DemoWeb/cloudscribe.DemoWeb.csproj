@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
@@ -78,6 +78,10 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\cloudscribe.PwaKit.Integration.CloudscribeCore\cloudscribe.PwaKit.Integration.CloudscribeCore.csproj" />
     <ProjectReference Include="..\..\src\cloudscribe.PwaKit.Integration.SimpleContent\cloudscribe.PwaKit.Integration.SimpleContent.csproj" />
+    <ProjectReference Include="..\..\src\cloudscribe.PwaKit.Storage.EFCore.MSSQL\cloudscribe.PwaKit.Storage.EFCore.MSSQL.csproj" />
+    <ProjectReference Include="..\..\src\cloudscribe.PwaKit.Storage.EFCore.MySql\cloudscribe.PwaKit.Storage.EFCore.MySql.csproj" />
+    <ProjectReference Include="..\..\src\cloudscribe.PwaKit.Storage.EFCore.PostgreSql\cloudscribe.PwaKit.Storage.EFCore.PostgreSql.csproj" />
+    <ProjectReference Include="..\..\src\cloudscribe.PwaKit.Storage.EFCore.SQLite\cloudscribe.PwaKit.Storage.EFCore.SQLite.csproj" />
     <ProjectReference Include="..\..\src\cloudscribe.PwaKit.Storage.NoDb\cloudscribe.PwaKit.Storage.NoDb.csproj" />
   </ItemGroup>
 

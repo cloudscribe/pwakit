@@ -23,7 +23,14 @@
                 
                 changeUIState(Notification.permission === 'denied', subscription !== null);
 
-                if (Notification.permission === 'denied', subscription !== null) {
+                if (Notification.permission === 'denied') {
+                    var warnings = document.querySelectorAll('[data-show-if-push-not-supported]');
+                    for (i = 0; i < warnings.length; ++i) {
+                        warnings[i].style.display = 'block';
+                    }
+                }
+
+                if (Notification.permission !== 'denied', subscription !== null) {
 
                     console.log('found subscription');
                     console.log(subscription);
@@ -174,16 +181,22 @@
 })();
 
 document.addEventListener("DOMContentLoaded", function () {
-    if ('serviceWorker' in navigator) {
+    if ('serviceWorker' in navigator && 'PushManager' in window) {
         navigator.serviceWorker.ready.then(function (serviceWorkerRegistration) {
             PushNotificationSettings.initialize(serviceWorkerRegistration);
         });
     } else {
-        var warnings = document.querySelectorAll('[data-show-if-push-not-supported]');
-        for (i = 0; i < warnings.length; ++i) {
-            warnings[i].style.display = 'block';
-            
+
+        if (!('PushManager' in window)) {
+            console.log('push not supported');
+            var warnings = document.querySelectorAll('[data-show-if-push-not-supported]');
+            for (i = 0; i < warnings.length; ++i) {
+                warnings[i].style.display = 'block';
+            }
         }
+
     }
 
+    
+  
 });

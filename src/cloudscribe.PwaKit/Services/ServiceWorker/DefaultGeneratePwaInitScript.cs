@@ -295,10 +295,12 @@ namespace cloudscribe.PwaKit.Services
             
             script.Append("setTimeout(function() {");
 
+            script.Append("if(navigator.serviceWorker.controller) {");
             script.Append("const messageChannel = new MessageChannel();");
             script.Append("navigator.serviceWorker.controller.postMessage(");
             script.Append("{type:'page-ready'}");
             script.Append(", [messageChannel.port2]);");
+            script.Append("}");
 
             script.Append("},3000);");
 

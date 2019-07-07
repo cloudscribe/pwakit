@@ -2,9 +2,7 @@
 @{
     ViewData["Title"] = sr["Push Notification Settings"];
 }
-
 <h2>@ViewData["Title"]</h2>
-
-<button class="btn btn-success" data-push-subscribe-button type="button">@sr["Subscribe to Push Notifications"]</button>
-<button class="btn btn-warning" data-push-unsubscribe-button type="button">@sr["Unsubscribe from Push Notifications"]</button>
-<p data-show-if-push-not-supported style="display:none;">@sr["Sorry push notifications are not supported on the current device or browser."]</p>
+<button class="btn btn-success" data-push-subscribe-button type="button" style="display:none;">@sr["Subscribe to Push Notifications"]</button>
+<button class="btn btn-warning" data-push-unsubscribe-button type="button" style="display:none;">@sr["Unsubscribe from Push Notifications"]</button>
+<p data-show-if-push-not-supported style="display:none;">@sr["Sorry push notifications are not supported or disabled on the current device or browser."]</p>

@@ -25,10 +25,13 @@ namespace Microsoft.Extensions.DependencyInjection
 
             services.Configure<PwaOptions>(config.GetSection("PwaOptions"));
             services.Configure<PwaPreCacheItems>(config.GetSection("PwaPreCacheItems"));
+            services.Configure<PwaRuntimeCacheItems>(config.GetSection("PwaRuntimeCacheItems"));
 
             services.Configure<PushClientSettings>(config.GetSection("PushServiceClient"));
 
             
+            services.AddScoped<IRuntimeCacheItemProvider, ConfigRuntimeCacheItemProvider>();
+
 
             services.AddScoped<IPreCacheItemProvider, ConfigPreCacheItemProvider>();
             services.AddScoped<IPreCacheItemProvider, OfflinePageCacheItemProvider>();

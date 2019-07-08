@@ -103,14 +103,14 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddSimpleContentRssSyndiction();
 
 
-            var pwaBuilder = services.AddPwaKit(config);
-            pwaBuilder.AddCloudscribeCoreIntegration();
-
-            pwaBuilder.UseSiteLastModifiedAsCacheSuffix();
-            pwaBuilder.MakeCloudscribeAdminPagesNetworkOnly();
-            pwaBuilder.PreCacheAllFileManagerImageUrls();
-            pwaBuilder.PreCacheNavigationMenuUrls();
-            pwaBuilder.PreCacheAllSimpleContentUrls();
+            var pwaBuilder = services.AddPwaKit(config)
+                .AddCloudscribeCoreIntegration()
+                .UseSiteLastModifiedAsCacheSuffix()
+                .MakeCloudscribeAdminPagesNetworkOnly()
+                .PreCacheContentFiles()
+                .PreCacheNavigationMenuUrls()
+                .PreCacheAllSimpleContentUrls()
+                ;
             
             
 

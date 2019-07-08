@@ -3,9 +3,9 @@ aiming to provide tools to facilitate building PWAs (Progressive Web Apps) with 
 
 ## Features
 
-Configurable dynamic runtime creation of serviceworker using google workbox
+Configurable dynamic runtime creation of [serviceworker](https://developers.google.com/web/ilt/pwa/introduction-to-service-worker) using [google workbox](https://developers.google.com/web/tools/workbox/) to make your web app work offline.
 
-Push notifications
+Push notifications - on supported browsers and devices push notifications can be used for both visible notifications and non-visible notifications sent to the serviceworker, for example to instruct the serviceworker to add, update or delete update cached content.
 
 ## Try It
 
@@ -16,6 +16,8 @@ You can then opt in to push notifications and under Administration > Push Notifi
 Documentation coming soon.
 
 ## Credits
+
+Some of the work on serviceworkers was informed by Mads Kristensen's [WebEssentials.AspNetCore.ServiceWroeker](https://github.com/madskristensen/WebEssentials.AspNetCore.ServiceWorker)
 
 The work on push notifications was very informed by the work of Tomasz Pęczek in his [demo app here](https://github.com/tpeczek/Demo.AspNetCore.PushNotifications), and we are using his library [Lib.Net.Http.WebPush](https://github.com/tpeczek/Lib.Net.Http.WebPush)
 

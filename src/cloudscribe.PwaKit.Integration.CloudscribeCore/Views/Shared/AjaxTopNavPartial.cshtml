@@ -1,0 +1,12 @@
+﻿@using cloudscribe.Web.Common.Extensions
+<partial name="TopNavPartial" model="@Context.Request.PathAndQuery()" />
+<form id="frmTopNav" style="display:none;" class="form-inline" role="form" asp-controller="PwaNav" asp-action="TopNav" method="get" asp-antiforgery="false"
+      data-ajax="true"
+      data-ajax-method="GET"
+      data-ajax-success="navLoaded"
+      data-ajax-failure="navLoadFail"
+      data-ajax-mode="replace"
+      data-ajax-update="#navbarNavDropdown">
+    <input type="hidden" name="currentUrl" value="@Context.Request.PathAndQuery()" />
+    <button id="btnGetNav" type="submit" class="collapse" aria-hidden="true">Load Menu</button>
+</form>

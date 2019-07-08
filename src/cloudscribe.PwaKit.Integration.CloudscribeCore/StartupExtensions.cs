@@ -32,7 +32,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// </summary>
         /// <param name="builder"></param>
         /// <returns></returns>
-        public static PwaBuilder PreCacheAllFileManagerImageUrls(this PwaBuilder builder)
+        public static PwaBuilder PreCacheContentFiles(this PwaBuilder builder)
         {
             builder.Services.Configure<PwaContentFilesPreCacheOptions>(builder.Configuration.GetSection("PwaContentFilesPreCacheOptions"));
 

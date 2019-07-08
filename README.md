@@ -1,6 +1,8 @@
 # pwakit
 aiming to provide tools to facilitate building PWAs (Progressive Web Apps) with ASP.NET Core
 
+[Documentation at cloudscribe.com](https://www.cloudscribe.com/cloudscribe-pwakit)
+
 ## Features
 
 Configurable dynamic runtime creation of [serviceworker](https://developers.google.com/web/ilt/pwa/introduction-to-service-worker) using [google workbox](https://developers.google.com/web/tools/workbox/) to make your web app work offline.
@@ -13,7 +15,6 @@ You can log into the demo site in this repository using username admin and passw
 
 You can then opt in to push notifications and under Administration > Push Notification you can send notifications for testing purposes.
 
-Documentation coming soon.
 
 ## Credits
 

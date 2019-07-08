@@ -100,7 +100,7 @@
         <div class="row">
             <main id="content" class="col order-3">
                 @*<partial name="AlertsPartial" />*@
-                
+
                 <partial name="_CookieConsentPartial" />
                 @RenderBody()
             </main>
@@ -154,6 +154,7 @@
 
         </div>
         <partial name="PwaInstallPrompt" />
+        <span data-toast-config data-toasts-url="@Url.Action("GetAlerts","ToastAlerts")"></span>
     </footer>
     @RenderSection("Toolbar", required: false)
     <environment names="Development">
@@ -170,7 +171,8 @@
     </environment>
     <script src="~/cr/js/jquery.unobtrusive-ajax.min.js"></script>
     <script src="~/pwanav/js/top-nav-loader.js" asp-append-version="true"></script>
-
+    <script src="~/cr/js/bs-toast.min.js" asp-append-version="true"></script>
+    <script src="~/cr/js/toast-alerts.min.js" asp-append-version="true"></script>
     @RenderSection("Bottom", required: false)
     @RenderSection("Scripts", required: false)
     <add-this profile-id="@Tenant.AddThisDotComUsername" async></add-this>

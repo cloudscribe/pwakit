@@ -54,7 +54,7 @@ namespace cloudscribe.PwaKit.Integration.CloudscribeCore
                 if (!include) continue;
 
 
-                if (!ShouldRenderNode(navNode)) continue;
+                if (! await ShouldRenderNode(navNode)) continue;
 
                 var url = ResolveUrl(navNode, urlHelper);
 
@@ -77,7 +77,7 @@ namespace cloudscribe.PwaKit.Integration.CloudscribeCore
         }
 
 
-        private bool ShouldRenderNode(NavigationNode node)
+        private async Task<bool> ShouldRenderNode(NavigationNode node)
         {
             //if (node.Controller == "Account") return false;
 
@@ -89,7 +89,7 @@ namespace cloudscribe.PwaKit.Integration.CloudscribeCore
             TreeNode<NavigationNode> treeNode = new TreeNode<NavigationNode>(node);
             foreach (var permission in _permissionResolvers)
             {
-                bool ok = permission.ShouldAllowView(treeNode);
+                bool ok = await permission.ShouldAllowView(treeNode);
                 if (!ok) return false;
             }
 

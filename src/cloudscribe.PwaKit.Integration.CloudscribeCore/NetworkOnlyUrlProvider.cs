@@ -68,7 +68,7 @@ namespace cloudscribe.PwaKit.Integration.CloudscribeCore
             var urlHelper = _urlHelperFactory.GetUrlHelper(_actionContextAccesor.ActionContext);
             foreach (var navNode in rootNode.Flatten())
             {
-                if(WouldRenderNode(navNode))
+                if(await WouldRenderNode(navNode))
                 {
                     if (ShouldBeNetworkOnly(navNode))
                     {
@@ -109,7 +109,7 @@ namespace cloudscribe.PwaKit.Integration.CloudscribeCore
             return urlToUse;
         }
 
-        private bool WouldRenderNode(NavigationNode node)
+        private async Task<bool> WouldRenderNode(NavigationNode node)
         {
             //if (node.Controller == "Account") return false;
 
@@ -117,7 +117,7 @@ namespace cloudscribe.PwaKit.Integration.CloudscribeCore
             TreeNode<NavigationNode> treeNode = new TreeNode<NavigationNode>(node);
             foreach (var permission in _permissionResolvers)
             {
-                bool ok = permission.ShouldAllowView(treeNode);
+                bool ok = await permission.ShouldAllowView(treeNode);
                 if (!ok) return false;
             }
 

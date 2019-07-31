@@ -37,18 +37,18 @@
 
   <ItemGroup Label="Package References">
 
-    <PackageReference Include="cloudscribe.Core.Web" Version="3.1.99" />
-    <PackageReference Include="cloudscribe.Core.CompiledViews.Bootstrap4" Version="3.1.45" />
+    <PackageReference Include="cloudscribe.Core.Web" Version="3.1.100" />
+    <PackageReference Include="cloudscribe.Core.CompiledViews.Bootstrap4" Version="3.1.46" />
     <PackageReference Include="cloudscribe.Web.StaticFiles" Version="1.1.9" />
     
     <PackageReference Include="cloudscribe.Core.Storage.NoDb" Version="3.0.19" />
     <PackageReference Include="cloudscribe.Core.Storage.EFCore.MSSQL" Version="3.0.19" />
     <PackageReference Include="cloudscribe.Core.Storage.EFCore.PostgreSql" Version="3.0.19" />
     <PackageReference Include="cloudscribe.Core.Storage.EFCore.MySql" Version="3.0.20" />
-    <PackageReference Include="cloudscribe.Core.Storage.EFCore.SQLite" Version="3.0.20" />
+    <PackageReference Include="cloudscribe.Core.Storage.EFCore.SQLite" Version="3.0.21" />
     
     <PackageReference Include="cloudscribe.Core.SimpleContent" Version="4.0.16" />
-    <PackageReference Include="cloudscribe.SimpleContent.Web" Version="4.0.39" />
+    <PackageReference Include="cloudscribe.SimpleContent.Web" Version="4.0.40" />
     <PackageReference Include="cloudscribe.Core.SimpleContent.CompiledViews.Bootstrap4" Version="4.0.16" />
     <PackageReference Include="cloudscribe.SimpleContent.CompiledViews.Bootstrap4" Version="4.0.34" />
     <PackageReference Include="cloudscribe.SimpleContent.MetaWeblog" Version="4.0.9" />

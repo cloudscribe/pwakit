@@ -3,6 +3,8 @@ aiming to provide tools to facilitate building PWAs (Progressive Web Apps) with 
 
 [Documentation at cloudscribe.com](https://www.cloudscribe.com/cloudscribe-pwakit)
 
+If you have questions please visit our community forums https://www.cloudscribe.com/forum
+
 ## Features
 
 Configurable dynamic runtime creation of [serviceworker](https://developers.google.com/web/ilt/pwa/introduction-to-service-worker) using [google workbox](https://developers.google.com/web/tools/workbox/) to make your web app work offline.
@@ -33,6 +35,4 @@ If you are interested in sponsoring additional open source features for the clou
 
 See the [complete list of cloudscribe libraries](https://www.cloudscribe.com/docs/complete-list-of-cloudscribe-libraries) on [cloudscribe.com](https://www.cloudscribe.com/)
 
-## Questions or Comments?
 
-[![Join the chat at https://gitter.im/joeaudette/cloudscribe](https://badges.gitter.im/joeaudette/cloudscribe.svg)](https://gitter.im/joeaudette/cloudscribe?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)

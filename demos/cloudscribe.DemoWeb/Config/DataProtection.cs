@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using System.IO;
 
 namespace Microsoft.Extensions.DependencyInjection
@@ -10,7 +11,7 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection SetupDataProtection(
             this IServiceCollection services,
             IConfiguration config,
-            IHostingEnvironment environment
+            IWebHostEnvironment environment
             )
         {
 

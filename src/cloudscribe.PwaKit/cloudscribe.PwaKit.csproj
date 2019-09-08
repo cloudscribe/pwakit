@@ -2,9 +2,11 @@
 
   <PropertyGroup>
     <Description>A set of tools for building a dynamic serviceworker at runtime for ASP.NET Core</Description>
-    <Version>1.0.0-RC-20190708</Version>
+    <Version>3.0.0-beta20190907</Version>
     <Authors>Joe Audette</Authors>
-    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.0</TargetFrameworks>
+    <RazorLangVersion>3.0</RazorLangVersion>
+    <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
     <PackageTags>pwa,serviceworker,manifest,cloudscribe</PackageTags>
     <PackageIconUrl>https://raw.githubusercontent.com/joeaudette/cloudscribe/master/cloudscribe-icon-32.png</PackageIconUrl>
     <PackageProjectUrl>https://github.com/joeaudette/cloudscribe</PackageProjectUrl>
@@ -23,7 +25,10 @@
   <ItemGroup>
     <EmbeddedResource Include="js\**;css\**" Exclude="bin\**;obj\**;**\*.csproj;packages\**;@(EmbeddedResource)" />
   </ItemGroup>
-  
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
 
   <ItemGroup>
 
@@ -32,17 +37,17 @@
     <PackageReference Include="Lib.Net.Http.WebPush" Version="2.2.0" />
     <PackageReference Include="Lib.AspNetCore.WebPush" Version="1.2.0" />
 
-    <PackageReference Include="cloudscribe.Web.Common" Version="3.0.31" />
+    <PackageReference Include="cloudscribe.Web.Common" Version="4.0.0-*" />
     
-    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.1.3" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="2.1.1" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="2.1.1" />
+   
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="3.0.0-*" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.0.0-*" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="3.0.0-*" />
 
-    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="2.1.2" />
-    <PackageReference Include="Microsoft.Extensions.Http" Version="2.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="2.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Options" Version="2.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="3.0.0-*" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="3.0.0-*" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.0.0-*" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="3.0.0-*" />
   </ItemGroup>
 
 </Project>

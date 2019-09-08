@@ -2,9 +2,9 @@
 
   <PropertyGroup>
     <Description>Integration between cloudscribe.SimpleContent and cloudscribe.PwaKit</Description>
-    <Version>1.0.0-RC-20190708</Version>
+    <Version>3.0.0-beta20190907</Version>
     <Authors>Joe Audette</Authors>
-    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.0</TargetFrameworks>
     <PackageTags>pwa,serviceworker,cloudscribe</PackageTags>
     <PackageIconUrl>https://raw.githubusercontent.com/joeaudette/cloudscribe/master/cloudscribe-icon-32.png</PackageIconUrl>
     <PackageProjectUrl>https://github.com/joeaudette/cloudscribe</PackageProjectUrl>
@@ -20,7 +20,7 @@
 
   <ItemGroup>
     
-    <PackageReference Include="cloudscribe.SimpleContent.Web" Version="4.0.38" />
+    <PackageReference Include="cloudscribe.SimpleContent.Web" Version="5.0.0-*" />
     
   </ItemGroup>
 

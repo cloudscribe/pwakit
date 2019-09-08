@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
@@ -14,22 +15,19 @@ namespace cloudscribe.DemoWeb
     {
         public Startup(
             IConfiguration configuration,
-            IHostingEnvironment env,
-            ILogger<Startup> logger
+            IWebHostEnvironment env
             )
         {
             _configuration = configuration;
             _environment = env;
-            _log = logger;
 
             _sslIsAvailable = _configuration.GetValue<bool>("AppSettings:UseSsl");
         }
 
         private readonly IConfiguration _configuration;
-        private readonly IHostingEnvironment _environment;
+        private readonly IWebHostEnvironment _environment;
         private readonly bool _sslIsAvailable;
-        private readonly ILogger _log;
-
+   
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -95,7 +93,7 @@ namespace cloudscribe.DemoWeb
         public void Configure(
             IServiceProvider serviceProvider,
             IApplicationBuilder app,
-            IHostingEnvironment env,
+            IWebHostEnvironment env,
             ILoggerFactory loggerFactory,
             IOptions<cloudscribe.Core.Models.MultiTenantOptions> multiTenantOptionsAccessor,
             IOptions<RequestLocalizationOptions> localizationOptionsAccessor
@@ -104,7 +102,7 @@ namespace cloudscribe.DemoWeb
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage();
+                //app.UseDatabaseErrorPage();
             }
             else
             {
@@ -124,23 +122,31 @@ namespace cloudscribe.DemoWeb
 
             app.UseRequestLocalization(localizationOptionsAccessor.Value);
 
+            app.UseCloudscribeCore();
+
             var multiTenantOptions = multiTenantOptionsAccessor.Value;
+            var useFolders = multiTenantOptions.Mode == cloudscribe.Core.Models.MultiTenantMode.FolderName;
 
-            app.UseCloudscribeCore(
-                    loggerFactory,
-                    multiTenantOptions,
-                    _sslIsAvailable);
-
-
-
-            app.UseMvc(routes =>
+            app.UseEndpoints(endpoints =>
             {
-                var useFolders = multiTenantOptions.Mode == cloudscribe.Core.Models.MultiTenantMode.FolderName;
-                //*** IMPORTANT ***
-                // this is in Config/RoutingAndMvc.cs
-                // you can change or add routes there
-                routes.UseCustomRoutes(useFolders);
+                //endpoints.MapControllerRoute(
+                //    name: "default",
+                //    pattern: "{controller=Home}/{action=Index}/{id?}");
+                //endpoints.MapRazorPages();
+
+                endpoints.UseCustomRoutes(useFolders);
+
             });
+
+
+            //app.UseMvc(routes =>
+            //{
+            //    var useFolders = multiTenantOptions.Mode == cloudscribe.Core.Models.MultiTenantMode.FolderName;
+            //    //*** IMPORTANT ***
+            //    // this is in Config/RoutingAndMvc.cs
+            //    // you can change or add routes there
+            //    routes.UseCustomRoutes(useFolders);
+            //});
 
         }
 

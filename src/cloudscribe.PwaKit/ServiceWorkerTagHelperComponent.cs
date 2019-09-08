@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Razor.TagHelpers;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using System;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace cloudscribe.PwaKit
     internal class ServiceWorkerTagHelperComponent : TagHelperComponent
     {
         
-        private IHostingEnvironment _env;
+        private IWebHostEnvironment _env;
         private IHttpContextAccessor _contextAccessor;
         private PwaOptions _options;
         private IUrlHelperFactory _urlHelperFactory;
@@ -22,7 +23,7 @@ namespace cloudscribe.PwaKit
         public ServiceWorkerTagHelperComponent(
             IUrlHelperFactory urlHelperFactory,
             IActionContextAccessor actionContextAccesor,
-            IHostingEnvironment env, 
+            IWebHostEnvironment env, 
             IHttpContextAccessor accessor, 
             IOptions<PwaOptions> pwaOptionsAccessor
             )

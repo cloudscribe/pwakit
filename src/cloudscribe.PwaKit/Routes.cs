@@ -8,23 +8,23 @@ namespace Microsoft.AspNetCore.Builder
 {
     public static class Routes
     {
-        public static IRouteBuilder AddPwaDefaultRoutes(
-            this IRouteBuilder routes,
+        public static IEndpointRouteBuilder AddPwaDefaultRoutes(
+            this IEndpointRouteBuilder routes,
             IRouteConstraint folderRouteConstraint = null
             )
         {
             if(folderRouteConstraint != null)
             {
-                routes.MapRoute(
+                routes.MapControllerRoute(
                 name: "folder-serviceworker",
-                template: "{sitefolder}/serviceworker"
+                pattern: "{sitefolder}/serviceworker"
                 , defaults: new { controller = "Pwa", action = "ServiceWorker" }
                 , constraints: new { sitefolder = folderRouteConstraint }
                 );
 
-                routes.MapRoute(
+                routes.MapControllerRoute(
                     name: "folder-offlinepage",
-                    template: "{sitefolder}/offline"
+                    pattern: "{sitefolder}/offline"
                     , defaults: new { controller = "Pwa", action = "Offline" }
                     , constraints: new { sitefolder = folderRouteConstraint }
                     );
@@ -32,15 +32,15 @@ namespace Microsoft.AspNetCore.Builder
 
             }
 
-            routes.MapRoute(
+            routes.MapControllerRoute(
                 name: "serviceworker",
-                template: "serviceworker"
+                pattern: "serviceworker"
                 , defaults: new { controller = "Pwa", action = "ServiceWorker" }
                 );
 
-            routes.MapRoute(
+            routes.MapControllerRoute(
                 name: "offlinepage",
-                template: "offline"
+                pattern: "offline"
                 , defaults: new { controller = "Pwa", action = "Offline" }
                 );
 

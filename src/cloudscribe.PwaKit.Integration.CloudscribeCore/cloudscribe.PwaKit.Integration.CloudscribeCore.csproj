@@ -2,18 +2,22 @@
 
   <PropertyGroup>
     <Description>Integration between cloudscribe.Core and cloudscribe.PwaKit</Description>
-    <Version>3.0.0-beta20190907</Version>
+    <Version>3.0.0-beta20191012</Version>
     <Authors>Joe Audette</Authors>
     <TargetFramework>netcoreapp3.0</TargetFramework>
     <RazorLangVersion>3.0</RazorLangVersion>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
     <PackageTags>pwa,serviceworker,cloudscribe</PackageTags>
-    <PackageIconUrl>https://raw.githubusercontent.com/joeaudette/cloudscribe/master/cloudscribe-icon-32.png</PackageIconUrl>
+    <PackageIcon>icon.png</PackageIcon>
     <PackageProjectUrl>https://github.com/joeaudette/cloudscribe</PackageProjectUrl>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/cloudscribe/pwakit.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="icon.png" Pack="true" PackagePath="\"/>
+  </ItemGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <NoWarn>1701;1702;0436</NoWarn>
@@ -36,7 +40,7 @@
 
   <ItemGroup>
     
-    <PackageReference Include="cloudscribe.Core.Web" Version="4.0.0-*" />
+    <PackageReference Include="cloudscribe.Core.Web" Version="4.0.0" />
     
     
   </ItemGroup>

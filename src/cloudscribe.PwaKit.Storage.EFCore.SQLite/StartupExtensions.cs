@@ -14,7 +14,9 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddPwaStorageEFCommon();
 
             services.AddDbContext<PwaDbContext>(options =>
-                    options.UseSqlite(connectionString));
+                    options.UseSqlite(connectionString), 
+                    optionsLifetime: ServiceLifetime.Singleton
+                    );
 
             services.AddScoped<IPwaDbContext, PwaDbContext>();
             services.AddSingleton<IPwaDbContextFactory, PwaDbContextFactory>();

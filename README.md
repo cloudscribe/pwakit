@@ -20,7 +20,7 @@ You can then opt in to push notifications and under Administration > Push Notifi
 
 ## Credits
 
-Some of the work on serviceworkers was informed by Mads Kristensen's [WebEssentials.AspNetCore.ServiceWroeker](https://github.com/madskristensen/WebEssentials.AspNetCore.ServiceWorker)
+Some of the work on serviceworkers was informed by Mads Kristensen's [WebEssentials.AspNetCore.ServiceWorker](https://github.com/madskristensen/WebEssentials.AspNetCore.ServiceWorker)
 
 The work on push notifications was very informed by the work of Tomasz Pęczek in his [demo app here](https://github.com/tpeczek/Demo.AspNetCore.PushNotifications), and we are using his library [Lib.Net.Http.WebPush](https://github.com/tpeczek/Lib.Net.Http.WebPush)
 

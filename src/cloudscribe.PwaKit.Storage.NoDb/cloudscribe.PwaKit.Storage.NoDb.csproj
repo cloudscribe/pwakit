@@ -2,9 +2,9 @@
 
   <PropertyGroup>
     <Description>NoDb storage for cloudscribe.PwaKit</Description>
-    <Version>3.0.0-beta20191012</Version>
+    <Version>3.1.0</Version>
     <Authors>Joe Audette</Authors>
-    <TargetFrameworks>netcoreapp3.0</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.1</TargetFrameworks>
     <PackageTags>pwa,serviceworker,cloudscribe</PackageTags>
     <PackageIcon>icon.png</PackageIcon>
     <PackageProjectUrl>https://github.com/joeaudette/cloudscribe</PackageProjectUrl>
@@ -22,8 +22,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="NoDb" Version="1.2.1" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.0.0" />
+    <PackageReference Include="NoDb" Version="1.2.2" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.0" />
   </ItemGroup>
 
 </Project>

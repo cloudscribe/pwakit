@@ -48,7 +48,16 @@ namespace cloudscribe.PwaKit.Services
                 }
                 else
                 {
-                    sw.Append("'" + item.Url + "'");
+                    // jk - from  https://developers.google.com/web/tools/workbox/modules/workbox-precaching#explanation_of_the_precache_list
+                    // we need some revision information but we can neither hard-code it into the json config, nor dynamically infer it here from 
+                    // "one of Workbox's build tools".  v5 of Workbox requires an explicit null, therefore.
+
+                    sw.Append("{");
+                    sw.Append("\"url\": \"" + item.Url + "\",");
+                    sw.Append("\"revision\": \"null\"");
+
+                    sw.Append("}");
+
                 }
 
                 comma = ",";
@@ -59,7 +68,7 @@ namespace cloudscribe.PwaKit.Services
             sw.Append(",{"); //begin options
 
             sw.Append("plugins: [");
-            sw.Append("new workbox.broadcastUpdate.Plugin({");
+            sw.Append("new workbox.broadcastUpdate.BroadcastUpdatePlugin({");
             sw.Append("channelName: 'app-channel'");
             sw.Append("}),");
             sw.Append("]");

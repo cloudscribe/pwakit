@@ -84,7 +84,7 @@ namespace cloudscribe.PwaKit.Services
 
 
                         //Force a service worker to become active, instead of waiting. This is normally used in conjunction with clientsClaim()
-                        sw.Append("workbox.core.skipWaiting();");
+                        sw.Append("self.skipWaiting();");
                         sw.Append("workbox.core.clientsClaim();");
 
                         sw.Append("} else {");

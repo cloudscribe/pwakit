@@ -68,9 +68,9 @@ namespace cloudscribe.PwaKit
         /// <summary>
         /// the url for google workbox
         /// </summary>
-        public string WorkBoxUrl { get; set; } = "https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js";
+        public string WorkBoxUrl { get; set; } = "https://storage.googleapis.com/workbox-cdn/releases/6.2.0/workbox-sw.js";  
 
-        public string WorkBoxWindowModuleUrl { get; set; } = "https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-window.prod.mjs";
+        public string WorkBoxWindowModuleUrl { get; set; } = "https://storage.googleapis.com/workbox-cdn/releases/6.2.0/workbox-window.prod.mjs";  
 
 
 

@@ -14,13 +14,13 @@ namespace Microsoft.Extensions.DependencyInjection
             bool useSingletonLifetime = false,
             int maxConnectionRetryCount = 0,
             int maxConnectionRetryDelaySeconds = 30,
-            ICollection<int> transientSqlErrorNumbersToAdd = null,
-            bool useSql2008Compatibility = false
+            ICollection<int> transientSqlErrorNumbersToAdd = null
+            // bool useSql2008Compatibility = false
             )
         {
             services.AddPwaStorageEFCommon();
 
-            services.AddEntityFrameworkSqlServer()
+            services // .AddEntityFrameworkSqlServer()
                 .AddDbContext<PwaDbContext>(options =>
                     options.UseSqlServer(connectionString,
                         sqlServerOptionsAction: sqlOptions =>
@@ -34,10 +34,10 @@ namespace Microsoft.Extensions.DependencyInjection
                                     errorNumbersToAdd: transientSqlErrorNumbersToAdd);
                             }
 
-                            if (useSql2008Compatibility)
-                            {
-                                sqlOptions.UseRowNumberForPaging();
-                            }
+                            //if (useSql2008Compatibility)
+                            //{
+                            //    sqlOptions.UseRowNumberForPaging();
+                            //}
 
                         }),
                         optionsLifetime: ServiceLifetime.Singleton

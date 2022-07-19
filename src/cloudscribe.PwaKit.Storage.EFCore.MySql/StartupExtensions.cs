@@ -21,7 +21,7 @@ namespace Microsoft.Extensions.DependencyInjection
 
             services.AddEntityFrameworkMySql()
                 .AddDbContext<PwaDbContext>(options =>
-                    options.UseMySql(connectionString,
+                    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString), // breaking change in Net5.0
                     mySqlOptionsAction: sqlOptions =>
                     {
                         if (maxConnectionRetryCount > 0)

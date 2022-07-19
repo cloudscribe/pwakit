@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <Description>Integration between cloudscribe.Core and cloudscribe.PwaKit</Description>
-    <Version>5.0.0</Version>
-    <TargetFramework>net5.0</TargetFramework>
+    <Version>6.0.0</Version>
+    <TargetFramework>net6.0</TargetFramework>
     <Authors>Joe Audette</Authors>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
     <PackageTags>pwa,serviceworker,cloudscribe</PackageTags>
@@ -39,8 +39,7 @@
 
   <ItemGroup>
     
-    <!--<PackageReference Include="cloudscribe.Core.Web" Version="4.1.0" />-->
-    <PackageReference Include="cloudscribe.Core.Web" Version="5.0.0" />
+    <PackageReference Include="cloudscribe.Core.Web" Version="6.0.*" />
     
     
   </ItemGroup>

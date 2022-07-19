@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <Description>Integration between cloudscribe.SimpleContent and cloudscribe.PwaKit</Description>
-    <Version>5.0.0</Version>
-    <TargetFramework>net5.0</TargetFramework>
+    <Version>6.0.0</Version>
+    <TargetFramework>net6.0</TargetFramework>
     <Authors>Joe Audette</Authors>
     <PackageTags>pwa,serviceworker,cloudscribe</PackageTags>
     <PackageIcon>icon.png</PackageIcon>
@@ -24,8 +24,7 @@
 
   <ItemGroup>
     
-    <!--<PackageReference Include="cloudscribe.SimpleContent.Web" Version="5.0.0" />-->
-    <PackageReference Include="cloudscribe.SimpleContent.Web" Version="5.5.1" />
+    <PackageReference Include="cloudscribe.SimpleContent.Web" Version="6.0.*" />
     
   </ItemGroup>
 

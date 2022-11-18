@@ -37,7 +37,7 @@ namespace cloudscribe.PwaKit.Storage.EFCore.PostgreSql
 
                 entity.Ignore(p => p.Keys);
 
-
+                entity.Property(p => p.P256DH).HasColumnName("p256_dh");
             });
 
             modelBuilder.ApplySnakeCaseConventions();

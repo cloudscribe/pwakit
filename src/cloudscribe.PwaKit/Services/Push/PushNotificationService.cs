@@ -14,7 +14,7 @@ namespace cloudscribe.PwaKit.Services
         private readonly IPushSubscriptionStore _pushSubscriptionStore;
         private readonly ILogger _logger;
 
-        public string PublicKey { get { return _pushClient.DefaultAuthentication.PublicKey; } }
+        public string PublicKey { get { return _pushClient?.DefaultAuthentication?.PublicKey; } }
 
         public PushServicePushNotificationService(
             PushServiceClient pushClient,

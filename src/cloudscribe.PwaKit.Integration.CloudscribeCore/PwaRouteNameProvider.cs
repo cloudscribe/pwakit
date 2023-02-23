@@ -26,7 +26,7 @@ namespace cloudscribe.PwaKit.Integration.CloudscribeCore
                 if (!string.IsNullOrEmpty(_currentSite.SiteFolderName))
                 {
 
-                    return "folder-serviceworker";
+                    return "folder-serviceworker";  // route name
                 }
             }
 
@@ -40,7 +40,7 @@ namespace cloudscribe.PwaKit.Integration.CloudscribeCore
                 if (!string.IsNullOrEmpty(_currentSite.SiteFolderName))
                 {
 
-                    return "/" + _currentSite.SiteFolderName;
+                    return "/" + _currentSite.SiteFolderName + "/";  // jk - need trailing slash
                 }
             }
 

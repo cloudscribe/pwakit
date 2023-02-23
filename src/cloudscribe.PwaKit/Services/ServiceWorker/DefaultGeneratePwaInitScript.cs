@@ -130,8 +130,9 @@ namespace cloudscribe.PwaKit.Services
             //script.Append("window.addEventListener('load', () => {");
             
             var scope = _pwaRouteNameProvider.GetServiceWorkerScope();
-            
+
             script.Append("const wb = new Workbox('" + url + "',{scope: '" + scope + "'});");
+            //script.Append("const wb = new Workbox('/serviceworker',{scope: '" + scope + "'});");    // jk debug
 
             //activated event
             script.Append("wb.addEventListener('activated', (event) => {");

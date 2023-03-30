@@ -19,11 +19,13 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             services.AddPwaStorageEFCommon();
 
-            services.AddEntityFrameworkNpgsql()
+            services //.AddEntityFrameworkNpgsql()
                 .AddDbContext<PwaDbContext>(options =>
                     options.UseNpgsql(connectionString,
                     npgsqlOptionsAction: sqlOptions =>
                     {
+                        sqlOptions.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
+
                         if (maxConnectionRetryCount > 0)
                         {
                             //Configuring Connection Resiliency: https://docs.microsoft.com/en-us/ef/core/miscellaneous/connection-resiliency 

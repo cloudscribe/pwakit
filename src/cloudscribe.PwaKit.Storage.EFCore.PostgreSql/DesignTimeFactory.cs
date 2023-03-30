@@ -8,7 +8,8 @@ namespace cloudscribe.PwaKit.Storage.EFCore.PostgreSql
         public PwaDbContext CreateDbContext(string[] args)
         {
             var builder = new DbContextOptionsBuilder<PwaDbContext>();
-            builder.UseNpgsql("server=yourservername;UID=yourdatabaseusername;PWD=yourdatabaseuserpassword;database=yourdatabasename");
+            builder.UseNpgsql("server=yourservername;UID=yourdatabaseusername;PWD=yourdatabaseuserpassword;database=yourdatabasename",
+                o => o.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery));
 
             return new PwaDbContext(builder.Options);
         }

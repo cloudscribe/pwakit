@@ -19,7 +19,7 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             services.AddPwaStorageEFCommon();
 
-            services.AddEntityFrameworkMySql()
+            services //.AddEntityFrameworkMySql()
                 .AddDbContext<PwaDbContext>(options =>
                     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString), // breaking change in Net5.0
                     mySqlOptionsAction: sqlOptions =>

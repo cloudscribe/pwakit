@@ -8,7 +8,8 @@ namespace cloudscribe.PwaKit.Storage.EFCore.MSSQL
         public PwaDbContext CreateDbContext(string[] args)
         {
             var builder = new DbContextOptionsBuilder<PwaDbContext>();
-            builder.UseSqlServer("Server=(local);Database=DATABASENAME;Trusted_Connection=True;MultipleActiveResultSets=true");
+            builder.UseSqlServer("Server=(local);Database=DATABASENAME;Trusted_Connection=True;MultipleActiveResultSets=true",
+                o => o.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery));
 
             return new PwaDbContext(builder.Options);
         }

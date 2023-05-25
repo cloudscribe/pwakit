@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Routing;
+using Microsoft.Extensions.Options;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -15,13 +16,15 @@ namespace cloudscribe.PwaKit.Integration.CloudscribeCore
             NavigationTreeBuilderService siteMapTreeBuilder,
             IEnumerable<INavigationNodePermissionResolver> permissionResolvers,
             IUrlHelperFactory urlHelperFactory,
-            IActionContextAccessor actionContextAccesor
+            IActionContextAccessor actionContextAccesor,
+            IOptions<PwaNetworkOnlyUrlOptions> optionsAccessor
             )
         {
-            _siteMapTreeBuilder = siteMapTreeBuilder;
-            _permissionResolvers = permissionResolvers;
-            _urlHelperFactory = urlHelperFactory;
+            _siteMapTreeBuilder   = siteMapTreeBuilder;
+            _permissionResolvers  = permissionResolvers;
+            _urlHelperFactory     = urlHelperFactory;
             _actionContextAccesor = actionContextAccesor;
+            _options              = optionsAccessor.Value;
 
             _networkOnlyControllers = new List<string>()
             {
@@ -37,13 +40,13 @@ namespace cloudscribe.PwaKit.Integration.CloudscribeCore
                 "ContentHistory"
 
             };
-
         }
 
-        private readonly NavigationTreeBuilderService _siteMapTreeBuilder;
+        private readonly NavigationTreeBuilderService                   _siteMapTreeBuilder;
         private readonly IEnumerable<INavigationNodePermissionResolver> _permissionResolvers;
-        private readonly IUrlHelperFactory _urlHelperFactory;
-        private readonly IActionContextAccessor _actionContextAccesor;
+        private readonly IUrlHelperFactory                              _urlHelperFactory;
+        private readonly IActionContextAccessor                         _actionContextAccesor;
+        private readonly PwaNetworkOnlyUrlOptions                       _options;
 
         private List<string> _networkOnlyControllers;
 
@@ -57,12 +60,22 @@ namespace cloudscribe.PwaKit.Integration.CloudscribeCore
                 "/pwa/topnav"
             };
 
+            // Network Only from json config
+            if (_options?.Urls != null)
+            {
+                foreach (var url in _options.Urls)
+                {
+                    if(!result.Contains(url))  
+                        result.Add(url);
+                }
+            }
+
             if (!context.User.Identity.IsAuthenticated)
             {
-                //admin pages won't be in the menu anyway so just return empty list
+                //admin pages won't be in the menu anyway so just return what we have so far
                 return result;
             }
-            
+
             var rootNode = await _siteMapTreeBuilder.GetTree();
 
             var urlHelper = _urlHelperFactory.GetUrlHelper(_actionContextAccesor.ActionContext);
@@ -75,13 +88,10 @@ namespace cloudscribe.PwaKit.Integration.CloudscribeCore
                         var url = ResolveUrl(navNode, urlHelper);
                         result.Add(url);
                     }
-
                 }
-                
             }
             
             return result;
-
         }
 
         private string ResolveUrl(NavigationNode node, IUrlHelper urlHelper)
@@ -113,7 +123,6 @@ namespace cloudscribe.PwaKit.Integration.CloudscribeCore
         {
             //if (node.Controller == "Account") return false;
 
-
             TreeNode<NavigationNode> treeNode = new TreeNode<NavigationNode>(node);
             foreach (var permission in _permissionResolvers)
             {
@@ -137,10 +146,6 @@ namespace cloudscribe.PwaKit.Integration.CloudscribeCore
             }
 
             return include;
-
-
         }
-
-
     }
 }

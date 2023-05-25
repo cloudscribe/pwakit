@@ -35,6 +35,7 @@ namespace Microsoft.Extensions.DependencyInjection
         public static PwaBuilder PreCacheContentFiles(this PwaBuilder builder)
         {
             builder.Services.Configure<PwaContentFilesPreCacheOptions>(builder.Configuration.GetSection("PwaContentFilesPreCacheOptions"));
+            builder.Services.Configure<PwaNetworkOnlyUrlOptions>(builder.Configuration.GetSection("PwaNetworkOnlyUrlOptions"));
 
             builder.Services.AddScoped<IRuntimeCacheItemProvider, ContentFilesRuntimeCacheItemProvider>();
             builder.Services.AddScoped<IHandleFilesUploaded, FileUploadCacheUpdateHandler>();

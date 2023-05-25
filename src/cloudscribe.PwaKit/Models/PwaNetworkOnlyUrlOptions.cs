@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace cloudscribe.PwaKit.Integration.CloudscribeCore
+namespace cloudscribe.PwaKit.Models
 {
     public class PwaNetworkOnlyUrlOptions
     {

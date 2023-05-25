@@ -1,4 +1,5 @@
 ﻿using cloudscribe.PwaKit.Interfaces;
+using cloudscribe.PwaKit.Models;
 using cloudscribe.Web.Navigation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

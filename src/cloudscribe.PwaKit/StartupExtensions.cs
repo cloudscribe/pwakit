@@ -26,6 +26,8 @@ namespace Microsoft.Extensions.DependencyInjection
             services.Configure<PwaOptions>(config.GetSection("PwaOptions"));
             services.Configure<PwaPreCacheItems>(config.GetSection("PwaPreCacheItems"));
             services.Configure<PwaRuntimeCacheItems>(config.GetSection("PwaRuntimeCacheItems"));
+            services.Configure<PwaNetworkOnlyUrlOptions>(config.GetSection("PwaNetworkOnlyUrlOptions"));
+
 
             services.Configure<PushClientSettings>(config.GetSection("PushServiceClient"));
 

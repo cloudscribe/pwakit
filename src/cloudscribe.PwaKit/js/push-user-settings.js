@@ -6,14 +6,14 @@
     function initializeUIState() {
 
         var subscribeButtons = document.querySelectorAll('[data-push-subscribe-button]');
-        for (i = 0; i < subscribeButtons.length; ++i) {
+        for (var i = 0; i < subscribeButtons.length; ++i) {
             var btnSubscribe = subscribeButtons[i];
             btnSubscribe.addEventListener('click', subscribeForPushNotifications);
         }
 
 
         var unsubscribeButtons = document.querySelectorAll('[data-push-unsubscribe-button]');
-        for (i = 0; i < unsubscribeButtons.length; ++i) {
+        for (var i = 0; i < unsubscribeButtons.length; ++i) {
             var btnUnsubscribe = unsubscribeButtons[i];
             btnUnsubscribe.addEventListener('click', unsubscribeFromPushNotifications);
         }
@@ -25,7 +25,7 @@
 
                 if (Notification.permission === 'denied') {
                     var warnings = document.querySelectorAll('[data-show-if-push-not-supported]');
-                    for (i = 0; i < warnings.length; ++i) {
+                    for (var i = 0; i < warnings.length; ++i) {
                         warnings[i].style.display = 'block';
                     }
                 }
@@ -50,15 +50,12 @@
                 
 
             });
-
-
-
     }
 
     function changeUIState(notificationsBlocked, isSubscibed) {
 
         var subscribeButtons = document.querySelectorAll('[data-push-subscribe-button]');
-        for (i = 0; i < subscribeButtons.length; ++i) {
+        for (var i = 0; i < subscribeButtons.length; ++i) {
             var btnSubscribe = subscribeButtons[i];
             if (notificationsBlocked || isSubscibed) {
                 btnSubscribe.style.display = 'none';
@@ -68,7 +65,7 @@
         }
 
         var unsubscribeButtons = document.querySelectorAll('[data-push-unsubscribe-button]');
-        for (i = 0; i < unsubscribeButtons.length; ++i) {
+        for (var i = 0; i < unsubscribeButtons.length; ++i) {
             var btnUnsubscribe = unsubscribeButtons[i];
             if (notificationsBlocked || !isSubscibed) {
                 btnUnsubscribe.style.display = 'none';
@@ -78,7 +75,7 @@
         }
 
         var notifications = document.querySelectorAll('[data-show-if-not-push-subscribed]');
-        for (i = 0; i < notifications.length; ++i) {
+        for (var i = 0; i < notifications.length; ++i) {
             var n = notifications[i];
             if (notificationsBlocked || !isSubscibed) {
                 n.style.display = 'block';
@@ -88,9 +85,6 @@
                 n.classList.remove('show');
             }
         }
-        
-
-       
     }
 
     function subscribeForPushNotifications() {
@@ -190,13 +184,10 @@ document.addEventListener("DOMContentLoaded", function () {
         if (!('PushManager' in window)) {
             console.log('push not supported');
             var warnings = document.querySelectorAll('[data-show-if-push-not-supported]');
-            for (i = 0; i < warnings.length; ++i) {
+            for (var i = 0; i < warnings.length; ++i) {
                 warnings[i].style.display = 'block';
             }
         }
 
     }
-
-    
-  
 });

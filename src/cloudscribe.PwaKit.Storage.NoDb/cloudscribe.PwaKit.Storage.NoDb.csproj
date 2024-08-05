@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <Description>NoDb storage for cloudscribe.PwaKit</Description>
-    <Version>6.0.0</Version>
-    <TargetFramework>net6.0</TargetFramework>
+    <Version>8.0.0</Version>
+    <TargetFramework>net8.0</TargetFramework>
     <Authors>Joe Audette</Authors>
     <PackageTags>pwa,serviceworker,cloudscribe</PackageTags>
     <PackageIcon>icon.png</PackageIcon>
@@ -23,7 +23,7 @@
 
   <ItemGroup>
     <PackageReference Include="NoDb" Version="1.2.2" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0" />
   </ItemGroup>
 
 </Project>

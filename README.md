@@ -17,6 +17,9 @@ You can log into the demo site in this repository using username admin and passw
 
 You can then opt in to push notifications and under Administration > Push Notification you can send notifications for testing purposes.
 
+## Build Status
+
+[![cloudscribe-pwakit-develop-nuget-build](https://github.com/cloudscribe/pwakit/actions/workflows/cloudscribe-develop.yml/badge.svg?branch=develop&event=push)](https://github.com/cloudscribe/pwakit/actions/workflows/cloudscribe-develop.yml)
 
 ## Credits
 

@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <UserSecretsId>cloudscribe.DemoWeb-779D298B-C8F9-443A-BE6A-DB87C4EF59CB</UserSecretsId>
+    <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <PropertyGroup>

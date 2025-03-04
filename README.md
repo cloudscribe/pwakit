@@ -21,6 +21,9 @@ You can then opt in to push notifications and under Administration > Push Notifi
 
 [![cloudscribe-pwakit-develop-nuget-build](https://github.com/cloudscribe/pwakit/actions/workflows/cloudscribe-develop.yml/badge.svg?branch=develop&event=push)](https://github.com/cloudscribe/pwakit/actions/workflows/cloudscribe-develop.yml)
 
+[![Build Status](https://img.shields.io/github/cloudscribe/pwakit/actions/workflows/cloudscribe-develop.yml?style=for-the-badge&label=🚀%20Build%20Status&color)](https://github.com/cloudscribe/pwakit/actions/workflows/cloudscribe-develop.yml)
+
+
 ## Credits
 
 Some of the work on serviceworkers was informed by Mads Kristensen's [WebEssentials.AspNetCore.ServiceWorker](https://github.com/madskristensen/WebEssentials.AspNetCore.ServiceWorker)

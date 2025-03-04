@@ -19,9 +19,7 @@ You can then opt in to push notifications and under Administration > Push Notifi
 
 ## Build Status
 
-[![Cloudscribe-pwakit-develop-nuget-build](https://github.com/cloudscribe/pwakit/actions/workflows/cloudscribe-develop.yml/badge.svg?branch=develop&event=push)](https://github.com/cloudscribe/pwakit/actions/workflows/cloudscribe-develop.yml)
-
-
+[![cloudscribe-pwakit-develop-nuget-build](https://github.com/cloudscribe/pwakit/actions/workflows/cloudscribe-develop.yml/badge.svg?branch=develop&event=push)](https://github.com/cloudscribe/pwakit/actions/workflows/cloudscribe-develop.yml)
 
 
 ## Credits

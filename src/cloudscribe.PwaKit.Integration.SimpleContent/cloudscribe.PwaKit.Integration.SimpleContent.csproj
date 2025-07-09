@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <Description>Integration between cloudscribe.SimpleContent and cloudscribe.PwaKit</Description>
-    <Version>8.1.0</Version>
+    <Version>8.2.0</Version>
     <TargetFramework>net8.0</TargetFramework>
     <Authors>Joe Audette</Authors>
     <PackageTags>pwa,serviceworker,cloudscribe</PackageTags>
@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="cloudscribe.SimpleContent.Web" Version="8.1.*" />
+    <PackageReference Include="cloudscribe.SimpleContent.Web" Version="8.2.*" />
   </ItemGroup>
 
 </Project>

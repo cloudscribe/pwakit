@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <Description>A set of tools for building a dynamic serviceworker at runtime for ASP.NET Core</Description>
-    <Version>8.3.0</Version>
+    <Version>8.4.0</Version>
     <TargetFramework>net8.0</TargetFramework> 
     <Authors>Joe Audette</Authors>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
@@ -38,7 +38,7 @@
     <PackageReference Include="Lib.Net.Http.WebPush" Version="2.2.0" />
     <PackageReference Include="Lib.AspNetCore.WebPush" Version="1.2.0" />
     
-    <PackageReference Include="cloudscribe.Web.Common" Version="8.3.0" />
+    <PackageReference Include="cloudscribe.Web.Common" Version="8.4.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="8.0.0" />

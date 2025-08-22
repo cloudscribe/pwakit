@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <Description>PostgreSql storage for cloudscribe.PwaKit</Description>
-    <Version>8.4.0</Version>
+    <Version>8.5.0</Version>
     <TargetFramework>net8.0</TargetFramework>
     <Authors>Joe Audette</Authors>
     <PackageTags>pwa,serviceworker,cloudscribe</PackageTags>
@@ -28,7 +28,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.0" />
-    <PackageReference Include="cloudscribe.EFCore.PostgreSql.Conventions" Version="8.4.0" />
+    <PackageReference Include="cloudscribe.EFCore.PostgreSql.Conventions" Version="8.5.0" />
   </ItemGroup>
 
 </Project>

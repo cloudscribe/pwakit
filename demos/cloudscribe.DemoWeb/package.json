@@ -12,7 +12,7 @@
     "smartmenus-bootstrap-4": "^0.1.0",
     "@fortawesome/fontawesome-free": "5.6.3",
     "clean-css": ">=4.1.11",
-    "lodash": ">=4.17.19",
+    "lodash": ">=4.17.21",
     "lodash.template": ">=4.5.0",
     "gulp": "^4.0.0",
     "gulp-cli": "^2.0.1",

@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <Description>NoDb storage for cloudscribe.PwaKit</Description>
-    <Version>8.5.0</Version>
+    <Version>8.6.0</Version>
     <TargetFramework>net8.0</TargetFramework>
     <Authors>Joe Audette</Authors>
     <PackageTags>pwa,serviceworker,cloudscribe</PackageTags>

@@ -1,10 +1,11 @@
-﻿using cloudscribe.PwaKit.Interfaces;
+using cloudscribe.PwaKit.Interfaces;
 using cloudscribe.PwaKit.Models;
 using cloudscribe.Web.Navigation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.Routing;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Options;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -17,14 +18,14 @@ namespace cloudscribe.PwaKit.Integration.CloudscribeCore
             NavigationTreeBuilderService siteMapTreeBuilder,
             IEnumerable<INavigationNodePermissionResolver> permissionResolvers,
             IUrlHelperFactory urlHelperFactory,
-            IActionContextAccessor actionContextAccesor,
+            IHttpContextAccessor contextAccessor,
             IOptions<PwaNetworkOnlyUrlOptions> optionsAccessor
             )
         {
             _siteMapTreeBuilder   = siteMapTreeBuilder;
             _permissionResolvers  = permissionResolvers;
             _urlHelperFactory     = urlHelperFactory;
-            _actionContextAccesor = actionContextAccesor;
+            _contextAccessor = contextAccessor;
             _options              = optionsAccessor.Value;
 
             _networkOnlyControllers = new List<string>()
@@ -46,7 +47,7 @@ namespace cloudscribe.PwaKit.Integration.CloudscribeCore
         private readonly NavigationTreeBuilderService                   _siteMapTreeBuilder;
         private readonly IEnumerable<INavigationNodePermissionResolver> _permissionResolvers;
         private readonly IUrlHelperFactory                              _urlHelperFactory;
-        private readonly IActionContextAccessor                         _actionContextAccesor;
+        private readonly IHttpContextAccessor                         _contextAccessor;
         private readonly PwaNetworkOnlyUrlOptions                       _options;
 
         private List<string> _networkOnlyControllers;
@@ -79,7 +80,12 @@ namespace cloudscribe.PwaKit.Integration.CloudscribeCore
 
             var rootNode = await _siteMapTreeBuilder.GetTree();
 
-            var urlHelper = _urlHelperFactory.GetUrlHelper(_actionContextAccesor.ActionContext);
+            var actionContext = new ActionContext(
+                _contextAccessor.HttpContext,
+                _contextAccessor.HttpContext.GetRouteData(),
+                new ActionDescriptor()
+            );
+            var urlHelper = _urlHelperFactory.GetUrlHelper(actionContext);
             foreach (var navNode in rootNode.Flatten())
             {
                 if(await WouldRenderNode(navNode))

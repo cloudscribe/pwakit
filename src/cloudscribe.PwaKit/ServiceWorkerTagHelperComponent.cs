@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Razor.TagHelpers;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using System;
@@ -18,18 +19,15 @@ namespace cloudscribe.PwaKit
         private IHttpContextAccessor _contextAccessor;
         private PwaOptions _options;
         private IUrlHelperFactory _urlHelperFactory;
-        private IActionContextAccessor _actionContextAccesor;
 
         public ServiceWorkerTagHelperComponent(
             IUrlHelperFactory urlHelperFactory,
-            IActionContextAccessor actionContextAccesor,
             IWebHostEnvironment env, 
             IHttpContextAccessor accessor, 
             IOptions<PwaOptions> pwaOptionsAccessor
             )
         {
             _urlHelperFactory = urlHelperFactory;
-            _actionContextAccesor = actionContextAccesor;
             _env = env;
             _contextAccessor = accessor;
             _options = pwaOptionsAccessor.Value;
@@ -41,7 +39,12 @@ namespace cloudscribe.PwaKit
 
         private string BuildScript()
         {
-            var urlHelper = _urlHelperFactory.GetUrlHelper(_actionContextAccesor.ActionContext);
+            var actionContext = new ActionContext(
+                _contextAccessor.HttpContext,
+                _contextAccessor.HttpContext.GetRouteData(),
+                new ActionDescriptor()
+            );
+            var urlHelper = _urlHelperFactory.GetUrlHelper(actionContext);
             var url = urlHelper.Action("Init", "Pwa");
 
             var script = "\r\n\t<script type=\"module\" " + (_options.EnableCspNonce ? PwaConstants.CspNonce : string.Empty) + " src='" + url + "'></script>";

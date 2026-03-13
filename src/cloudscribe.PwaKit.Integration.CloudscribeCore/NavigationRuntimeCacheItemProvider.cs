@@ -1,9 +1,11 @@
-﻿using cloudscribe.PwaKit.Interfaces;
+using cloudscribe.PwaKit.Interfaces;
 using cloudscribe.PwaKit.Models;
 using cloudscribe.Web.Navigation;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.Routing;
+using Microsoft.AspNetCore.Routing;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -16,21 +18,21 @@ namespace cloudscribe.PwaKit.Integration.CloudscribeCore
             IEnumerable<INavigationNodePermissionResolver> permissionResolvers,
             IEnumerable<INavigationNodeServiceWorkerFilter> navigationNodeServiceWorkerFilters,
             IUrlHelperFactory urlHelperFactory,
-            IActionContextAccessor actionContextAccesor
+            IHttpContextAccessor contextAccessor
             )
         {
             _siteMapTreeBuilder = siteMapTreeBuilder;
             _permissionResolvers = permissionResolvers;
             _navigationNodeServiceWorkerFilters = navigationNodeServiceWorkerFilters;
             _urlHelperFactory = urlHelperFactory;
-            _actionContextAccesor = actionContextAccesor;
+            _contextAccessor = contextAccessor;
         }
 
 
 
         private readonly NavigationTreeBuilderService _siteMapTreeBuilder;
         private readonly IUrlHelperFactory _urlHelperFactory;
-        private readonly IActionContextAccessor _actionContextAccesor;
+        private readonly IHttpContextAccessor _contextAccessor;
         private readonly IEnumerable<INavigationNodePermissionResolver> _permissionResolvers;
         private readonly IEnumerable<INavigationNodeServiceWorkerFilter> _navigationNodeServiceWorkerFilters;
 
@@ -42,7 +44,12 @@ namespace cloudscribe.PwaKit.Integration.CloudscribeCore
             var result = new List<ServiceWorkerCacheItem>();
             var rootNode = await _siteMapTreeBuilder.GetTree();
             
-            var urlHelper = _urlHelperFactory.GetUrlHelper(_actionContextAccesor.ActionContext);
+            var actionContext = new ActionContext(
+                _contextAccessor.HttpContext,
+                _contextAccessor.HttpContext.GetRouteData(),
+                new ActionDescriptor()
+            );
+            var urlHelper = _urlHelperFactory.GetUrlHelper(actionContext);
             foreach (var navNode in rootNode.Flatten())
             {
                 bool include = true;

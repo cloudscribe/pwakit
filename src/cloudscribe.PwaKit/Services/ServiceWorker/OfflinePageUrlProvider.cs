@@ -1,7 +1,9 @@
 ﻿using cloudscribe.PwaKit.Interfaces;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.Routing;
+using Microsoft.AspNetCore.Routing;
 
 namespace cloudscribe.PwaKit.Services
 {
@@ -9,22 +11,27 @@ namespace cloudscribe.PwaKit.Services
     {
         public OfflinePageUrlProvider(
             IUrlHelperFactory urlHelperFactory,
-            IActionContextAccessor actionContextAccesor,
+            IHttpContextAccessor contextAccessor,
             IPwaRouteNameProvider pwaRouteNameProvider
             )
         {
             _urlHelperFactory = urlHelperFactory;
-            _actionContextAccesor = actionContextAccesor;
+            _contextAccessor = contextAccessor;
             _pwaRouteNameProvider = pwaRouteNameProvider;
         }
 
         private readonly IUrlHelperFactory _urlHelperFactory;
-        private readonly IActionContextAccessor _actionContextAccesor;
+        private readonly IHttpContextAccessor _contextAccessor;
         private readonly IPwaRouteNameProvider _pwaRouteNameProvider;
 
         public string GetOfflineUrl()
         {
-            var urlHelper = _urlHelperFactory.GetUrlHelper(_actionContextAccesor.ActionContext);
+            var actionContext = new ActionContext(
+                _contextAccessor.HttpContext,
+                _contextAccessor.HttpContext.GetRouteData(),
+                new ActionDescriptor()
+            );
+            var urlHelper = _urlHelperFactory.GetUrlHelper(actionContext);
             return urlHelper.RouteUrl(_pwaRouteNameProvider.GetOfflinePageRouteName());
 
         }
